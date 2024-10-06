@@ -73,6 +73,11 @@ public class AppUser implements UserDetails {
         }
     }
 
+    //Override the isEnabled method to return the enabled status
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 
     //Getter and Setter
     public Long getUserID() {

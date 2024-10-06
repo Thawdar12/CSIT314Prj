@@ -18,8 +18,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String domainGroup = request.getParameter("domainGroup");
 
         if (domainGroup == null || domainGroup.isEmpty()) {
-            // If 'domainGroup' is not provided, redirect to an error page
-            response.sendRedirect("/InfinityNetwork/404");
+            // If 'domainGroup' is not provided, redirect to home with an error
+            response.sendRedirect("/InfinityNetwork/Home?error=invalidDomainGroup");
             return;
         }
 
@@ -35,8 +35,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             String redirectUrl = "/InfinityNetwork/" + domainGroup + "/dashboard";
             response.sendRedirect(redirectUrl);
         } else {
-            // If the user does not have the required role, redirect to a 403 error page
-            response.sendRedirect("/InfinityNetwork/403");
+            // If the user does not have the required role, redirect to home with an error
+            response.sendRedirect("/InfinityNetwork/Home?error=invalidDomainGroup");
         }
     }
 }

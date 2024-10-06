@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -50,6 +49,11 @@ public class SecurityConfig {
         return new CustomAuthenticationSuccessHandler();
     }
 
+    @Bean
+    public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+
     // 4. Configure the Security Filter Chain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -65,7 +69,7 @@ public class SecurityConfig {
                         .loginPage("/InfinityNetwork/Home").permitAll() // Custom login page
                         .loginProcessingUrl("/login") // URL to submit the username and password
                         .successHandler(customAuthenticationSuccessHandler()) // Custom success handler
-                        .failureHandler(new SimpleUrlAuthenticationFailureHandler("/InfinityNetwork/404")) // Failure URL
+                        .failureHandler(customAuthenticationFailureHandler())  // Use the custom failure handler
                 )
 
                 // Configure logout

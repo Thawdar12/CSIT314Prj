@@ -73,6 +73,12 @@ public class AppUserService implements UserDetailsService {
         existingUser.setUsername(userDTO.getUsername());
         existingUser.setEmail(userDTO.getEmail());
         existingUser.setLocked(userDTO.getLocked());
+
+        // Adjust 'enabled' field based on 'locked' field
+        if (userDTO.getLocked() != null) {
+            existingUser.setEnabled(!userDTO.getLocked()); // If locked is true, set enabled to false, and vice versa
+        }
+        
         existingUser.setUserType(UserType.valueOf(userDTO.getUserType()));
         existingUser.setPhoneNumber(userDTO.getPhoneNumber());
         existingUser.setUpdated_at(LocalDateTime.now());

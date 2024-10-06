@@ -57,6 +57,29 @@
             background-color: #218838;
         }
     </style>
+
+    <script>
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('error')) {
+                const errorType = urlParams.get('error');
+                let errorMessage = '';
+
+                if (errorType === 'locked') {
+                    errorMessage = "Your account is locked and cannot be accessed.";
+                } else if (errorType === 'badCredentials') {
+                    errorMessage = "Invalid username or password.";
+                } else if (errorType === 'invalidDomainGroup') {
+                    errorMessage = "Invalid domain group selected.";
+                }
+
+                // If there's an error message, show it as an alert
+                if (errorMessage) {
+                    alert(errorMessage); // Display the alert with the error message
+                }
+            }
+        };
+    </script>
 </head>
 <body>
 
