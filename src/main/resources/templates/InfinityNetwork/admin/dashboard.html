@@ -5,124 +5,404 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Admin Dashboard</title>
     <style>
+        /* Main Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            height: 100vh;
         }
 
-        .sidebar {
-            width: 250px;
-            background-color: #333; /* Sidebar background color */
+        /* Top Bar Styles */
+        .top-bar {
+            background-color: #333;
             color: white;
-            height: 100%;
+            padding: 10px;
+            width: 100%;
             position: fixed;
-            padding: 20px;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
             box-sizing: border-box;
         }
 
-        .sidebar h2 {
-            color: #fff;
-            text-align: center;
-            margin-bottom: 30px;
+        .top-bar .user-info {
+            font-size: 16px;
+            margin-right: 20px; /* Space between user info and logout button */
         }
 
-        .sidebar a {
+        .top-bar a {
             color: white;
-            display: block;
             text-decoration: none;
+            font-size: 16px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding-top: 60px; /* To avoid overlap with the top bar */
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        /* Fragment Styles */
+        h2 {
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .action-buttons button {
+            margin-right: 10px;
+        }
+
+        button {
             padding: 10px;
-            margin: 10px 0;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .entries-per-page {
+            margin-bottom: 20px;
+        }
+
+        .no-users-message {
+            text-align: center;
+            color: #888;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000; /* Ensure modal appears above top bar */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            padding-top: 60px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px; /* Smaller and more compact */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Modern shadow */
+            position: relative;
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        form input, form select {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        form button {
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Search form container */
+        .search-form-container {
+            display: none; /* Hidden by default */
+            margin-left: 10px;
+            align-items: center;
+        }
+
+        .search-form-container select,
+        .search-form-container input {
+            padding: 8px;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .search-form-container button {
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
             border-radius: 5px;
         }
 
-        .sidebar a:hover {
-            background-color: #555;
+        .pagination a.active {
+            background-color: #0056b3;
+            pointer-events: none; /* Disable clicking on the active page */
+            cursor: default;
         }
 
-        .top-bar {
-            background-color: #333; /* Match sidebar */
-            color: white;
-            padding: 10px;
-            width: calc(100% - 250px); /* Full width minus sidebar */
-            margin-left: 250px; /* Shift to the right to align with the sidebar */
-            position: fixed; /* Keep it fixed at the top */
-            top: 0; /* Align to the top of the page */
-            z-index: 1000; /* Make sure it stays above other content */
-            display: flex;
-            justify-content: flex-end; /* Align user info to the right */
-            align-items: center; /* Center items vertically */
-            box-sizing: border-box; /* Include padding in width calculation */
-        }
-
-        .main-content {
-            margin-left: 250px; /* Keep margin to the left for the sidebar */
-            padding-top: 60px; /* Add padding to avoid overlap with the top bar */
-            width: calc(100% - 250px); /* Full width minus sidebar */
-            display: flex;
-            flex-direction: column;
-            height: calc(100% - 60px); /* Adjust height to consider the top bar */
-            overflow: auto; /* Enable scrolling if content overflows */
-        }
-
-        .top-bar .user-info {
-            font-size: 16px; /* Font size for user info */
+        .pagination a:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-<!-- Sidebar Menu -->
-<div class="sidebar">
-    <h2>Admin Dashboard</h2>
-    <a class="sidebar-link" data-fragment="manage-user-account" href="#">Manage User Account</a>
-    <a class="sidebar-link" data-fragment="manage-user-profile" href="#">Manage User Profile</a>
-    <a href="#" th:href="@{/logout}">Log Out</a>
-</div>
-
 <!-- Top Bar -->
 <div class="top-bar">
     <div class="user-info"
          th:text="'Welcome, ' + ${session.username} + ' | Logged in at: ' + ${session.currentDateTime}"></div>
+    <a href="#" th:href="@{/logout}">Log Out</a>
 </div>
 
 <!-- Main Content -->
 <div class="main-content">
-    <!-- Fragment Content -->
-    <div th:replace="fragments/admin-functions :: functionContent"></div>
+    <h2 style="text-align: center">Manage User Account</h2>
+
+    <div class="action-buttons">
+        <button id="createUserBtn">Create User</button>
+        <button id="searchUserBtn">Search User</button>
+
+        <!-- Search Form (Hidden by default) -->
+        <div class="search-form-container" id="searchFormContainer">
+            <select id="searchType" name="searchType">
+                <option value="username">Username</option>
+                <option value="email">Email</option>
+                <option value="phoneNumber">Phone Number</option>
+            </select>
+            <input id="searchValue" name="searchValue" placeholder="Enter search value" type="text">
+            <button id="performSearchBtn">Search</button>
+        </div>
+    </div>
+
+    <!-- Entries per page -->
+    <label for="entries">Show:</label>
+    <select id="entries">
+        <option th:selected="${size == 5}" value="5">5</option>
+        <option th:selected="${size == 10}" value="10">10</option>
+        <option th:selected="${size == 20}" value="20">20</option>
+    </select>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Locked</th>
+            <th>User Type</th>
+            <th>Phone Number</th>
+            <th>Created At</th>
+            <th>Updated At</th> <!-- Added Updated At column header -->
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${userPage.content}">
+            <td th:text="${user.userID}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.locked}"></td>
+            <td th:text="${user.userType != null} ? ${user.userType.name()} : 'Unknown'"></td>
+            <td th:text="${user.phoneNumber}"></td>
+            <td th:text="${#temporals.format(user.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#temporals.format(user.updated_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <button class="edit-button" th:data-user-id="${user.userID}">Edit</button>
+                <button class="delete-button" th:data-user-id="${user.userID}">Delete</button>
+                </button>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(userPage.content)}">
+            <td class="no-users-message" colspan="9">No users found.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" th:if="${totalPages > 1}">
+        <!-- Previous Page Link -->
+        <span th:if="${currentPage > 0}">
+        <a href="#" th:href="@{'/InfinityNetwork/admin/dashboard'(page=${currentPage - 1}, size=${size})}">Previous</a>
+    </span>
+        <!-- Page Number Links -->
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+        <a href="#" th:href="@{'/InfinityNetwork/admin/dashboard'(page=${i}, size=${size})}"
+           th:text="${i + 1}"
+           th:classappend="${i == currentPage} ? ' active' : ''"></a>
+    </span>
+        <!-- Next Page Link -->
+        <span th:if="${currentPage < totalPages - 1}">
+        <a href="#" th:href="@{'/InfinityNetwork/admin/dashboard'(page=${currentPage + 1}, size=${size})}">Next</a>
+    </span>
+    </div>
+
+    <!-- Modal for Create User -->
+    <div class="modal" id="createUserModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create User</h2>
+            <form id="createUserForm">
+                <label for="username">Username:</label>
+                <input id="username" name="username" required type="text">
+
+                <label for="password">Password:</label>
+                <p id="passwordError" style="color: red; display: none;">Passwords do not match.</p>
+                <input id="password" name="password" required type="password">
+
+                <label for="confirmPassword">Confirm Password:</label>
+                <input id="confirmPassword" name="confirmPassword" required type="password">
+
+                <label for="email">Email:</label>
+                <input id="email" name="email" required type="email">
+
+                <label for="phoneNumber">Phone Number:</label>
+                <input id="phoneNumber" name="phoneNumber" required type="text">
+
+                <label for="userType">User Type:</label>
+                <select id="userType" name="userType" required>
+                    <option value="ADMIN">Admin</option>
+                    <option value="AGENT">AGENT</option>
+                    <option value="BUYER">BUYER</option>
+                    <option value="SELLER">SELLER</option>
+                </select>
+
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Edit User -->
+    <div class="modal" id="editUserModal">
+        <div class="modal-content">
+            <span class="close" id="editModalClose">&times;</span>
+            <h2>Edit User</h2>
+            <form id="editUserForm">
+                <!-- Hidden field to store User ID -->
+                <input type="hidden" id="editUserId" name="userID">
+
+                <label for="editUsername">Username:</label>
+                <input id="editUsername" name="username" required type="text">
+
+                <label for="editEmail">Email:</label>
+                <input id="editEmail" name="email" required type="email">
+
+                <label for="editLocked">Locked:</label>
+                <select id="editLocked" name="locked" required>
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                </select>
+
+                <label for="editUserType">User Type:</label>
+                <select id="editUserType" name="userType" required>
+                    <option value="ADMIN">Admin</option>
+                    <option value="AGENT">Agent</option>
+                    <option value="BUYER">Buyer</option>
+                    <option value="SELLER">Seller</option>
+                </select>
+
+                <label for="editPhoneNumber">Phone Number:</label>
+                <input id="editPhoneNumber" name="phoneNumber" required type="text">
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 
-</body>
-
+<!-- JavaScript -->
 <script>
-    // Attach click event listeners to sidebar links
-    document.querySelectorAll('.sidebar-link').forEach(link => {
-        link.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent the default link behavior
-
-            const fragmentName = this.getAttribute('data-fragment'); // Get the fragment name
-            loadFragment(fragmentName); // Load the fragment
-        });
-    });
-
-    function loadFragment(fragment) {
-        fetch(`/InfinityNetwork/admin/fragments/${fragment}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
-            .then(html => {
-                document.querySelector('.main-content').innerHTML = html;
-                // Call initializeFragmentScripts with the fragment name
-                initializeFragmentScripts(fragment);
-            })
-            .catch(error => console.error('Error loading fragment:', error));
-    }
-
     // Function to validate passwords
     function validatePasswords(passwordInput, confirmPasswordInput, passwordError, createButton) {
         if (passwordInput.value !== confirmPasswordInput.value) {
@@ -134,103 +414,370 @@
         }
     }
 
+    // Function to update the user table with new data
+    function updateUserTable(users) {
+        const tbody = document.querySelector('table tbody');
+        if (!tbody) return;
 
-    // Function to initialize scripts after fragment load
-    function initializeFragmentScripts(fragmentName) {
-        // Common initialization for all fragments
-        console.log(`Initializing scripts for fragment: ${fragmentName}`);
+        // Clear existing rows
+        tbody.innerHTML = '';
 
-        // Check for fragment type
-        if (fragmentName === 'manage-user-account') {
-            const modal = document.getElementById("createUserModal");
-            const btn = document.getElementById("createUserBtn");
-            const span = document.getElementsByClassName("close")[0];
+        if (users.length === 0) {
+            const noUsersRow = document.createElement('tr');
+            const noUsersCell = document.createElement('td');
+            noUsersCell.setAttribute('colspan', '9'); // Updated colspan to 9
+            noUsersCell.classList.add('no-users-message');
+            noUsersCell.textContent = 'No users found.';
+            noUsersRow.appendChild(noUsersCell);
+            tbody.appendChild(noUsersRow);
+        } else {
+            users.forEach(user => {
+                const row = document.createElement('tr');
 
-            // Span Create User Model on click or close it when click outside or the "X"
-            if (btn) {
-                btn.onclick = function () {
-                    modal.style.display = "block";
+                // User ID
+                const userIDCell = document.createElement('td');
+                userIDCell.textContent = user.userID;
+                row.appendChild(userIDCell);
+
+                // Username
+                const usernameCell = document.createElement('td');
+                usernameCell.textContent = user.username;
+                row.appendChild(usernameCell);
+
+                // Email
+                const emailCell = document.createElement('td');
+                emailCell.textContent = user.email;
+                row.appendChild(emailCell);
+
+                // Locked
+                const lockedCell = document.createElement('td');
+                lockedCell.textContent = user.locked;
+                row.appendChild(lockedCell);
+
+                // User Type
+                const userTypeCell = document.createElement('td');
+                userTypeCell.textContent = user.userType || 'Unknown';
+                row.appendChild(userTypeCell);
+
+                // Phone Number
+                const phoneNumberCell = document.createElement('td');
+                phoneNumberCell.textContent = user.phoneNumber;
+                row.appendChild(phoneNumberCell);
+
+                // Created At
+                const createdAtCell = document.createElement('td');
+                const createdAt = new Date(user.created_at);
+                createdAtCell.textContent = createdAt.toLocaleString();
+                row.appendChild(createdAtCell);
+
+                // Updated At
+                const updatedAtCell = document.createElement('td');
+                const updatedAt = new Date(user.updated_at);
+                updatedAtCell.textContent = updatedAt.toLocaleString();
+                row.appendChild(updatedAtCell);
+
+                // Actions
+                const actionsCell = document.createElement('td');
+
+                // Edit button
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.onclick = function () {
+                    location.href = `/admin/dashboard/edit-user?id=${user.userID}`;
                 };
-            }
-            if (span) {
-                span.onclick = function () {
-                    modal.style.display = "none";
+                actionsCell.appendChild(editButton);
+
+                // Delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = function () {
+                    location.href = `/InfinityNetwork/admin/deleteUser?id=${user.userID}`;
                 };
-            }
-            window.onclick = function (event) {
-                if (event.target === modal) {
-                    modal.style.display = "none";
-                }
-            }
+                actionsCell.appendChild(deleteButton);
 
-            // Check if password inputs exist before adding event listeners
-            const passwordInput = document.getElementById('password');
-            const confirmPasswordInput = document.getElementById('confirmPassword');
-            const passwordError = document.getElementById('passwordError');
-            const createButton = document.querySelector('form button[type="submit"]');
-
-            if (passwordInput && confirmPasswordInput && passwordError && createButton) {
-                passwordInput.addEventListener('input', function () {
-                    validatePasswords(passwordInput, confirmPasswordInput, passwordError, createButton);
-                });
-                confirmPasswordInput.addEventListener('input', function () {
-                    validatePasswords(passwordInput, confirmPasswordInput, passwordError, createButton);
-                });
-            }
-
-            //Form submission
-            const createUserForm = document.getElementById('createUserForm');
-            if (createUserForm) {
-                createUserForm.addEventListener('submit', function (event) {
-                    event.preventDefault(); // Prevent the default form submission
-
-                    // Retrieve form values
-                    const username = document.getElementById('username').value;
-                    const password = document.getElementById('password').value;
-                    const email = document.getElementById('email').value;
-                    const phoneNumber = document.getElementById('phoneNumber').value; // Corrected ID
-                    const userType = document.getElementById('userType').value; // Use .value for select
-
-                    // Create JSON object
-                    const jsonData = JSON.stringify({username, password, email, phoneNumber, userType});
-
-                    // Send data to server
-                    fetch('/InfinityNetwork/admin/createUser', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: jsonData
-                    })
-                        .then(response => {
-                            if (!response.ok) {
-                                return response.text().then(errText => {
-                                    throw new Error(errText || 'Unknown error occurred');
-                                });
-                            }
-                            return response.text(); // Use text() instead of json()
-                        })
-                        .then(data => {
-                            console.log('Success:', data);
-                            // Close the modal and reset the form
-                            modal.style.display = "none";
-                            createUserForm.reset();
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            // Optionally display error message to the user
-                        });
-                });
-            }
-        }
-
-        if (fragmentName === 'manage-user-profile') {
-            // Add specific script handling for 'manage-user-profile'
-            console.log('Initializing manage-user-profile fragment');
-            // Add necessary logic for this fragment
+                row.appendChild(actionsCell);
+                tbody.appendChild(row);
+            });
         }
     }
 
+    // Modal handling for Create User
+    const modal = document.getElementById("createUserModal");
+    const btn = document.getElementById("createUserBtn");
+    const span = document.getElementsByClassName("close")[0];
 
+    if (btn) {
+        btn.onclick = function () {
+            modal.style.display = "block";
+        };
+    }
+
+    if (span) {
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+    }
+
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Password validation
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const passwordError = document.getElementById('passwordError');
+    const createButton = document.querySelector('form button[type="submit"]');
+
+    if (passwordInput && confirmPasswordInput && passwordError && createButton) {
+        passwordInput.addEventListener('input', function () {
+            validatePasswords(passwordInput, confirmPasswordInput, passwordError, createButton);
+        });
+        confirmPasswordInput.addEventListener('input', function () {
+            validatePasswords(passwordInput, confirmPasswordInput, passwordError, createButton);
+        });
+    }
+
+    // Form submission
+    const createUserForm = document.getElementById('createUserForm');
+    if (createUserForm) {
+        createUserForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Retrieve form values
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const userType = document.getElementById('userType').value;
+
+            // Create JSON object
+            const jsonData = JSON.stringify({username, password, email, phoneNumber, userType});
+
+            // Send data to server
+            fetch('/InfinityNetwork/admin/createUser', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: jsonData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(errText => {
+                            throw new Error(errText || 'Unknown error occurred');
+                        });
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    // Close the modal and reset the form
+                    modal.style.display = "none";
+                    createUserForm.reset();
+                    // Refresh the page to update the user table
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        })
+
+        // Search related functions
+        const searchUserBtn = document.getElementById('searchUserBtn');
+        const searchFormContainer = document.getElementById('searchFormContainer');
+
+        if (searchUserBtn && searchFormContainer) {
+            searchUserBtn.onclick = function () {
+                // Toggle display of the search form container
+                if (searchFormContainer.style.display === 'none' || searchFormContainer.style.display === '') {
+                    searchFormContainer.style.display = 'flex';
+                } else {
+                    searchFormContainer.style.display = 'none';
+                }
+            };
+        }
+
+        // Handle search form submission
+        const performSearchBtn = document.getElementById('performSearchBtn');
+        if (performSearchBtn) {
+            performSearchBtn.onclick = function (event) {
+                event.preventDefault(); // Prevent default behavior
+
+                const searchType = document.getElementById('searchType').value;
+                const searchValue = document.getElementById('searchValue').value.trim();
+
+                if (searchValue === '') {
+                    alert('Please enter a search value.');
+                    return;
+                }
+
+                // Perform AJAX request to search users, this is a GET request
+                fetch(`/InfinityNetwork/admin/searchUser?type=${encodeURIComponent(searchType)}&value=${encodeURIComponent(searchValue)}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Search request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Update the user table with the search results
+                        updateUserTable(data.users);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            };
+        }
+    }
+
+    // Handle entries per page change
+    const entriesSelect = document.getElementById('entries');
+    if (entriesSelect) {
+        entriesSelect.onchange = function () {
+            const selectedSize = parseInt(entriesSelect.value);
+            // Redirect to the first page with the new size
+            window.location.href = `/InfinityNetwork/admin/dashboard?size=${selectedSize}&page=0`;
+        };
+    }
+
+    // Handle Edit button clicks
+    document.addEventListener('click', function(event) {
+        if (event.target && event.target.classList.contains('edit-button')) {
+            const userId = event.target.getAttribute('data-user-id');
+            openEditModal(userId);
+        }
+    });
+
+    function openEditModal(userId) {
+        // Fetch user data from the server
+        fetch(`/InfinityNetwork/admin/getUserById?id=${userId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+                return response.json();
+            })
+            .then(user => {
+                // Populate the form fields
+                document.getElementById('editUserId').value = user.userID;
+                document.getElementById('editUsername').value = user.username;
+                document.getElementById('editEmail').value = user.email;
+                document.getElementById('editLocked').value = user.locked.toString();
+                document.getElementById('editUserType').value = user.userType;
+                document.getElementById('editPhoneNumber').value = user.phoneNumber;
+
+                // Open the modal
+                const editModal = document.getElementById('editUserModal');
+                editModal.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+                alert('Failed to load user data.');
+            });
+    }
+
+    // Close the Edit User modal
+    const editModalClose = document.getElementById('editModalClose');
+    if (editModalClose) {
+        editModalClose.onclick = function () {
+            const editModal = document.getElementById('editUserModal');
+            editModal.style.display = 'none';
+        };
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        const editModal = document.getElementById('editUserModal');
+        if (event.target === editModal) {
+            editModal.style.display = 'none';
+        }
+    };
+
+    // Handle Edit User form submission
+    const editUserForm = document.getElementById('editUserForm');
+    if (editUserForm) {
+        editUserForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Confirmation prompt
+            if (!confirm('Are you sure you want to submit these changes?')) {
+                return;
+            }
+
+            // Retrieve form values
+            const userId = parseInt(document.getElementById('editUserId').value, 10);
+            const username = document.getElementById('editUsername').value;
+            const email = document.getElementById('editEmail').value;
+            const locked = document.getElementById('editLocked').value === 'true';
+            const userType = document.getElementById('editUserType').value;
+            const phoneNumber = document.getElementById('editPhoneNumber').value;
+
+            // Create JSON object
+            const jsonData = JSON.stringify({ userID: userId, username, email, locked, userType, phoneNumber });
+
+            // Send data to server
+            fetch('/InfinityNetwork/admin/updateUser', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: jsonData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(errText => {
+                            throw new Error(errText || 'Unknown error occurred');
+                        });
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    // Close the modal
+                    const editModal = document.getElementById('editUserModal');
+                    editModal.style.display = 'none';
+                    // Refresh the page to show updated data
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to update user.');
+                });
+        });
+    }
+
+    // Handle Delete button clicks
+    document.addEventListener('click', function(event) {
+        if (event.target && event.target.classList.contains('delete-button')) {
+            const userId = event.target.getAttribute('data-user-id');
+
+            // Confirmation prompt
+            if (!confirm('Are you sure you want to delete this user?')) {
+                return;
+            }
+
+            // Send DELETE request to server
+            fetch(`/InfinityNetwork/admin/deleteUser?id=${userId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(errText => {
+                            throw new Error(errText || 'Unknown error occurred');
+                        });
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete user.');
+                });
+        }
+    });
 </script>
 
-
+</body>
 </html>

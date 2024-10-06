@@ -10,7 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class AppUserService implements UserDetailsService {
@@ -36,9 +37,40 @@ public class AppUserService implements UserDetailsService {
     }
 
     // Method to get all users with pagination
-    public List<AppUser> findAllUsers(int page, int size) {
-        Pageable pageable = (Pageable) PageRequest.of(page, size);
-        Page<AppUser> userPage = appUserRepository.findAll(pageable);
-        return userPage.getContent(); // Return the list of users for the current page
+    public Page<AppUser> findAllUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return appUserRepository.findAll(pageable);
+    }
+
+    public void updateUser(UpdateUserDTO userDTO) throws Exception {
+        if (userDTO.getUserID() == null) {
+            throw new Exception("User ID is null");
+        }
+
+        Optional<AppUser> optionalUser = appUserRepository.findById(userDTO.getUserID());
+        if (!optionalUser.isPresent()) {
+            throw new Exception("User not found");
+        }
+
+        AppUser existingUser = optionalUser.get();
+
+        // Update fields
+        existingUser.setUsername(userDTO.getUsername());
+        existingUser.setEmail(userDTO.getEmail());
+        existingUser.setLocked(userDTO.getLocked());
+        existingUser.setUserType(UserType.valueOf(userDTO.getUserType()));
+        existingUser.setPhoneNumber(userDTO.getPhoneNumber());
+        existingUser.setUpdated_at(LocalDateTime.now());
+
+        appUserRepository.save(existingUser);
+    }
+
+    public void deleteUser(Long id) throws Exception {
+        Optional<AppUser> optionalUser = appUserRepository.findById(id);
+        if (!optionalUser.isPresent()) {
+            throw new Exception("User not found");
+        }
+
+        appUserRepository.deleteById(id);
     }
 }
