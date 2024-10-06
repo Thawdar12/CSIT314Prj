@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333; /* Sidebar background color */
+            color: white;
+            height: 100%;
+            position: fixed;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            text-decoration: none;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background-color: #555;
+        }
+
+        .top-bar {
+            background-color: #333; /* Match sidebar */
+            color: white;
+            padding: 10px;
+            width: calc(100% - 250px); /* Full width minus sidebar */
+            margin-left: 250px; /* Shift to the right to align with the sidebar */
+            position: fixed; /* Keep it fixed at the top */
+            top: 0; /* Align to the top of the page */
+            z-index: 1000; /* Make sure it stays above other content */
+            display: flex;
+            justify-content: flex-end; /* Align user info to the right */
+            align-items: center; /* Center items vertically */
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        .main-content {
+            margin-left: 250px; /* Keep margin to the left for the sidebar */
+            padding-top: 60px; /* Add padding to avoid overlap with the top bar */
+            width: calc(100% - 250px); /* Full width minus sidebar */
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 60px); /* Adjust height to consider the top bar */
+            overflow: auto; /* Enable scrolling if content overflows */
+        }
+
+        .top-bar .user-info {
+            font-size: 16px; /* Font size for user info */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar Menu -->
+<div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    <a class="sidebar-link" data-fragment="manage-user-account" href="#">Manage User Account</a>
+    <a class="sidebar-link" data-fragment="manage-user-profile" href="#">Manage User Profile</a>
+    <a href="#" th:href="@{/logout}">Log Out</a>
+</div>
+
+<!-- Top Bar -->
+<div class="top-bar">
+    <div class="user-info"
+         th:text="'Welcome, ' + ${session.username} + ' | Logged in at: ' + ${session.currentDateTime}"></div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Fragment Content -->
+    <div th:replace="fragments/admin-functions :: functionContent"></div>
+</div>
+
+</body>
+
+<script>
+    // Attach click event listeners to sidebar links
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default link behavior
+
+            const fragmentName = this.getAttribute('data-fragment'); // Get the fragment name
+            loadFragment(fragmentName); // Load the fragment
+        });
+    });
+
+    function loadFragment(fragment) {
+        fetch(`/InfinityNetwork/admin/fragments/${fragment}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(html => {
+                document.querySelector('.main-content').innerHTML = html;
+                // Call initializeFragmentScripts with the fragment name
+                initializeFragmentScripts(fragment);
+            })
+            .catch(error => console.error('Error loading fragment:', error));
+    }
+
+    // Function to validate passwords
+    function validatePasswords(passwordInput, confirmPasswordInput, passwordError, createButton) {
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            passwordError.style.display = 'block'; // Show error message
+            createButton.disabled = true; // Disable form submission button
+        } else {
+            passwordError.style.display = 'none'; // Hide error message
+            createButton.disabled = false; // Enable form submission button
+        }
+    }
+
+
+    // Function to initialize scripts after fragment load
+    function initializeFragmentScripts(fragmentName) {
+        // Common initialization for all fragments
+        console.log(`Initializing scripts for fragment: ${fragmentName}`);
+
+        // Check for fragment type
+        if (fragmentName === 'manage-user-account') {
+            const modal = document.getElementById("createUserModal");
+            const btn = document.getElementById("createUserBtn");
+            const span = document.getElementsByClassName("close")[0];
+
+            // Span Create User Model on click or close it when click outside or the "X"
+            if (btn) {
+                btn.onclick = function () {
+                    modal.style.display = "block";
+                };
+            }
+            if (span) {
+                span.onclick = function () {
+                    modal.style.display = "none";
+                };
+            }
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Check if password inputs exist before adding event listeners
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const passwordError = document.getElementById('passwordError');
+            const createButton = document.querySelector('form button[type="submit"]');
+
+            if (passwordInput && confirmPasswordInput && passwordError && createButton) {
+                passwordInput.addEventListener('input', function () {
+                    validatePasswords(passwordInput, confirmPasswordInput, passwordError, createButton);
+                });
+                confirmPasswordInput.addEventListener('input', function () {
+                    validatePasswords(passwordInput, confirmPasswordInput, passwordError, createButton);
+                });
+            }
+
+            //Form submission
+            const createUserForm = document.getElementById('createUserForm');
+            if (createUserForm) {
+                createUserForm.addEventListener('submit', function (event) {
+                    event.preventDefault(); // Prevent the default form submission
+
+                    // Retrieve form values
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    const email = document.getElementById('email').value;
+                    const phoneNumber = document.getElementById('phoneNumber').value; // Corrected ID
+                    const userType = document.getElementById('userType').value; // Use .value for select
+
+                    // Create JSON object
+                    const jsonData = JSON.stringify({username, password, email, phoneNumber, userType});
+
+                    // Send data to server
+                    fetch('/InfinityNetwork/admin/createUser', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: jsonData
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.text().then(errText => {
+                                    throw new Error(errText || 'Unknown error occurred');
+                                });
+                            }
+                            return response.text(); // Use text() instead of json()
+                        })
+                        .then(data => {
+                            console.log('Success:', data);
+                            // Close the modal and reset the form
+                            modal.style.display = "none";
+                            createUserForm.reset();
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            // Optionally display error message to the user
+                        });
+                });
+            }
+        }
+
+        if (fragmentName === 'manage-user-profile') {
+            // Add specific script handling for 'manage-user-profile'
+            console.log('Initializing manage-user-profile fragment');
+            // Add necessary logic for this fragment
+        }
+    }
+
+
+</script>
+
+
+</html>
