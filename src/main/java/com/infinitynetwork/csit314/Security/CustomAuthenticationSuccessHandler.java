@@ -4,43 +4,39 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
-import java.util.Collection;
 
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        // Get the user's authorities (roles)
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        // Redirect based on role
-        String redirectUrl = null;
+        // Retrieve the 'domainGroup' parameter from the login form
+        String domainGroup = request.getParameter("domainGroup");
 
-        for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                redirectUrl = "/InfinityNetwork/admin/dashboard";
-                break;
-            } else if (authority.getAuthority().equals("ROLE_AGENT")) {
-                redirectUrl = "/agent/dashboard";
-                break;
-            } else if (authority.getAuthority().equals("ROLE_BUYER")) {
-                redirectUrl = "/buyer/dashboard";
-                break;
-            } else if (authority.getAuthority().equals("ROLE_SELLER")) {
-                redirectUrl = "/seller/dashboard";
-                break;
-            }
+        if (domainGroup == null || domainGroup.isEmpty()) {
+            // If 'domainGroup' is not provided, redirect to an error page
+            response.sendRedirect("/InfinityNetwork/404");
+            return;
         }
 
-        // Default redirect URL if no roles match
-        if (redirectUrl == null) {
-            redirectUrl = "/404";
+        // Construct the required role based on 'domainGroup' (e.g., 'ROLE_ADMIN')
+        String requiredRole = "ROLE_" + domainGroup.toUpperCase();
+
+        // Check if the authenticated user has the required role
+        boolean hasRole = authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals(requiredRole));
+
+        if (hasRole) {
+            // Redirect to the appropriate dashboard based on 'domainGroup'
+            String redirectUrl = "/InfinityNetwork/" + domainGroup + "/dashboard";
+            response.sendRedirect(redirectUrl);
+        } else {
+            // If the user does not have the required role, redirect to a 403 error page
+            response.sendRedirect("/InfinityNetwork/403");
         }
-        response.sendRedirect(redirectUrl);
     }
 }

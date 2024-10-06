@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +23,20 @@ public class AppUserService implements UserDetailsService {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
+    public UserDetails loadUserByUsernameAndDomain(String username, String domainGroup) throws UsernameNotFoundException {
+        AppUser user = appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+
+        String userRole = user.getUserType().name().toLowerCase(); // e.g., "admin", "agent", etc.
+
+        if (!userRole.equals(domainGroup.toLowerCase())) {
+            throw new BadCredentialsException("Invalid domain group selected.");
+        }
+
+        return user;
+    }
+
 
     @Transactional
     public void registerUser(AppUser appUser) {
@@ -73,4 +88,6 @@ public class AppUserService implements UserDetailsService {
 
         appUserRepository.deleteById(id);
     }
+
+
 }

@@ -64,8 +64,15 @@ public class AppUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        if (userType != null) {
+            String roleName = "ROLE_" + userType.name();
+            return List.of(new SimpleGrantedAuthority(roleName));
+        } else {
+            // Handle the case where userType is null, but it shouldn't be null in creating case, there is always a value
+            return List.of();
+        }
     }
+
 
     //Getter and Setter
     public Long getUserID() {
