@@ -1,6 +1,8 @@
 package com.infinitynetwork.csit314.AppUsers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.infinitynetwork.csit314.CarListings.CarListings;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -45,6 +47,11 @@ public class AppUser implements UserDetails {
 
     @Column(nullable = false, columnDefinition = "DATETIME(3)")
     private LocalDateTime updated_at;
+
+    // Bidirectional relationship
+    @OneToMany(mappedBy = "listedBy", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore // Prevents infinite recursion during JSON serialization
+    private List<CarListings> carListings;
 
     //Constructors
     public AppUser() {
@@ -156,6 +163,14 @@ public class AppUser implements UserDetails {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public List<CarListings> getCarListings() {
+        return carListings;
+    }
+
+    public void setCarListings(List<CarListings> carListings) {
+        this.carListings = carListings;
     }
 
     @PrePersist

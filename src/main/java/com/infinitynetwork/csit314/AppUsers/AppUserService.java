@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,20 +22,6 @@ public class AppUserService implements UserDetailsService {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
-    public UserDetails loadUserByUsernameAndDomain(String username, String domainGroup) throws UsernameNotFoundException {
-        AppUser user = appUserRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-
-        String userRole = user.getUserType().name().toLowerCase(); // e.g., "admin", "agent", etc.
-
-        if (!userRole.equals(domainGroup.toLowerCase())) {
-            throw new BadCredentialsException("Invalid domain group selected.");
-        }
-
-        return user;
-    }
-
 
     @Transactional
     public void registerUser(AppUser appUser) {
@@ -78,7 +63,7 @@ public class AppUserService implements UserDetailsService {
         if (userDTO.getLocked() != null) {
             existingUser.setEnabled(!userDTO.getLocked()); // If locked is true, set enabled to false, and vice versa
         }
-        
+
         existingUser.setUserType(UserType.valueOf(userDTO.getUserType()));
         existingUser.setPhoneNumber(userDTO.getPhoneNumber());
         existingUser.setUpdated_at(LocalDateTime.now());
@@ -89,11 +74,8 @@ public class AppUserService implements UserDetailsService {
     public void deleteUser(Long id) throws Exception {
         Optional<AppUser> optionalUser = appUserRepository.findById(id);
         if (!optionalUser.isPresent()) {
-            throw new Exception("User not found");
+            throw new Exception("Listing not found");
         }
-
         appUserRepository.deleteById(id);
     }
-
-
 }

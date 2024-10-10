@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Agent Dashboard</title>
+    <style>
+        /* Main Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top Bar Styles */
+        .top-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .top-bar .user-info {
+            font-size: 16px;
+            margin-right: 20px; /* Space between user info and logout button */
+        }
+
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding-top: 60px; /* To avoid overlap with the top bar */
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        /* Fragment Styles */
+        h2 {
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .action-buttons button {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .entries-per-page {
+            margin-bottom: 20px;
+        }
+
+        .no-users-message {
+            text-align: center;
+            color: #888;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000; /* Ensure modal appears above top bar */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            padding-top: 60px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px; /* Smaller and more compact */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Modern shadow */
+            position: relative;
+        }
+
+        .modal-content h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        form input, form select {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        form button {
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Search form container */
+        .search-form-container {
+            display: none; /* Hidden by default */
+            margin-left: 10px;
+            align-items: center;
+        }
+
+        .search-form-container select,
+        .search-form-container input {
+            padding: 8px;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .search-form-container button {
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .pagination a.active {
+            background-color: #0056b3;
+            pointer-events: none; /* Disable clicking on the active page */
+            cursor: default;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3;
+        }
+
+        /* 1. Table Container for Responsive Design */
+        .table-container {
+            width: 100%;
+            overflow-x: auto; /* Enables horizontal scrolling on small screens */
+            margin: 20px 0;
+        }
+
+        /* 2. Base Styling for the Table */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            min-width: 800px; /* Ensures table doesn't become too narrow */
+        }
+
+        /* 3. Table Header Styling */
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        /* 4. Table Header Cells */
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            vertical-align: middle; /* Centers content vertically */
+        }
+
+        /* 5. Table Body Styling */
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        /* 6. Zebra Striping for Rows */
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        /* 7. Hover Effect for Rows */
+        .styled-table tbody tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer; /* Changes cursor to pointer on hover */
+        }
+
+        /* 8. Table Image Styling */
+        .styled-table img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        /* 9. Action Buttons Styling */
+        .styled-table .edit-button,
+        .styled-table .delete-button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 13px;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .styled-table .edit-button {
+            background-color: #4CAF50; /* Green */
+        }
+
+        .styled-table .edit-button:hover {
+            background-color: #45a049;
+        }
+
+        .styled-table .delete-button {
+            background-color: #f44336; /* Red */
+        }
+
+        .styled-table .delete-button:hover {
+            background-color: #da190b;
+        }
+
+        /* 10. Responsive Font Sizes */
+        @media screen and (max-width: 768px) {
+            .styled-table {
+                font-size: 12px;
+            }
+
+            .styled-table th,
+            .styled-table td {
+                padding: 8px 10px;
+            }
+        }
+
+        /* 11. No Listings Message Styling */
+        .no-listings-message {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #888888;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Top Bar -->
+<div class="top-bar">
+    <div class="user-info"
+         th:text="'Welcome, ' + ${session.username} + ' | Logged in at: ' + ${session.currentDateTime}"></div>
+    <a href="#" style="color: white;" th:href="@{/logout}">Log Out</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <h2 style="text-align: center">Car Listings Dashboard</h2>
+
+    <div class="action-buttons">
+        <button id="createListingBtn">Create Listing</button>
+        <button id="searchListingBtn">Search Listing</button>
+
+        <!-- Search Form (Hidden by default) -->
+        <div class="search-form-container" id="searchFormContainer"
+             style="display: none; flex-direction: column; gap: 10px;">
+            <select id="searchType" name="searchType">
+                <option value="carPlateNumber">Car Plate Number</option>
+                <option value="carBrand">Car Brand</option>
+                <option value="carModel">Car Model</option>
+                <option value="listingStatus">Listing Status</option>
+            </select>
+            <input id="searchValue" name="searchValue" placeholder="Enter search value" type="text">
+            <button id="performSearchBtn">Search</button>
+        </div>
+    </div>
+
+    <!-- Entries per page -->
+    <label for="entries">Show:</label>
+    <select id="entries" name="entries">
+        <option th:selected="${size == 5}" value="5">5</option>
+        <option th:selected="${size == 10}" value="10">10</option>
+        <option th:selected="${size == 20}" value="20">20</option>
+    </select>
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Listing ID</th>
+            <th>Car Plate Number</th>
+            <th>Car Brand</th>
+            <th>Car Model</th>
+            <th>Listing Status</th>
+            <th>Listed By</th>
+            <th>Millage</th>
+            <th>Manufactured Year</th>
+            <th>Price</th>
+            <th>Photo</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="listing : ${listingPage.content}">
+            <td th:text="${listing.listingID}"></td>
+            <td th:text="${listing.carPlateNumber}"></td>
+            <td th:text="${listing.carBrand}"></td>
+            <td th:text="${listing.carModel}"></td>
+            <td th:text="${listing.listingStatus != null} ? ${listing.listingStatus.name()} : 'Unknown'"></td>
+            <td th:text="${listing.listedBy.username}"></td>
+            <td th:text="${listing.millage}"></td>
+            <td th:text="${listing.manufacturedYear}"></td>
+            <td th:text="${listing.price}"></td>
+            <td>
+                <img alt="Car Photo" style="width: 100px; height: auto;" th:if="${listing.photo != null}"
+                     th:src="@{${listing.photo}}">
+                <span th:if="${listing.photo == null}">No Photo</span>
+            </td>
+            <td th:text="${#temporals.format(listing.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#temporals.format(listing.updated_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+                <button class="edit-button" th:data-listing-id="${listing.listingID}">Edit</button>
+                <button class="delete-button" th:data-listing-id="${listing.listingID}">Delete</button>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(listingPage.content)}">
+            <td class="no-listings-message" colspan="13">No listings found.</td>
+            <!-- Updated colspan to match new table structure -->
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" th:if="${totalPages > 1}">
+        <!-- Previous Page Link -->
+        <span th:if="${currentPage > 0}">
+            <a href="#"
+               th:href="@{'/InfinityNetwork/agent/dashboard'(page=${currentPage - 1}, size=${size})}">Previous</a>
+        </span>
+        <!-- Page Number Links -->
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a href="#" th:classappend="${i == currentPage} ? ' active' : ''"
+               th:href="@{'/InfinityNetwork/agent/dashboard'(page=${i}, size=${size})}"
+               th:text="${i + 1}"></a>
+        </span>
+        <!-- Next Page Link -->
+        <span th:if="${currentPage < totalPages - 1}">
+            <a href="#" th:href="@{'/InfinityNetwork/agent/dashboard'(page=${currentPage + 1}, size=${size})}">Next</a>
+        </span>
+    </div>
+
+    <!-- Modal for Create Listing -->
+    <div class="modal" id="createListingModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create Listing</h2>
+            <form enctype="multipart/form-data" id="createListingForm">
+                <label for="carPlateNumber">Car Plate Number:</label>
+                <input id="carPlateNumber" name="carPlateNumber" placeholder="Enter car plate number" required
+                       type="text">
+
+                <label for="carBrand">Car Brand:</label>
+                <input id="carBrand" name="carBrand" placeholder="Enter car brand" required type="text">
+
+                <label for="carModel">Car Model:</label>
+                <input id="carModel" name="carModel" placeholder="Enter car model" required type="text">
+
+                <label for="millage">Millage:</label>
+                <input id="millage" min="0" name="millage" placeholder="Enter millage" required type="number">
+
+                <label for="manufacturedYear">Manufactured Year:</label>
+                <input id="manufacturedYear" max="2100" min="1900" name="manufacturedYear"
+                       placeholder="Enter manufactured year" required
+                       type="number">
+
+                <label for="price">Price:</label>
+                <input id="price" min="0" name="price" placeholder="Enter price" required step="0.01" type="number">
+
+                <label for="photo">Photo (optional):</label>
+                <input accept="image/*" id="photo" name="photo" type="file">
+                <img alt="Photo Preview" id="photoPreview" src="#"
+                     style="display: none; width: 100px; height: auto; margin-top: 10px;">
+
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Edit Listing -->
+    <div class="modal" id="editListingModal">
+        <div class="modal-content">
+            <span class="close" id="editModalClose">&times;</span>
+            <h2>Edit Listing</h2>
+            <form enctype="multipart/form-data" id="editListingForm">
+                <!-- Hidden field to store Listing ID -->
+                <input id="editListingId" name="listingID" type="hidden">
+
+                <label for="editCarPlateNumber">Car Plate Number:</label>
+                <input id="editCarPlateNumber" name="carPlateNumber" placeholder="Enter car plate number" required
+                       type="text">
+
+                <label for="editCarBrand">Car Brand:</label>
+                <input id="editCarBrand" name="carBrand" placeholder="Enter car brand" required type="text">
+
+                <label for="editCarModel">Car Model:</label>
+                <input id="editCarModel" name="carModel" placeholder="Enter car model" required type="text">
+
+                <label for="editMillage">Millage:</label>
+                <input id="editMillage" min="0" name="millage" placeholder="Enter millage" required type="number">
+
+                <label for="editManufacturedYear">Manufactured Year:</label>
+                <input id="editManufacturedYear" max="2100" min="1900" name="manufacturedYear"
+                       placeholder="Enter manufactured year" required
+                       type="number">
+
+                <label for="editListingStatus">Listing Status:</label>
+                <select id="editListingStatus" name="listingStatus" required>
+                    <option value="OPEN">Open</option>
+                    <option value="CLOSED">Closed</option>
+                </select>
+
+                <label for="editPrice">Price:</label>
+                <input id="editPrice" min="0" name="price" placeholder="Enter price" required step="0.01" type="number">
+
+                <label for="editPhoto">Photo (optional):</label>
+                <input accept="image/*" id="editPhoto" name="photo" type="file">
+                <img alt="Current Photo" id="currentPhoto" src=""
+                     style="width: 100px; height: auto; display: none; margin-top: 10px;">
+                <img alt="New Photo Preview" id="editPhotoPreview" src="#"
+                     style="display: none; width: 100px; height: auto; margin-top: 10px;">
+
+                <label for="editListedBy">Listed By:</label>
+                <input id="editListedBy" name="listedBy" readonly type="text">
+                <!-- Assuming 'listedBy' is not editable -->
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>// JavaScript
+
+// Function to update the listing table with new data
+function updateListingTable(listings) {
+    const tbody = document.querySelector('table tbody');
+    if (!tbody) return;
+
+    // Clear existing rows
+    tbody.innerHTML = '';
+
+    if (listings.length === 0) {
+        const noListingsRow = document.createElement('tr');
+        const noListingsCell = document.createElement('td');
+        noListingsCell.setAttribute('colspan', '13'); // Updated colspan to match new table structure
+        noListingsCell.classList.add('no-listings-message');
+        noListingsCell.textContent = 'No listings found.';
+        noListingsRow.appendChild(noListingsCell);
+        tbody.appendChild(noListingsRow);
+    } else {
+        listings.forEach(listing => {
+            const row = document.createElement('tr');
+
+            // Listing ID
+            const listingIDCell = document.createElement('td');
+            listingIDCell.textContent = listing.listingID;
+            row.appendChild(listingIDCell);
+
+            // Car Plate Number
+            const carPlateNumberCell = document.createElement('td');
+            carPlateNumberCell.textContent = listing.carPlateNumber;
+            row.appendChild(carPlateNumberCell);
+
+            // Car Brand
+            const carBrandCell = document.createElement('td');
+            carBrandCell.textContent = listing.carBrand;
+            row.appendChild(carBrandCell);
+
+            // Car Model
+            const carModelCell = document.createElement('td');
+            carModelCell.textContent = listing.carModel;
+            row.appendChild(carModelCell);
+
+            // Listing Status
+            const listingStatusCell = document.createElement('td');
+            listingStatusCell.textContent = listing.listingStatus || 'Unknown';
+            row.appendChild(listingStatusCell);
+
+            // Listed By
+            const listedByCell = document.createElement('td');
+            listedByCell.textContent = listing.listedBy.username; // Assuming 'listedBy' has 'username'
+            row.appendChild(listedByCell);
+
+            // Millage
+            const millageCell = document.createElement('td');
+            millageCell.textContent = listing.millage;
+            row.appendChild(millageCell);
+
+            // Manufactured Year
+            const manufacturedYearCell = document.createElement('td');
+            manufacturedYearCell.textContent = listing.manufacturedYear;
+            row.appendChild(manufacturedYearCell);
+
+            // Price
+            const priceCell = document.createElement('td');
+            priceCell.textContent = `$${listing.price.toFixed(2)}`; // Formatting price
+            row.appendChild(priceCell);
+
+            // Photo
+            const photoCell = document.createElement('td');
+            if (listing.photo) {
+                const img = document.createElement('img');
+                img.src = listing.photo;
+                img.alt = 'Car Photo';
+                img.style.width = '100px';
+                img.style.height = 'auto';
+                photoCell.appendChild(img);
+            } else {
+                photoCell.textContent = 'No Photo';
+            }
+            row.appendChild(photoCell);
+
+            // Created At
+            const createdAtCell = document.createElement('td');
+            const createdAt = new Date(listing.created_at);
+            createdAtCell.textContent = createdAt.toLocaleString();
+            row.appendChild(createdAtCell);
+
+            // Updated At
+            const updatedAtCell = document.createElement('td');
+            const updatedAt = new Date(listing.updated_at);
+            updatedAtCell.textContent = updatedAt.toLocaleString();
+            row.appendChild(updatedAtCell);
+
+            // Actions
+            const actionsCell = document.createElement('td');
+
+            // Edit button
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.classList.add('edit-button');
+            editButton.setAttribute('data-listing-id', listing.listingID);
+            actionsCell.appendChild(editButton);
+
+            // Delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.classList.add('delete-button');
+            deleteButton.setAttribute('data-listing-id', listing.listingID);
+            actionsCell.appendChild(deleteButton);
+
+            row.appendChild(actionsCell);
+            tbody.appendChild(row);
+        });
+    }
+}
+
+// Modal handling for Create Listing
+const createModal = document.getElementById("createListingModal");
+const createBtn = document.getElementById("createListingBtn");
+const createSpan = createModal.querySelector(".close");
+
+// Open Create Listing Modal
+if (createBtn) {
+    createBtn.onclick = function () {
+        createModal.style.display = "block";
+    };
+}
+
+// Close Create Listing Modal
+if (createSpan) {
+    createSpan.onclick = function () {
+        createModal.style.display = "none";
+    };
+}
+
+// Close modals when clicking outside of them
+window.onclick = function (event) {
+    if (event.target === createModal) {
+        createModal.style.display = "none";
+    }
+
+    const editModal = document.getElementById('editListingModal');
+    if (event.target === editModal) {
+        editModal.style.display = 'none';
+    }
+};
+
+// Function to handle Create Listing form submission
+const createListingForm = document.getElementById('createListingForm');
+if (createListingForm) {
+    createListingForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Create a new FormData object
+        const formData = new FormData();
+
+        // Gather form field values
+        const carPlateNumber = document.getElementById('carPlateNumber').value.trim();
+        const carBrand = document.getElementById('carBrand').value.trim();
+        const carModel = document.getElementById('carModel').value.trim();
+        const millage = parseInt(document.getElementById('millage').value, 10);
+        const manufacturedYear = parseInt(document.getElementById('manufacturedYear').value, 10);
+        const photoInput = document.getElementById('photo');
+        const photoFile = photoInput.files[0];
+        const price = parseFloat(document.getElementById('price').value);
+
+        // Basic validation
+        if (!carPlateNumber || !carBrand || !carModel || isNaN(millage) || isNaN(manufacturedYear) || isNaN(price)) {
+            alert('Please fill in all required fields correctly.');
+            return;
+        }
+
+
+        // Create a JavaScript object representing the CarListings data
+        const carListingData = {
+            carPlateNumber: carPlateNumber,
+            carBrand: carBrand,
+            carModel: carModel,
+            millage: millage,
+            manufacturedYear: manufacturedYear,
+            price: price
+            // Note: 'listingStatus' and 'listedBy' are set server-side
+        };
+
+        // Append the 'carListing' part as a JSON string
+        formData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
+
+        // Append the 'photo' part if a file is selected
+        if (photoFile) {
+            formData.append('photo', photoFile);
+        }
+
+        // Send the POST request to the server
+        fetch('/InfinityNetwork/agent/createListing', { // Ensure this matches your controller mapping
+            method: 'POST',
+            body: formData
+            // Note: Do NOT set the 'Content-Type' header manually when using FormData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errText => {
+                        throw new Error(errText || 'Unknown error occurred');
+                    });
+                }
+                return response.text(); // Adjust based on your controller's response
+            })
+            .then(data => {
+                console.log('Success:', data);
+                // Close the modal and reset the form
+                createModal.style.display = "none";
+                createListingForm.reset();
+                // Optionally, display a success message
+                alert('Listing created successfully!');
+                // Refresh the page to update the listing table
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to create listing: ' + error.message);
+            });
+    });
+}
+
+// Search related functions
+const searchListingBtn = document.getElementById('searchListingBtn');
+const searchFormContainer = document.getElementById('searchFormContainer');
+
+if (searchListingBtn && searchFormContainer) {
+    searchListingBtn.onclick = function () {
+        // Toggle display of the search form container
+        if (searchFormContainer.style.display === 'none' || searchFormContainer.style.display === '') {
+            searchFormContainer.style.display = 'flex';
+        } else {
+            searchFormContainer.style.display = 'none';
+        }
+    };
+}
+
+// Handle search form submission
+const performSearchBtn = document.getElementById('performSearchBtn');
+if (performSearchBtn) {
+    performSearchBtn.onclick = function (event) {
+        event.preventDefault(); // Prevent default behavior
+
+        const searchType = document.getElementById('searchType').value;
+        const searchValue = document.getElementById('searchValue').value.trim();
+
+        if (searchValue === '') {
+            alert('Please enter a search value.');
+            return;
+        }
+
+        // Perform AJAX request to search listings, this is a GET request
+        fetch(`/InfinityNetwork/agent/searchListing?type=${encodeURIComponent(searchType)}&value=${encodeURIComponent(searchValue)}`) // Updated endpoint
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Search request failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update the listing table with the search results
+                updateListingTable(data.listings);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to search listings.');
+            });
+    };
+}
+
+// Handle entries per page change
+const entriesSelect = document.getElementById('entries');
+if (entriesSelect) {
+    entriesSelect.onchange = function () {
+        const selectedSize = parseInt(entriesSelect.value, 10);
+        // Redirect to the first page with the new size
+        window.location.href = `/InfinityNetwork/admin/dashboard?size=${selectedSize}&page=0`;
+    };
+}
+
+// Handle Edit button clicks
+document.addEventListener('click', function (event) {
+    if (event.target && event.target.classList.contains('edit-button')) {
+        const listingId = event.target.getAttribute('data-listing-id');
+        openEditModal(listingId);
+    }
+});
+
+function openEditModal(listingId) {
+    // Fetch listing data from the server
+    fetch(`/InfinityNetwork/agent/getListingById?id=${listingId}`) // Updated endpoint
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch listing data');
+            }
+            return response.json();
+        })
+        .then(listing => {
+            // Populate the form fields
+            document.getElementById('editListingId').value = listing.listingID;
+            document.getElementById('editCarPlateNumber').value = listing.carPlateNumber;
+            document.getElementById('editCarBrand').value = listing.carBrand;
+            document.getElementById('editCarModel').value = listing.carModel;
+            document.getElementById('editMillage').value = listing.millage;
+            document.getElementById('editManufacturedYear').value = listing.manufacturedYear;
+            document.getElementById('editListingStatus').value = listing.listingStatus;
+            document.getElementById('editListedBy').value = listing.listedBy;
+
+            // Display current photo if exists
+            if (listing.photo) {
+                const currentPhoto = document.getElementById('currentPhoto');
+                currentPhoto.src = listing.photo;
+                currentPhoto.style.display = 'block';
+            } else {
+                const currentPhoto = document.getElementById('currentPhoto');
+                currentPhoto.style.display = 'none';
+            }
+
+            // Open the modal
+            const editModal = document.getElementById('editListingModal');
+            editModal.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error fetching listing data:', error);
+            alert('Failed to load listing data.');
+        });
+}
+
+// Close the Edit Listing modal
+const editModalClose = document.getElementById('editModalClose');
+if (editModalClose) {
+    editModalClose.onclick = function () {
+        const editModal = document.getElementById('editListingModal');
+        editModal.style.display = 'none';
+    };
+}
+
+// Handle Edit Listing form submission
+const editListingForm = document.getElementById('editListingForm');
+if (editListingForm) {
+    editListingForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        // Confirmation prompt
+        if (!confirm('Are you sure you want to submit these changes?')) {
+            return;
+        }
+
+        // Create a new FormData object
+        const formData = new FormData();
+
+        // Gather form field values
+        const listingID = document.getElementById('editListingId').value;
+        const carPlateNumber = document.getElementById('editCarPlateNumber').value.trim();
+        const carBrand = document.getElementById('editCarBrand').value.trim();
+        const carModel = document.getElementById('editCarModel').value.trim();
+        const millage = parseInt(document.getElementById('editMillage').value, 10);
+        const manufacturedYear = parseInt(document.getElementById('editManufacturedYear').value, 10);
+        const listingStatus = document.getElementById('editListingStatus').value;
+        const price = parseFloat(document.getElementById('editPrice').value);
+        const photoFile = document.getElementById('editPhoto').files[0];
+
+        // Basic validation
+        if (!carPlateNumber || !carBrand || !carModel || isNaN(millage) || isNaN(manufacturedYear) || isNaN(price) || !listingStatus) {
+            alert('Please fill in all required fields correctly.');
+            return;
+        }
+
+        // Create a JavaScript object representing the CarListings data
+        const carListingData = {
+            listingID: listingID,
+            carPlateNumber: carPlateNumber,
+            carBrand: carBrand,
+            carModel: carModel,
+            millage: millage,
+            manufacturedYear: manufacturedYear,
+            listingStatus: listingStatus,
+            price: price
+            // Note: 'listedBy' is set server-side
+        };
+
+        // Append the 'carListing' part as a JSON string using a Blob with 'application/json' MIME type
+        formData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
+
+        // Append the 'photo' part if a file is selected
+        if (photoFile) {
+            formData.append('photo', photoFile);
+        }
+
+        // Send the PUT request to the server
+        fetch('/InfinityNetwork/agent/updateListing', { // Ensure this matches your controller mapping
+            method: 'PUT',
+            body: formData
+            // Note: Do NOT set the 'Content-Type' header manually when using FormData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errText => {
+                        throw new Error(errText || 'Unknown error occurred');
+                    });
+                }
+                return response.text(); // Adjust based on your controller's response
+            })
+            .then(data => {
+                console.log('Success:', data);
+                // Close the modal and reset the form
+                const editModal = document.getElementById('editListingModal');
+                editModal.style.display = 'none';
+                editListingForm.reset();
+                editPhotoPreview.src = '#';
+                editPhotoPreview.style.display = 'none';
+                // Optionally, display a success message
+                alert('Listing updated successfully!');
+                // Refresh the page to update the listing table
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to update listing: ' + error.message);
+            });
+    });
+}
+
+// Handle Delete button clicks
+document.addEventListener('click', function (event) {
+    if (event.target && event.target.classList.contains('delete-button')) {
+        const listingId = event.target.getAttribute('data-listing-id');
+
+        // Confirmation prompt
+        if (!confirm('Are you sure you want to delete this listing?')) {
+            return;
+        }
+
+        // Send DELETE request to server
+        fetch(`/InfinityNetwork/agent/deleteListing?id=${listingId}`, { // Updated endpoint
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errText => {
+                        throw new Error(errText || 'Unknown error occurred');
+                    });
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                // Optionally, display a success message
+                alert('Listing deleted successfully!');
+                // Refresh the page to update the listing table
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to delete listing: ' + error.message);
+            });
+    }
+});
+</script>
+
+</body>
+</html>

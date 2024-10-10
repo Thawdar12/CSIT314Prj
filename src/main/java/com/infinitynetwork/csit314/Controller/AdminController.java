@@ -37,7 +37,7 @@ public class AdminController {
                                  @RequestParam(defaultValue = "5") int size,
                                  Model model, Authentication auth, HttpSession session) {
         // Get the username from the authentication object
-        String username = auth.getName(); // Assuming you have the user's username from security context
+        String username = auth.getName();
 
         // Get the current date and time
         LocalDateTime now = LocalDateTime.now();
@@ -66,7 +66,7 @@ public class AdminController {
         model.addAttribute("currentPage", page);
         model.addAttribute("size", size);
         model.addAttribute("totalPages", totalPages);
-        
+
         return "InfinityNetwork/admin/dashboard"; // This resolves to 'templates/InfinityNetwork/admin/dashboard.html'
     }
 

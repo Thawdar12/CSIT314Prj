@@ -9,7 +9,7 @@ public enum UserType {
     SELLER;
 
     @JsonCreator
-    public static UserType fromString(String key) {
-        return key == null ? null : UserType.valueOf(key.toUpperCase());
+    public static UserType fromString(String string) {
+        return string == null ? null : UserType.valueOf(string.toUpperCase());
     }
 }
