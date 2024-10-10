@@ -1,3 +1,4 @@
+//DTO for update listing info
 package com.infinitynetwork.csit314.CarListings;
 
 import org.springframework.web.multipart.MultipartFile;

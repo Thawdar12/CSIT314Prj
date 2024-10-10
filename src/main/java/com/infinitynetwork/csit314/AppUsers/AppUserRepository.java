@@ -1,3 +1,4 @@
+//User table related SQL function
 package com.infinitynetwork.csit314.AppUsers;
 
 import org.springframework.data.domain.Page;

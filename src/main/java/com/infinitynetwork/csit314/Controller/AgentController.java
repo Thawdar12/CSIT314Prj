@@ -45,28 +45,28 @@ public class AgentController {
                                  @RequestParam(defaultValue = "5") int size,
                                  Model model, Authentication auth, HttpSession session) {
         String username = auth.getName();
-        // Get the current date and time
+        //Get the current date and time
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String currentDateTime = now.format(formatter);
 
-        // Store information in the session
+        //Store information in the session
         session.setAttribute("username", username);
         session.setAttribute("currentDateTime", currentDateTime);
-        // Fetch user data
+        //Fetch user data
         Page<CarListings> carListingsPage = carListingService.findAllListings(page, size);
 
-        // Get the total number of pages
+        //Get the total number of pages
         int totalPages = carListingsPage.getTotalPages();
 
-        // Adjust the page index if necessary
+        //Adjust the page index if necessary
         if (totalPages > 0 && page >= totalPages) {
             page = totalPages - 1;
             // Re-fetch the user data for the adjusted page
             carListingsPage = carListingService.findAllListings(page, size);
         }
 
-        // Add attributes to the model
+        //Add attributes to the model
         model.addAttribute("listingPage", carListingsPage);
         model.addAttribute("currentPage", page);
         model.addAttribute("size", size);
@@ -75,6 +75,7 @@ public class AgentController {
         return "InfinityNetwork/agent/dashboard"; // This resolves to 'templates/InfinityNetwork/admin/dashboard.html'
     }
 
+    //Endpoint for create listing
     @PostMapping(value = "/createListing", consumes = {"multipart/form-data"}, produces = "application/json")
     public ResponseEntity<String> createListing(
             @RequestPart("carListing") CarListings carListing,

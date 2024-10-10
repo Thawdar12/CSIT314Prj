@@ -1,3 +1,5 @@
+//User Class Entity
+
 package com.infinitynetwork.csit314.AppUsers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -54,9 +56,11 @@ public class AppUser implements UserDetails {
     private List<CarListings> carListings;
 
     //Constructors
+    //Minimum Constructor
     public AppUser() {
-    } //Minimum Constructor
+    }
 
+    //Normal Constructor
     public AppUser(String username, String email, String password, String phoneNumber, UserType userType) {
         this.username = username;
         this.email = email;
@@ -69,13 +73,13 @@ public class AppUser implements UserDetails {
         this.updated_at = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
+    //Set Role
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (userType != null) {
             String roleName = "ROLE_" + userType.name();
             return List.of(new SimpleGrantedAuthority(roleName));
         } else {
-            // Handle the case where userType is null, but it shouldn't be null in creating case, there is always a value
             return List.of();
         }
     }

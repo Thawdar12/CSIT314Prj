@@ -1,3 +1,5 @@
+//User Class Entity
+
 package com.infinitynetwork.csit314.CarListings;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

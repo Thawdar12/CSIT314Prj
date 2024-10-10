@@ -31,29 +31,30 @@ public class AdminController {
         this.appUserRepository = appUserRepository;
     }
 
+    // This resolves to 'templates/InfinityNetwork/admin/dashboard.html'
     @GetMapping("/dashboard")
     public String adminDashboard(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "5") int size,
                                  Model model, Authentication auth, HttpSession session) {
-        // Get the username from the authentication object
+        //Get the username from the authentication object
         String username = auth.getName();
 
-        // Get the current date and time
+        //Get the current date and time
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String currentDateTime = now.format(formatter);
 
-        // Store information in the session
+        //Store information in the session
         session.setAttribute("username", username);
         session.setAttribute("currentDateTime", currentDateTime);
 
-        // Fetch user data
+        //Fetch user data
         Page<AppUser> userPage = appUserService.findAllUsers(page, size);
 
-        // Get the total number of pages
+        //Get the total number of pages
         int totalPages = userPage.getTotalPages();
 
-        // Adjust the page index if necessary
+        //Adjust the page index if necessary
         if (totalPages > 0 && page >= totalPages) {
             page = totalPages - 1;
             // Re-fetch the user data for the adjusted page
@@ -66,15 +67,17 @@ public class AdminController {
         model.addAttribute("size", size);
         model.addAttribute("totalPages", totalPages);
 
-        return "InfinityNetwork/admin/dashboard"; // This resolves to 'templates/InfinityNetwork/admin/dashboard.html'
+        return "InfinityNetwork/admin/dashboard";
     }
 
+    //Endpoint for createUser
     @PostMapping(value = "/createUser", consumes = "application/json")
     public ResponseEntity<String> createUser(@RequestBody AppUser user) throws Exception {
         appUserService.registerUser(user);
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
     }
 
+    //Endpoint for search user
     @GetMapping("/searchUser")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> searchUser(@RequestParam String type, @RequestParam String value) {
@@ -115,6 +118,8 @@ public class AdminController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    //Get user via userID, this is different from search as generally it should show userID,
+    //to prevent anyone try to change the userID.
     @GetMapping("/getUserById")
     public ResponseEntity<?> getUserById(@RequestParam Long id) {
         Optional<AppUser> optionalUser = appUserRepository.findById(id);
@@ -136,6 +141,7 @@ public class AdminController {
         return new ResponseEntity<>(userMap, HttpStatus.OK);
     }
 
+    //End point for updateUser
     @PutMapping("/updateUser")
     public ResponseEntity<?> updateUser(@RequestBody UpdateUserDTO userDTO) {
         try {
@@ -147,6 +153,7 @@ public class AdminController {
         }
     }
 
+    //Endpoint for delete user
     @DeleteMapping("/deleteUser")
     public ResponseEntity<?> deleteUser(@RequestParam Long id) {
         try {

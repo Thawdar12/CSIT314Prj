@@ -28,7 +28,6 @@ public class SecurityConfig {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // 1. Define the AuthenticationProvider using DaoAuthenticationProvider
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -37,13 +36,11 @@ public class SecurityConfig {
         return provider;
     }
 
-    // 2. Define the AuthenticationManager Bean
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
-    // 3. Define the Custom Authentication Success Handler
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler();
@@ -54,7 +51,6 @@ public class SecurityConfig {
         return new CustomAuthenticationFailureHandler();
     }
 
-    // 4. Configure the Security Filter Chain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -81,7 +77,7 @@ public class SecurityConfig {
                         .permitAll()
                 )
 
-                // Define URL authorization rules
+                // URL authorization rules
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/assets/**", "/css/**", "/js/**", "/images/**").permitAll() // Public resources
                         .requestMatchers("/", "/InfinityNetwork/Home", "/debug/**", "/error").permitAll() // Public pages

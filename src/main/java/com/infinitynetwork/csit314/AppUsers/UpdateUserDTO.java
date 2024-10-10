@@ -1,3 +1,4 @@
+//DTO for update user info
 package com.infinitynetwork.csit314.AppUsers;
 
 public class UpdateUserDTO {
