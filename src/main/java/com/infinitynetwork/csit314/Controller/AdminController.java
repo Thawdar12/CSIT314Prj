@@ -22,7 +22,6 @@ import java.util.*;
 public class AdminController {
     private final AppUserService appUserService;
     private final AppUserRepository appUserRepository;
-    // Get the current date and time
     LocalDateTime now = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     String currentDateTime = now.format(formatter);

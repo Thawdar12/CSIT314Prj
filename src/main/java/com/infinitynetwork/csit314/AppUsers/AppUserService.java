@@ -25,7 +25,6 @@ public class AppUserService implements UserDetailsService {
 
     @Transactional
     public void registerUser(AppUser appUser) {
-        //Encode the user's password
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         appUserRepository.save(appUser);
     }
@@ -54,12 +53,10 @@ public class AppUserService implements UserDetailsService {
 
         AppUser existingUser = optionalUser.get();
 
-        // Update fields
         existingUser.setUsername(userDTO.getUsername());
         existingUser.setEmail(userDTO.getEmail());
         existingUser.setLocked(userDTO.getLocked());
 
-        // Adjust 'enabled' field based on 'locked' field
         if (userDTO.getLocked() != null) {
             existingUser.setEnabled(!userDTO.getLocked()); // If locked is true, set enabled to false, and vice versa
         }

@@ -50,7 +50,7 @@ public class AppUser implements UserDetails {
 
     // Bidirectional relationship
     @OneToMany(mappedBy = "listedBy", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore // Prevents infinite recursion during JSON serialization
+    @JsonIgnore
     private List<CarListings> carListings;
 
     //Constructors
@@ -80,7 +80,6 @@ public class AppUser implements UserDetails {
         }
     }
 
-    //Override the isEnabled method to return the enabled status
     @Override
     public boolean isEnabled() {
         return this.enabled;
