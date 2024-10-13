@@ -44,6 +44,9 @@ public class AppUser implements UserDetails {
     @Column(nullable = false, unique = true, length = 20)
     private String phoneNumber;
 
+    @Column(nullable = false)
+    private double averageRating;
+
     @Column(nullable = false, columnDefinition = "DATETIME(3)")
     private LocalDateTime created_at;
 
@@ -71,6 +74,7 @@ public class AppUser implements UserDetails {
         this.userType = userType;
         this.created_at = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
         this.updated_at = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        this.averageRating = 0.0;
     }
 
     //Set Role
@@ -174,6 +178,14 @@ public class AppUser implements UserDetails {
 
     public void setCarListings(List<CarListings> carListings) {
         this.carListings = carListings;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
     @PrePersist

@@ -5,79 +5,19 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Agent Dashboard</title>
     <style>
-        /* Main Styles */
+        /* =======================
+           Global Styles
+        ======================= */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
 
-        /* Top Bar Styles */
-        .top-bar {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            box-sizing: border-box;
-        }
-
-        .top-bar .user-info {
-            font-size: 16px;
-            margin-right: 20px; /* Space between user info and logout button */
-        }
-
-        .top-bar a {
+        a {
             color: white;
             text-decoration: none;
             font-size: 16px;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            padding-top: 60px; /* To avoid overlap with the top bar */
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        /* Fragment Styles */
-        h2 {
-            margin-bottom: 20px;
-            color: #007bff;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-        }
-
-        .action-buttons {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-
-        .action-buttons button {
-            margin-right: 10px;
         }
 
         button {
@@ -88,32 +28,220 @@
             border-radius: 5px;
             cursor: pointer;
             margin-right: 10px;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
             background-color: #0056b3;
         }
 
-        .entries-per-page {
+        /* =======================
+           Top Bar Styles
+        ======================= */
+        .top-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .user-info {
+            font-size: 16px;
+            margin-right: 20px;
+        }
+
+        .user-info-button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .user-info-button:hover {
+            background-color: #45a049;
+        }
+
+        /* =======================
+           Main Content Styles
+        ======================= */
+        .main-content {
+            padding: 80px 20px 20px 20px; /* Top padding adjusted for fixed top bar */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        /* =======================
+           Action Buttons Styles
+        ======================= */
+        .action-buttons {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
         }
 
-        .no-users-message {
-            text-align: center;
-            color: #888;
+        .search-form-container {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-left: 10px;
         }
 
-        /* Modal styles */
+        .search-form-container select,
+        .search-form-container input,
+        .search-form-container button {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-form-container button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* =======================
+           Table Styles
+        ======================= */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            min-width: 800px;
+        }
+
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        .styled-table img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .edit-button,
+        .delete-button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 13px;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-button {
+            background-color: #4CAF50; /* Green */
+        }
+
+        .edit-button:hover {
+            background-color: #45a049;
+        }
+
+        .delete-button {
+            background-color: #f44336; /* Red */
+        }
+
+        .delete-button:hover {
+            background-color: #da190b;
+        }
+
+        /* =======================
+           Pagination Styles
+        ======================= */
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .pagination a.active {
+            background-color: #0056b3;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3;
+        }
+
+        /* =======================
+           Modal Styles
+        ======================= */
         .modal {
             display: none;
             position: fixed;
-            z-index: 2000; /* Ensure modal appears above top bar */
+            z-index: 2000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            background-color: rgba(0, 0, 0, 0.6);
             padding-top: 60px;
             align-items: center;
             justify-content: center;
@@ -124,12 +252,13 @@
             margin: auto;
             padding: 20px;
             border-radius: 10px;
-            width: 400px; /* Smaller and more compact */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Modern shadow */
+            width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             position: relative;
         }
 
-        .modal-content h2 {
+        .modal-content h2,
+        .modal-content h3 {
             text-align: center;
             color: #333;
         }
@@ -158,7 +287,9 @@
             color: #333;
         }
 
-        form input, form select {
+        form input,
+        form select,
+        form button {
             padding: 10px;
             font-size: 14px;
             border: 1px solid #ccc;
@@ -168,11 +299,8 @@
         }
 
         form button {
-            padding: 12px;
             background-color: #007bff;
-            border: none;
             color: white;
-            border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
         }
@@ -181,144 +309,23 @@
             background-color: #0056b3;
         }
 
-        /* Search form container */
-        .search-form-container {
-            display: none; /* Hidden by default */
-            margin-left: 10px;
-            align-items: center;
+        /* =======================
+           Additional Styles
+        ======================= */
+        .entries-per-page {
+            margin-bottom: 20px;
         }
 
-        .search-form-container select,
-        .search-form-container input {
-            padding: 8px;
-            font-size: 14px;
-            margin-right: 5px;
+        .no-listings-message,
+        .no-users-message,
+        .no-listings-message {
+            text-align: center;
+            color: #888;
+            padding: 20px;
+            font-style: italic;
         }
 
-        .search-form-container button {
-            padding: 8px 12px;
-            font-size: 14px;
-            background-color: #007bff;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .search-form-container button:hover {
-            background-color: #0056b3;
-        }
-
-        .pagination {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .pagination a {
-            margin: 0 5px;
-            padding: 8px 12px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .pagination a.active {
-            background-color: #0056b3;
-            pointer-events: none; /* Disable clicking on the active page */
-            cursor: default;
-        }
-
-        .pagination a:hover {
-            background-color: #0056b3;
-        }
-
-        /* 1. Table Container for Responsive Design */
-        .table-container {
-            width: 100%;
-            overflow-x: auto; /* Enables horizontal scrolling on small screens */
-            margin: 20px 0;
-        }
-
-        /* 2. Base Styling for the Table */
-        .styled-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 14px;
-            min-width: 800px; /* Ensures table doesn't become too narrow */
-        }
-
-        /* 3. Table Header Styling */
-        .styled-table thead tr {
-            background-color: #009879;
-            color: #ffffff;
-            text-align: left;
-            font-weight: bold;
-        }
-
-        /* 4. Table Header Cells */
-        .styled-table th,
-        .styled-table td {
-            padding: 12px 15px;
-            vertical-align: middle; /* Centers content vertically */
-        }
-
-        /* 5. Table Body Styling */
-        .styled-table tbody tr {
-            border-bottom: 1px solid #dddddd;
-        }
-
-        /* 6. Zebra Striping for Rows */
-        .styled-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
-        }
-
-        /* 7. Hover Effect for Rows */
-        .styled-table tbody tr:hover {
-            background-color: #f1f1f1;
-            cursor: pointer; /* Changes cursor to pointer on hover */
-        }
-
-        /* 8. Table Image Styling */
-        .styled-table img {
-            max-width: 100px;
-            height: auto;
-            border-radius: 5px;
-        }
-
-        /* 9. Action Buttons Styling */
-        .styled-table .edit-button,
-        .styled-table .delete-button {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            color: #ffffff;
-            cursor: pointer;
-            font-size: 13px;
-            margin-right: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .styled-table .edit-button {
-            background-color: #4CAF50; /* Green */
-        }
-
-        .styled-table .edit-button:hover {
-            background-color: #45a049;
-        }
-
-        .styled-table .delete-button {
-            background-color: #f44336; /* Red */
-        }
-
-        .styled-table .delete-button:hover {
-            background-color: #da190b;
-        }
-
-        /* 10. Responsive Font Sizes */
+        /* Responsive Styles */
         @media screen and (max-width: 768px) {
             .styled-table {
                 font-size: 12px;
@@ -328,37 +335,65 @@
             .styled-table td {
                 padding: 8px 10px;
             }
+
+            .modal-content {
+                width: 90%;
+            }
         }
 
-        /* 11. No Listings Message Styling */
-        .no-listings-message {
-            text-align: center;
-            padding: 20px;
-            font-style: italic;
-            color: #888888;
+        /* =======================
+           Reviews Section Styles
+        ======================= */
+        .reviews-section {
+            margin-top: 40px;
+        }
+
+        .reviews-section h3 {
+            margin-bottom: 10px;
+        }
+
+        .reviews-section table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .reviews-section th,
+        .reviews-section td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .reviews-section th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 
 <body>
-<!-- Top Bar -->
+<!-- =======================
+     Top Bar
+======================= -->
 <div class="top-bar">
     <div class="user-info"
          th:text="'Welcome, ' + ${session.username} + ' | Logged in at: ' + ${session.currentDateTime}"></div>
-    <a href="#" style="color: white;" th:href="@{/logout}">Log Out</a>
+    <button class="user-info-button" id="userInfoButton" th:attr="data-user-id=${session.userID}">My Account</button>
+    <a href="#" th:href="@{/logout}">Log Out</a>
 </div>
 
-<!-- Main Content -->
+<!-- =======================
+     Main Content
+======================= -->
 <div class="main-content">
-    <h2 style="text-align: center">Car Listings Dashboard</h2>
+    <h2>Car Listings Dashboard</h2>
 
+    <!-- Action Buttons -->
     <div class="action-buttons">
         <button id="createListingBtn">Create Listing</button>
         <button id="searchListingBtn">Search Listing</button>
 
         <!-- Search Form (Hidden by default) -->
-        <div class="search-form-container" id="searchFormContainer"
-             style="display: none; flex-direction: column; gap: 10px;">
+        <div class="search-form-container" id="searchFormContainer">
             <select id="searchType" name="searchType">
                 <option value="carPlateNumber">Car Plate Number</option>
                 <option value="carBrand">Car Brand</option>
@@ -370,81 +405,108 @@
         </div>
     </div>
 
-    <!-- Entries per page -->
-    <label for="entries">Show:</label>
-    <select id="entries" name="entries">
-        <option th:selected="${size == 5}" value="5">5</option>
-        <option th:selected="${size == 10}" value="10">10</option>
-        <option th:selected="${size == 20}" value="20">20</option>
-    </select>
-
-    <table class="styled-table">
-        <thead>
-        <tr>
-            <th>Listing ID</th>
-            <th>Car Plate Number</th>
-            <th>Car Brand</th>
-            <th>Car Model</th>
-            <th>Listing Status</th>
-            <th>Listed By</th>
-            <th>Millage</th>
-            <th>Manufactured Year</th>
-            <th>Price</th>
-            <th>Photo</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="listing : ${listingPage.content}">
-            <td th:text="${listing.listingID}"></td>
-            <td th:text="${listing.carPlateNumber}"></td>
-            <td th:text="${listing.carBrand}"></td>
-            <td th:text="${listing.carModel}"></td>
-            <td th:text="${listing.listingStatus != null} ? ${listing.listingStatus.name()} : 'Unknown'"></td>
-            <td th:text="${listing.listedBy.username}"></td>
-            <td th:text="${listing.millage}"></td>
-            <td th:text="${listing.manufacturedYear}"></td>
-            <td th:text="${listing.price}"></td>
-            <td>
-                <img alt="Car Photo" style="width: 100px; height: auto;" th:if="${listing.photo != null}"
-                     th:src="@{${listing.photo}}">
-                <span th:if="${listing.photo == null}">No Photo</span>
-            </td>
-            <td th:text="${#temporals.format(listing.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td th:text="${#temporals.format(listing.updated_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
-            <td>
-                <button class="edit-button" th:data-listing-id="${listing.listingID}">Edit</button>
-                <button class="delete-button" th:data-listing-id="${listing.listingID}">Delete</button>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(listingPage.content)}">
-            <td class="no-listings-message" colspan="13">No listings found.</td>
-            <!-- Updated colspan to match new table structure -->
-        </tr>
-        </tbody>
-    </table>
-
-    <div class="pagination" th:if="${totalPages > 1}">
-        <!-- Previous Page Link -->
-        <span th:if="${currentPage > 0}">
-            <a href="#"
-               th:href="@{'/InfinityNetwork/agent/dashboard'(page=${currentPage - 1}, size=${size})}">Previous</a>
-        </span>
-        <!-- Page Number Links -->
-        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-            <a href="#" th:classappend="${i == currentPage} ? ' active' : ''"
-               th:href="@{'/InfinityNetwork/agent/dashboard'(page=${i}, size=${size})}"
-               th:text="${i + 1}"></a>
-        </span>
-        <!-- Next Page Link -->
-        <span th:if="${currentPage < totalPages - 1}">
-            <a href="#" th:href="@{'/InfinityNetwork/agent/dashboard'(page=${currentPage + 1}, size=${size})}">Next</a>
-        </span>
+    <!-- Entries Per Page Selector -->
+    <div class="entries-per-page">
+        <label for="entries">Show:</label>
+        <select id="entries" name="entries">
+            <option th:selected="${size == 5}" value="5">5</option>
+            <option th:selected="${size == 10}" value="10">10</option>
+            <option th:selected="${size == 20}" value="20">20</option>
+        </select>
     </div>
 
-    <!-- Modal for Create Listing -->
+    <!-- Car Listings Table -->
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>Listing ID</th>
+                <th>Car Plate Number</th>
+                <th>Car Brand</th>
+                <th>Car Model</th>
+                <th>Listing Status</th>
+                <th>Listed By</th>
+                <th>Millage</th>
+                <th>Manufactured Year</th>
+                <th>Price</th>
+                <th>Photo</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="listing : ${listingPage.content}">
+                <td th:text="${listing.listingID}"></td>
+                <td th:text="${listing.carPlateNumber}"></td>
+                <td th:text="${listing.carBrand}"></td>
+                <td th:text="${listing.carModel}"></td>
+                <td th:text="${listing.listingStatus != null} ? ${listing.listingStatus.name()} : 'Unknown'"></td>
+                <td th:text="${listing.listedBy.username}"></td>
+                <td th:text="${listing.millage}"></td>
+                <td th:text="${listing.manufacturedYear}"></td>
+                <td th:text="${listing.price}"></td>
+                <td>
+                    <img alt="Car Photo" th:if="${listing.photo != null}" th:src="@{${listing.photo}}">
+                    <span th:if="${listing.photo == null}">No Photo</span>
+                </td>
+                <td th:text="${#temporals.format(listing.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#temporals.format(listing.updated_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td>
+                    <button class="edit-button" th:data-listing-id="${listing.listingID}">Edit</button>
+                    <button class="delete-button" th:data-listing-id="${listing.listingID}">Delete</button>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listingPage.content)}">
+                <td class="no-listings-message" colspan="13">No listings found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination" th:if="${totalPages > 1}">
+        <!-- Previous Page -->
+        <span th:if="${currentPage > 0}">
+                <a th:href="@{'/InfinityNetwork/agent/dashboard'(page=${currentPage - 1}, size=${size})}">Previous</a>
+            </span>
+        <!-- Page Numbers -->
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:classappend="${i == currentPage} ? ' active' : ''"
+                   th:href="@{'/InfinityNetwork/agent/dashboard'(page=${i}, size=${size})}"
+                   th:text="${i + 1}"></a>
+            </span>
+        <!-- Next Page -->
+        <span th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{'/InfinityNetwork/agent/dashboard'(page=${currentPage + 1}, size=${size})}">Next</a>
+            </span>
+    </div>
+
+    <!-- =======================
+         Reviews Section
+    ======================= -->
+    <div class="reviews-section">
+        <h3>Your Reviews</h3>
+        <p>Average Rating: <span id="averageRating">0</span>/5.0</p>
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>Reviewer</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Reviewed At</th>
+            </tr>
+            </thead>
+            <tbody id="reviewsTableBody">
+            <!-- Reviews will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- =======================
+         Modals
+    ======================= -->
+    <!-- Create Listing Modal -->
     <div class="modal" id="createListingModal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -465,8 +527,7 @@
 
                 <label for="manufacturedYear">Manufactured Year:</label>
                 <input id="manufacturedYear" max="2100" min="1900" name="manufacturedYear"
-                       placeholder="Enter manufactured year" required
-                       type="number">
+                       placeholder="Enter manufactured year" required type="number">
 
                 <label for="price">Price:</label>
                 <input id="price" min="0" name="price" placeholder="Enter price" required step="0.01" type="number">
@@ -481,7 +542,7 @@
         </div>
     </div>
 
-    <!-- Modal for Edit Listing -->
+    <!-- Edit Listing Modal -->
     <div class="modal" id="editListingModal">
         <div class="modal-content">
             <span class="close" id="editModalClose">&times;</span>
@@ -505,8 +566,7 @@
 
                 <label for="editManufacturedYear">Manufactured Year:</label>
                 <input id="editManufacturedYear" max="2100" min="1900" name="manufacturedYear"
-                       placeholder="Enter manufactured year" required
-                       type="number">
+                       placeholder="Enter manufactured year" required type="number">
 
                 <label for="editListingStatus">Listing Status:</label>
                 <select id="editListingStatus" name="listingStatus" required>
@@ -526,315 +586,316 @@
 
                 <label for="editListedBy">Listed By:</label>
                 <input id="editListedBy" name="listedBy" readonly type="text">
-                <!-- Assuming 'listedBy' is not editable -->
 
                 <button type="submit">Save Changes</button>
             </form>
         </div>
     </div>
+
+    <!-- User Information Modal -->
+    <div class="modal" id="userInfoModal">
+        <div class="modal-content">
+            <span class="close" id="userInfoModalClose">&times;</span>
+            <h2>User Information</h2>
+
+            <div id="userInfoDisplay">
+                <p><strong>Username:</strong> <span id="displayUsername"></span></p>
+                <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+                <p><strong>Phone Number:</strong> <span id="displayPhoneNumber"></span></p>
+
+                <button class="modal-button" id="changePasswordButton">Change Password</button>
+                <button class="modal-button" id="editInfoButton">Edit Info</button>
+            </div>
+
+            <!-- Change Password Form -->
+            <div id="changePasswordForm" style="display: none;">
+                <h3>Change Password</h3>
+                <form id="passwordForm">
+                    <label for="currentPassword">Current Password:</label>
+                    <input id="currentPassword" name="currentPassword" required type="password">
+
+                    <label for="newPassword">New Password:</label>
+                    <input id="newPassword" name="newPassword" required type="password">
+
+                    <label for="confirmPassword">Confirm New Password:</label>
+                    <input id="confirmPassword" name="confirmPassword" required type="password">
+
+                    <button type="submit">Update Password</button>
+                </form>
+            </div>
+
+            <!-- Edit Info Form -->
+            <div id="editInfoForm" style="display: none;">
+                <h3>Edit Information</h3>
+                <form id="infoForm">
+                    <label for="editUsername">Username:</label>
+                    <input id="editUsername" name="username" required type="text">
+
+                    <label for="editEmail">Email:</label>
+                    <input id="editEmail" name="email" required type="email">
+
+                    <label for="editPhoneNumber">Phone Number:</label>
+                    <input id="editPhoneNumber" name="phoneNumber" required type="tel">
+
+                    <button type="submit">Update Info</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- JavaScript -->
-<script>// JavaScript
+<!-- =======================
+     JavaScript
+======================= -->
+<script>
+    // =======================
+    // Initialization
+    // =======================
+    document.addEventListener('DOMContentLoaded', function () {
+        handleModals();
+        initListingOperations();
+        initUserInfoManagement();
+        initReviewsSection();
+    });
 
-// Function to update the listing table with new data
-function updateListingTable(listings) {
-    const tbody = document.querySelector('table tbody');
-    if (!tbody) return;
+    // =======================
+    // Helper Functions
+    // =======================
 
-    // Clear existing rows
-    tbody.innerHTML = '';
+    /**
+     * Updates the car listings table with provided data.
+     * @param {Array} listings - Array of listing objects.
+     */
+    function updateListingTable(listings) {
+        const tbody = document.querySelector('.styled-table tbody');
+        if (!tbody) return;
 
-    if (listings.length === 0) {
-        const noListingsRow = document.createElement('tr');
-        const noListingsCell = document.createElement('td');
-        noListingsCell.setAttribute('colspan', '13'); // Updated colspan to match new table structure
-        noListingsCell.classList.add('no-listings-message');
-        noListingsCell.textContent = 'No listings found.';
-        noListingsRow.appendChild(noListingsCell);
-        tbody.appendChild(noListingsRow);
-    } else {
+        // Clear existing rows
+        tbody.innerHTML = '';
+
+        if (listings.length === 0) {
+            const noListingsRow = document.createElement('tr');
+            const noListingsCell = document.createElement('td');
+            noListingsCell.className = 'no-listings-message';
+            noListingsCell.colSpan = 13;
+            noListingsCell.textContent = 'No listings found.';
+            noListingsRow.appendChild(noListingsCell);
+            tbody.appendChild(noListingsRow);
+            return;
+        }
+
         listings.forEach(listing => {
             const row = document.createElement('tr');
 
-            // Listing ID
-            const listingIDCell = document.createElement('td');
-            listingIDCell.textContent = listing.listingID;
-            row.appendChild(listingIDCell);
-
-            // Car Plate Number
-            const carPlateNumberCell = document.createElement('td');
-            carPlateNumberCell.textContent = listing.carPlateNumber;
-            row.appendChild(carPlateNumberCell);
-
-            // Car Brand
-            const carBrandCell = document.createElement('td');
-            carBrandCell.textContent = listing.carBrand;
-            row.appendChild(carBrandCell);
-
-            // Car Model
-            const carModelCell = document.createElement('td');
-            carModelCell.textContent = listing.carModel;
-            row.appendChild(carModelCell);
-
-            // Listing Status
-            const listingStatusCell = document.createElement('td');
-            listingStatusCell.textContent = listing.listingStatus || 'Unknown';
-            row.appendChild(listingStatusCell);
-
-            // Listed By
-            const listedByCell = document.createElement('td');
-            listedByCell.textContent = listing.listedBy.username; // Assuming 'listedBy' has 'username'
-            row.appendChild(listedByCell);
-
-            // Millage
-            const millageCell = document.createElement('td');
-            millageCell.textContent = listing.millage;
-            row.appendChild(millageCell);
-
-            // Manufactured Year
-            const manufacturedYearCell = document.createElement('td');
-            manufacturedYearCell.textContent = listing.manufacturedYear;
-            row.appendChild(manufacturedYearCell);
-
-            // Price
-            const priceCell = document.createElement('td');
-            priceCell.textContent = `$${listing.price.toFixed(2)}`; // Formatting price
-            row.appendChild(priceCell);
-
-            // Photo
-            const photoCell = document.createElement('td');
-            if (listing.photo) {
-                const img = document.createElement('img');
-                img.src = listing.photo;
-                img.alt = 'Car Photo';
-                img.style.width = '100px';
-                img.style.height = 'auto';
-                photoCell.appendChild(img);
-            } else {
-                photoCell.textContent = 'No Photo';
-            }
-            row.appendChild(photoCell);
-
-            // Created At
-            const createdAtCell = document.createElement('td');
-            const createdAt = new Date(listing.created_at);
-            createdAtCell.textContent = createdAt.toLocaleString();
-            row.appendChild(createdAtCell);
-
-            // Updated At
-            const updatedAtCell = document.createElement('td');
-            const updatedAt = new Date(listing.updated_at);
-            updatedAtCell.textContent = updatedAt.toLocaleString();
-            row.appendChild(updatedAtCell);
-
-            // Actions
-            const actionsCell = document.createElement('td');
-
-            // Edit button
-            const editButton = document.createElement('button');
-            editButton.textContent = 'Edit';
-            editButton.classList.add('edit-button');
-            editButton.setAttribute('data-listing-id', listing.listingID);
-            actionsCell.appendChild(editButton);
-
-            // Delete button
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Delete';
-            deleteButton.classList.add('delete-button');
-            deleteButton.setAttribute('data-listing-id', listing.listingID);
-            actionsCell.appendChild(deleteButton);
-
-            row.appendChild(actionsCell);
+            // Populate table cells
+            row.innerHTML = `
+                    <td>${listing.listingID}</td>
+                    <td>${listing.carPlateNumber}</td>
+                    <td>${listing.carBrand}</td>
+                    <td>${listing.carModel}</td>
+                    <td>${listing.listingStatus || 'Unknown'}</td>
+                    <td>${listing.listedBy || 'Unknown'}</td>
+                    <td>${listing.millage}</td>
+                    <td>${listing.manufacturedYear}</td>
+                    <td>$${listing.price.toFixed(2)}</td>
+                    <td>
+                        ${listing.photo ? `<img src="${listing.photo}" alt="Car Photo">` : 'No Photo'}
+                    </td>
+                    <td>${formatDate(listing.createdAt)}</td>
+                    <td>${formatDate(listing.updatedAt)}</td>
+                    <td>
+                        <button class="edit-button" data-listing-id="${listing.listingID}">Edit</button>
+                        <button class="delete-button" data-listing-id="${listing.listingID}">Delete</button>
+                    </td>
+                `;
             tbody.appendChild(row);
         });
     }
-}
 
-// Modal handling for Create Listing
-const createModal = document.getElementById("createListingModal");
-const createBtn = document.getElementById("createListingBtn");
-const createSpan = createModal.querySelector(".close");
-
-// Open Create Listing Modal
-if (createBtn) {
-    createBtn.onclick = function () {
-        createModal.style.display = "block";
-    };
-}
-
-// Close Create Listing Modal
-if (createSpan) {
-    createSpan.onclick = function () {
-        createModal.style.display = "none";
-    };
-}
-
-// Close modals when clicking outside of them
-window.onclick = function (event) {
-    if (event.target === createModal) {
-        createModal.style.display = "none";
+    /**
+     * Formats a date string into a readable format.
+     * @param {string} dateString - The date string to format.
+     * @returns {string} - Formatted date or 'Invalid Date'.
+     */
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return isNaN(date) ? 'Invalid Date' : date.toLocaleString();
     }
 
-    const editModal = document.getElementById('editListingModal');
-    if (event.target === editModal) {
-        editModal.style.display = 'none';
-    }
-};
+    // =======================
+    // Modal Handling
+    // =======================
 
-// Function to handle Create Listing form submission
-const createListingForm = document.getElementById('createListingForm');
-if (createListingForm) {
-    createListingForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission
+    /**
+     * Handles the opening and closing of modals.
+     */
+    function handleModals() {
+        // Create Listing Modal
+        const createModal = document.getElementById("createListingModal");
+        const createBtn = document.getElementById("createListingBtn");
+        const createClose = createModal.querySelector(".close");
 
-        // Create a new FormData object
-        const formData = new FormData();
+        createBtn.onclick = () => createModal.style.display = "block";
+        createClose.onclick = () => createModal.style.display = "none";
 
-        // Gather form field values
-        const carPlateNumber = document.getElementById('carPlateNumber').value.trim();
-        const carBrand = document.getElementById('carBrand').value.trim();
-        const carModel = document.getElementById('carModel').value.trim();
-        const millage = parseInt(document.getElementById('millage').value, 10);
-        const manufacturedYear = parseInt(document.getElementById('manufacturedYear').value, 10);
-        const photoInput = document.getElementById('photo');
-        const photoFile = photoInput.files[0];
-        const price = parseFloat(document.getElementById('price').value);
+        // Edit Listing Modal
+        const editModal = document.getElementById("editListingModal");
+        const editClose = document.getElementById("editModalClose");
 
-        // Basic validation
-        if (!carPlateNumber || !carBrand || !carModel || isNaN(millage) || isNaN(manufacturedYear) || isNaN(price)) {
-            alert('Please fill in all required fields correctly.');
-            return;
-        }
+        editClose.onclick = () => editModal.style.display = "none";
 
+        // User Info Modal
+        const userInfoModal = document.getElementById("userInfoModal");
+        const userInfoClose = document.getElementById("userInfoModalClose");
 
-        // Create a JavaScript object representing the CarListings data
-        const carListingData = {
-            carPlateNumber: carPlateNumber,
-            carBrand: carBrand,
-            carModel: carModel,
-            millage: millage,
-            manufacturedYear: manufacturedYear,
-            price: price
-            // Note: 'listingStatus' and 'listedBy' are set server-side
+        userInfoClose.onclick = () => userInfoModal.style.display = "none";
+
+        // Close modals when clicking outside
+        window.onclick = function (event) {
+            if (event.target === createModal) createModal.style.display = "none";
+            if (event.target === editModal) editModal.style.display = "none";
+            if (event.target === userInfoModal) userInfoModal.style.display = "none";
         };
-
-        // Append the 'carListing' part as a JSON string
-        formData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
-
-        // Append the 'photo' part if a file is selected
-        if (photoFile) {
-            formData.append('photo', photoFile);
-        }
-
-        // Send the POST request to the server
-        fetch('/InfinityNetwork/agent/createListing', { // Ensure this matches your controller mapping
-            method: 'POST',
-            body: formData
-            // Note: Do NOT set the 'Content-Type' header manually when using FormData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(errText => {
-                        throw new Error(errText || 'Unknown error occurred');
-                    });
-                }
-                return response.text(); // Adjust based on your controller's response
-            })
-            .then(data => {
-                console.log('Success:', data);
-                // Close the modal and reset the form
-                createModal.style.display = "none";
-                createListingForm.reset();
-                // Optionally, display a success message
-                alert('Listing created successfully!');
-                // Refresh the page to update the listing table
-                location.reload();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to create listing: ' + error.message);
-            });
-    });
-}
-
-// Search related functions
-const searchListingBtn = document.getElementById('searchListingBtn');
-const searchFormContainer = document.getElementById('searchFormContainer');
-
-if (searchListingBtn && searchFormContainer) {
-    searchListingBtn.onclick = function () {
-        // Toggle display of the search form container
-        if (searchFormContainer.style.display === 'none' || searchFormContainer.style.display === '') {
-            searchFormContainer.style.display = 'flex';
-        } else {
-            searchFormContainer.style.display = 'none';
-        }
-    };
-}
-
-// Handle search form submission
-const performSearchBtn = document.getElementById('performSearchBtn');
-if (performSearchBtn) {
-    performSearchBtn.onclick = function (event) {
-        event.preventDefault(); // Prevent default behavior
-
-        const searchType = document.getElementById('searchType').value;
-        const searchValue = document.getElementById('searchValue').value.trim();
-
-        if (searchValue === '') {
-            alert('Please enter a search value.');
-            return;
-        }
-
-        // Perform AJAX request to search listings, this is a GET request
-        fetch(`/InfinityNetwork/agent/searchListing?type=${encodeURIComponent(searchType)}&value=${encodeURIComponent(searchValue)}`) // Updated endpoint
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Search request failed');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Update the listing table with the search results
-                updateListingTable(data.listings);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to search listings.');
-            });
-    };
-}
-
-// Handle entries per page change
-const entriesSelect = document.getElementById('entries');
-if (entriesSelect) {
-    entriesSelect.onchange = function () {
-        const selectedSize = parseInt(entriesSelect.value, 10);
-        // Redirect to the first page with the new size
-        window.location.href = `/InfinityNetwork/admin/dashboard?size=${selectedSize}&page=0`;
-    };
-}
-
-// Handle Edit button clicks
-document.addEventListener('click', function (event) {
-    if (event.target && event.target.classList.contains('edit-button')) {
-        const listingId = event.target.getAttribute('data-listing-id');
-        openEditModal(listingId);
     }
-});
 
-function openEditModal(listingId) {
-    // Fetch listing data from the server
-    fetch(`/InfinityNetwork/agent/getListingById?id=${listingId}`) // Updated endpoint
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch listing data');
+    // =======================
+    // Listing Operations
+    // =======================
+
+    /**
+     * Initializes listing-related functionalities.
+     */
+    function initListingOperations() {
+        // Handle Create Listing Form Submission
+        const createListingForm = document.getElementById('createListingForm');
+        const createModal = document.getElementById("createListingModal");
+
+        if (createListingForm) {
+            createListingForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(createListingForm);
+                const carListingData = {
+                    carPlateNumber: formData.get('carPlateNumber').trim(),
+                    carBrand: formData.get('carBrand').trim(),
+                    carModel: formData.get('carModel').trim(),
+                    millage: parseInt(formData.get('millage'), 10),
+                    manufacturedYear: parseInt(formData.get('manufacturedYear'), 10),
+                    price: parseFloat(formData.get('price'))
+                };
+
+                // Basic validation
+                if (Object.values(carListingData).some(value => !value && value !== 0)) {
+                    alert('Please fill in all required fields correctly.');
+                    return;
+                }
+
+                const submissionData = new FormData();
+                submissionData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
+                const photoFile = formData.get('photo');
+                if (photoFile) submissionData.append('photo', photoFile);
+
+                fetch('/InfinityNetwork/agent/createListing', {
+                    method: 'POST',
+                    body: submissionData
+                })
+                    .then(response => {
+                        if (!response.ok) return response.text().then(err => {
+                            throw new Error(err || 'Unknown error occurred');
+                        });
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        createModal.style.display = "none";
+                        createListingForm.reset();
+                        alert('Listing created successfully!');
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to create listing: ' + error.message);
+                    });
+            });
+        }
+
+        // Handle Search Listing Button Toggle
+        const searchListingBtn = document.getElementById('searchListingBtn');
+        const searchFormContainer = document.getElementById('searchFormContainer');
+
+        if (searchListingBtn && searchFormContainer) {
+            searchListingBtn.onclick = () => {
+                searchFormContainer.style.display = searchFormContainer.style.display === 'flex' ? 'none' : 'flex';
+            };
+        }
+
+        // Handle Perform Search
+        const performSearchBtn = document.getElementById('performSearchBtn');
+        if (performSearchBtn) {
+            performSearchBtn.onclick = function (event) {
+                event.preventDefault();
+
+                const searchType = document.getElementById('searchType').value;
+                const searchValue = document.getElementById('searchValue').value.trim();
+
+                if (!searchValue) {
+                    alert('Please enter a search value.');
+                    return;
+                }
+
+                fetch(`/InfinityNetwork/agent/searchListing?type=${encodeURIComponent(searchType)}&value=${encodeURIComponent(searchValue)}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Search request failed');
+                        return response.json();
+                    })
+                    .then(data => updateListingTable(data.listings))
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to search listings.');
+                    });
+            };
+        }
+
+        // Handle Entries Per Page Change
+        const entriesSelect = document.getElementById('entries');
+        if (entriesSelect) {
+            entriesSelect.onchange = () => {
+                const selectedSize = parseInt(entriesSelect.value, 10);
+                window.location.href = `/InfinityNetwork/agent/dashboard?size=${selectedSize}&page=0`;
+            };
+        }
+
+        // Handle Edit Button Clicks
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('edit-button')) {
+                const listingId = event.target.getAttribute('data-listing-id');
+                openEditModal(listingId);
             }
-            return response.json();
-        })
-        .then(listing => {
-            // Populate the form fields
+        });
+
+        /**
+         * Opens the edit modal and populates it with listing data.
+         * @param {string} listingId - The ID of the listing to edit.
+         */
+        function openEditModal(listingId) {
+            fetch(`/InfinityNetwork/agent/getListingById?id=${listingId}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch listing data');
+                    return response.json();
+                })
+                .then(listing => populateEditModal(listing))
+                .catch(error => {
+                    console.error('Error fetching listing data:', error);
+                    alert('Failed to load listing data.');
+                });
+        }
+
+        /**
+         * Populates the edit modal with listing data.
+         * @param {Object} listing - The listing data.
+         */
+        function populateEditModal(listing) {
+            const editListingForm = document.getElementById('editListingForm');
             document.getElementById('editListingId').value = listing.listingID;
             document.getElementById('editCarPlateNumber').value = listing.carPlateNumber;
             document.getElementById('editCarBrand').value = listing.carBrand;
@@ -842,160 +903,330 @@ function openEditModal(listingId) {
             document.getElementById('editMillage').value = listing.millage;
             document.getElementById('editManufacturedYear').value = listing.manufacturedYear;
             document.getElementById('editListingStatus').value = listing.listingStatus;
+            document.getElementById('editPrice').value = listing.price;
             document.getElementById('editListedBy').value = listing.listedBy;
 
             // Display current photo if exists
+            const currentPhoto = document.getElementById('currentPhoto');
             if (listing.photo) {
-                const currentPhoto = document.getElementById('currentPhoto');
                 currentPhoto.src = listing.photo;
                 currentPhoto.style.display = 'block';
             } else {
-                const currentPhoto = document.getElementById('currentPhoto');
                 currentPhoto.style.display = 'none';
             }
 
-            // Open the modal
+            // Show the edit modal
             const editModal = document.getElementById('editListingModal');
             editModal.style.display = 'block';
-        })
-        .catch(error => {
-            console.error('Error fetching listing data:', error);
-            alert('Failed to load listing data.');
-        });
-}
-
-// Close the Edit Listing modal
-const editModalClose = document.getElementById('editModalClose');
-if (editModalClose) {
-    editModalClose.onclick = function () {
-        const editModal = document.getElementById('editListingModal');
-        editModal.style.display = 'none';
-    };
-}
-
-// Handle Edit Listing form submission
-const editListingForm = document.getElementById('editListingForm');
-if (editListingForm) {
-    editListingForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        // Confirmation prompt
-        if (!confirm('Are you sure you want to submit these changes?')) {
-            return;
         }
 
-        // Create a new FormData object
-        const formData = new FormData();
+        // Handle Edit Listing Form Submission
+        const editListingForm = document.getElementById('editListingForm');
+        const editPhotoPreview = document.getElementById('editPhotoPreview');
 
-        // Gather form field values
-        const listingID = document.getElementById('editListingId').value;
-        const carPlateNumber = document.getElementById('editCarPlateNumber').value.trim();
-        const carBrand = document.getElementById('editCarBrand').value.trim();
-        const carModel = document.getElementById('editCarModel').value.trim();
-        const millage = parseInt(document.getElementById('editMillage').value, 10);
-        const manufacturedYear = parseInt(document.getElementById('editManufacturedYear').value, 10);
-        const listingStatus = document.getElementById('editListingStatus').value;
-        const price = parseFloat(document.getElementById('editPrice').value);
-        const photoFile = document.getElementById('editPhoto').files[0];
+        if (editListingForm) {
+            editListingForm.addEventListener('submit', function (event) {
+                event.preventDefault();
 
-        // Basic validation
-        if (!carPlateNumber || !carBrand || !carModel || isNaN(millage) || isNaN(manufacturedYear) || isNaN(price) || !listingStatus) {
-            alert('Please fill in all required fields correctly.');
-            return;
-        }
+                if (!confirm('Are you sure you want to submit these changes?')) return;
 
-        // Create a JavaScript object representing the CarListings data
-        const carListingData = {
-            listingID: listingID,
-            carPlateNumber: carPlateNumber,
-            carBrand: carBrand,
-            carModel: carModel,
-            millage: millage,
-            manufacturedYear: manufacturedYear,
-            listingStatus: listingStatus,
-            price: price
-            // Note: 'listedBy' is set server-side
-        };
+                const formData = new FormData(editListingForm);
+                const carListingData = {
+                    listingID: formData.get('listingID'),
+                    carPlateNumber: formData.get('carPlateNumber').trim(),
+                    carBrand: formData.get('carBrand').trim(),
+                    carModel: formData.get('carModel').trim(),
+                    millage: parseInt(formData.get('millage'), 10),
+                    manufacturedYear: parseInt(formData.get('manufacturedYear'), 10),
+                    listingStatus: formData.get('listingStatus'),
+                    price: parseFloat(formData.get('price'))
+                };
 
-        // Append the 'carListing' part as a JSON string using a Blob with 'application/json' MIME type
-        formData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
-
-        // Append the 'photo' part if a file is selected
-        if (photoFile) {
-            formData.append('photo', photoFile);
-        }
-
-        // Send the PUT request to the server
-        fetch('/InfinityNetwork/agent/updateListing', { // Ensure this matches your controller mapping
-            method: 'PUT',
-            body: formData
-            // Note: Do NOT set the 'Content-Type' header manually when using FormData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(errText => {
-                        throw new Error(errText || 'Unknown error occurred');
-                    });
+                // Basic validation
+                if (Object.values(carListingData).some(value => !value && value !== 0)) {
+                    alert('Please fill in all required fields correctly.');
+                    return;
                 }
-                return response.text(); // Adjust based on your controller's response
-            })
-            .then(data => {
-                console.log('Success:', data);
-                // Close the modal and reset the form
-                const editModal = document.getElementById('editListingModal');
-                editModal.style.display = 'none';
-                editListingForm.reset();
-                editPhotoPreview.src = '#';
-                editPhotoPreview.style.display = 'none';
-                // Optionally, display a success message
-                alert('Listing updated successfully!');
-                // Refresh the page to update the listing table
-                location.reload();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to update listing: ' + error.message);
+
+                const submissionData = new FormData();
+                submissionData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
+                const photoFile = formData.get('photo');
+                if (photoFile) submissionData.append('photo', photoFile);
+
+                fetch('/InfinityNetwork/agent/updateListing', {
+                    method: 'PUT',
+                    body: submissionData
+                })
+                    .then(response => {
+                        if (!response.ok) return response.text().then(err => {
+                            throw new Error(err || 'Unknown error occurred');
+                        });
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        const editModal = document.getElementById('editListingModal');
+                        editModal.style.display = 'none';
+                        editListingForm.reset();
+                        editPhotoPreview.style.display = 'none';
+                        alert('Listing updated successfully!');
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to update listing: ' + error.message);
+                    });
             });
-    });
-}
-
-// Handle Delete button clicks
-document.addEventListener('click', function (event) {
-    if (event.target && event.target.classList.contains('delete-button')) {
-        const listingId = event.target.getAttribute('data-listing-id');
-
-        // Confirmation prompt
-        if (!confirm('Are you sure you want to delete this listing?')) {
-            return;
         }
 
-        // Send DELETE request to server
-        fetch(`/InfinityNetwork/agent/deleteListing?id=${listingId}`, { // Updated endpoint
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/json'}
-        })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(errText => {
-                        throw new Error(errText || 'Unknown error occurred');
+        // Handle Delete Button Clicks
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('delete-button')) {
+                const listingId = event.target.getAttribute('data-listing-id');
+
+                if (!confirm('Are you sure you want to delete this listing?')) return;
+
+                fetch(`/InfinityNetwork/agent/deleteListing?id=${listingId}`, {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json'}
+                })
+                    .then(response => {
+                        if (!response.ok) return response.text().then(err => {
+                            throw new Error(err || 'Unknown error occurred');
+                        });
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        alert('Listing deleted successfully!');
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to delete listing: ' + error.message);
                     });
+            }
+        });
+    }
+
+    // =======================
+    // User Information Management
+    // =======================
+
+    /**
+     * Initializes user information related functionalities.
+     */
+    function initUserInfoManagement() {
+        const userInfoButton = document.getElementById('userInfoButton');
+        const userInfoModal = document.getElementById('userInfoModal');
+        const userInfoDisplay = document.getElementById('userInfoDisplay');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const editInfoForm = document.getElementById('editInfoForm');
+        const userID = userInfoButton.getAttribute('data-user-id');
+
+        // Open User Info Modal and Fetch Data
+        userInfoButton.addEventListener('click', function () {
+            fetch(`/InfinityNetwork/agent/getUserById?id=${userID}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch user data');
+                    return response.json();
+                })
+                .then(user => populateUserInfo(user))
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    alert('Failed to load user data.');
+                });
+        });
+
+        /**
+         * Populates the user info modal with fetched data.
+         * @param {Object} user - The user data.
+         */
+        function populateUserInfo(user) {
+            document.getElementById('displayUsername').innerText = user.username;
+            document.getElementById('displayEmail').innerText = user.email;
+            document.getElementById('displayPhoneNumber').innerText = user.phoneNumber;
+
+            // Reset forms visibility
+            userInfoDisplay.style.display = 'block';
+            changePasswordForm.style.display = 'none';
+            editInfoForm.style.display = 'none';
+
+            // Show the modal
+            userInfoModal.style.display = 'block';
+        }
+
+        // Close User Info Modal
+        const userInfoClose = document.getElementById('userInfoModalClose');
+        userInfoClose.onclick = () => userInfoModal.style.display = 'none';
+
+        // Toggle Forms within User Info Modal
+        const changePasswordButton = document.getElementById('changePasswordButton');
+        const editInfoButton = document.getElementById('editInfoButton');
+
+        changePasswordButton.addEventListener('click', function () {
+            userInfoDisplay.style.display = 'none';
+            changePasswordForm.style.display = 'block';
+            editInfoForm.style.display = 'none';
+        });
+
+        editInfoButton.addEventListener('click', function () {
+            userInfoDisplay.style.display = 'none';
+            changePasswordForm.style.display = 'none';
+            editInfoForm.style.display = 'block';
+
+            // Populate Edit Info Form with current data
+            document.getElementById('editUsername').value = document.getElementById('displayUsername').innerText;
+            document.getElementById('editEmail').value = document.getElementById('displayEmail').innerText;
+            document.getElementById('editPhoneNumber').value = document.getElementById('displayPhoneNumber').innerText;
+        });
+
+        // Handle Change Password Form Submission
+        const passwordForm = document.getElementById('passwordForm');
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (newPassword !== confirmPassword) {
+                    alert('New passwords do not match.');
+                    return;
                 }
-                return response.text();
+
+                fetch('/InfinityNetwork/agent/changePassword', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        userID: userID,
+                        currentPassword: currentPassword,
+                        newPassword: newPassword
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) return response.json().then(err => {
+                            throw new Error(err.error || 'Unknown error occurred');
+                        });
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        alert(data.message || 'Password changed successfully!');
+                        passwordForm.reset();
+                        changePasswordForm.style.display = 'none';
+                        userInfoDisplay.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to change password: ' + error.message);
+                    });
+            });
+        }
+
+        // Handle Edit Info Form Submission
+        const infoForm = document.getElementById('infoForm');
+        if (infoForm) {
+            infoForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const editedUsername = document.getElementById('editUsername').value.trim();
+                const editedEmail = document.getElementById('editEmail').value.trim();
+                const editedPhoneNumber = document.getElementById('editPhoneNumber').value.trim();
+
+                if (!editedUsername || !editedEmail || !editedPhoneNumber) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+
+                fetch('/InfinityNetwork/agent/updateUserInfo', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        userID: userID,
+                        username: editedUsername,
+                        email: editedEmail,
+                        phoneNumber: editedPhoneNumber
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) return response.json().then(err => {
+                            throw new Error(err.error || 'Unknown error occurred');
+                        });
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        alert(data.message || 'User information updated successfully!');
+                        document.getElementById('displayUsername').innerText = editedUsername;
+                        document.getElementById('displayEmail').innerText = editedEmail;
+                        document.getElementById('displayPhoneNumber').innerText = editedPhoneNumber;
+                        infoForm.reset();
+                        editInfoForm.style.display = 'none';
+                        userInfoDisplay.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to update information: ' + error.message);
+                    });
+            });
+        }
+    }
+
+    // =======================
+    // Reviews Section
+    // =======================
+
+    /**
+     * Initializes the reviews section by fetching and displaying user reviews.
+     */
+    function initReviewsSection() {
+        fetch('/InfinityNetwork/agent/getUserReviews')
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to fetch reviews');
+                return response.json();
             })
-            .then(data => {
-                console.log('Success:', data);
-                // Optionally, display a success message
-                alert('Listing deleted successfully!');
-                // Refresh the page to update the listing table
-                location.reload();
-            })
+            .then(data => populateReviewsSection(data))
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to delete listing: ' + error.message);
+                alert('Failed to load reviews.');
             });
     }
-});
-</script>
 
+    /**
+     * Populates the reviews section with fetched data.
+     * @param {Object} data - The reviews data.
+     */
+    function populateReviewsSection(data) {
+        // Update average rating
+        document.getElementById('averageRating').innerText = data.averageRating.toFixed(1);
+
+        // Populate reviews table
+        const reviewsTableBody = document.getElementById('reviewsTableBody');
+        reviewsTableBody.innerHTML = '';
+
+        if (data.reviews.length === 0) {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 4;
+            cell.textContent = 'No reviews yet.';
+            row.appendChild(cell);
+            reviewsTableBody.appendChild(row);
+            return;
+        }
+
+        data.reviews.forEach(review => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                    <td>${review.reviewer}</td>
+                    <td>${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</td>
+                    <td>${review.comment || 'No comment.'}</td>
+                    <td>${formatDate(review.createdAt)}</td>
+                `;
+            reviewsTableBody.appendChild(row);
+        });
+    }
+</script>
 </body>
 </html>

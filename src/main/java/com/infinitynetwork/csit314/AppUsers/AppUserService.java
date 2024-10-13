@@ -37,6 +37,12 @@ public class AppUserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
+    //return User Object by username
+    public AppUser getUsersByUserName(String userName) {
+        AppUser user = appUserRepository.findByUsername(userName).orElseThrow(() -> new UsernameNotFoundException("User not found: " + userName));
+        return user;
+    }
+
     //Get all users with pagination
     public Page<AppUser> findAllUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -59,13 +65,19 @@ public class AppUserService implements UserDetailsService {
 
         existingUser.setUsername(userDTO.getUsername());
         existingUser.setEmail(userDTO.getEmail());
-        existingUser.setLocked(userDTO.getLocked());
+
+        if (userDTO.getLocked() != null) {
+            existingUser.setLocked(userDTO.getLocked());
+        }
 
         if (userDTO.getLocked() != null) {
             existingUser.setEnabled(!userDTO.getLocked());
         }
 
-        existingUser.setUserType(UserType.valueOf(userDTO.getUserType()));
+        if (userDTO.getUserType() != null) {
+            existingUser.setUserType(UserType.valueOf(userDTO.getUserType()));
+        }
+        
         existingUser.setPhoneNumber(userDTO.getPhoneNumber());
         existingUser.setUpdated_at(LocalDateTime.now());
 
@@ -79,5 +91,24 @@ public class AppUserService implements UserDetailsService {
             throw new Exception("Listing not found");
         }
         appUserRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void changePassword(ChangePasswordDTO passwordDTO) throws Exception {
+        if (passwordDTO.getUserID() == null || passwordDTO.getCurrentPassword() == null || passwordDTO.getNewPassword() == null) {
+            throw new Exception("Missing required fields");
+        }
+
+        AppUser user = appUserRepository.findById(passwordDTO.getUserID())
+                .orElseThrow(() -> new Exception("User not found"));
+
+        // Verify current password
+        if (!passwordEncoder.matches(passwordDTO.getCurrentPassword(), user.getPassword())) {
+            throw new Exception("Current password is incorrect");
+        }
+
+        // Encode and set the new password
+        user.setPassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
+        appUserRepository.save(user);
     }
 }

@@ -31,7 +31,7 @@ public class CarListings {
     private ListingStatus listingStatus;
 
     // Establish Many-to-One relationship with AppUser
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "userID", nullable = false)
     private AppUser listedBy;
 
