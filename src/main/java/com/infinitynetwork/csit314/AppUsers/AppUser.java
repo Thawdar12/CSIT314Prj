@@ -3,7 +3,6 @@
 package com.infinitynetwork.csit314.AppUsers;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.infinitynetwork.csit314.CarListings.CarListings;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,7 +18,6 @@ import java.util.List;
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long userID;
 
     @Column(nullable = false, unique = true, length = 50)
@@ -94,8 +92,13 @@ public class AppUser implements UserDetails {
     }
 
     //Getter and Setter
+
     public Long getUserID() {
         return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
     @Override

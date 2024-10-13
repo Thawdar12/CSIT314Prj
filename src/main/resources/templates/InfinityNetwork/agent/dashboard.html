@@ -537,6 +537,10 @@
                 <img alt="Photo Preview" id="photoPreview" src="#"
                      style="display: none; width: 100px; height: auto; margin-top: 10px;">
 
+                <label for="sellerUsername">Seller Username:</label>
+                <input id="sellerUsername" name="sellerUsername" placeholder="Enter seller username" required
+                       type="text">
+
                 <button type="submit">Create</button>
             </form>
         </div>
@@ -775,30 +779,57 @@
                 event.preventDefault();
 
                 const formData = new FormData(createListingForm);
-                const carListingData = {
-                    carPlateNumber: formData.get('carPlateNumber').trim(),
-                    carBrand: formData.get('carBrand').trim(),
-                    carModel: formData.get('carModel').trim(),
-                    millage: parseInt(formData.get('millage'), 10),
-                    manufacturedYear: parseInt(formData.get('manufacturedYear'), 10),
-                    price: parseFloat(formData.get('price'))
-                };
+                const sellerUsername = formData.get('sellerUsername').trim();
 
-                // Basic validation
-                if (Object.values(carListingData).some(value => !value && value !== 0)) {
-                    alert('Please fill in all required fields correctly.');
+                // Basic validation for sellerUsername
+                if (!sellerUsername) {
+                    alert('Please enter the seller username.');
                     return;
                 }
 
-                const submissionData = new FormData();
-                submissionData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
-                const photoFile = formData.get('photo');
-                if (photoFile) submissionData.append('photo', photoFile);
+                // Check if seller exists
+                fetch(`/InfinityNetwork/agent/searchSellerByUsername?value=${encodeURIComponent(sellerUsername)}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Failed to verify seller username.');
+                        return response.json();
+                    })
+                    .then(data => {
+                        const sellers = data.sellers;
+                        if (sellers.length === 0) {
+                            throw new Error('Seller username does not exist.');
+                        }
 
-                fetch('/InfinityNetwork/agent/createListing', {
-                    method: 'POST',
-                    body: submissionData
-                })
+                        // Assuming the first matched user is the seller
+                        const seller = sellers[0];
+                        const sellerId = seller.userID;
+
+                        // Prepare car listing data
+                        const carListingData = {
+                            carPlateNumber: formData.get('carPlateNumber').trim(),
+                            carBrand: formData.get('carBrand').trim(),
+                            carModel: formData.get('carModel').trim(),
+                            millage: parseInt(formData.get('millage'), 10),
+                            manufacturedYear: parseInt(formData.get('manufacturedYear'), 10),
+                            price: parseFloat(formData.get('price')),
+                            seller: {userID: sellerId} // Include seller as an object with userID
+                        };
+
+                        // Basic validation
+                        if (Object.values(carListingData).some(value => value === null || value === undefined || value === '')) {
+                            throw new Error('Please fill in all required fields correctly.');
+                        }
+
+                        const submissionData = new FormData();
+                        submissionData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
+                        const photoFile = formData.get('photo');
+                        if (photoFile) submissionData.append('photo', photoFile);
+                        console.log('Submitting car listing data:', JSON.stringify(carListingData));
+                        // Submit the listing
+                        return fetch('/InfinityNetwork/agent/createListing', {
+                            method: 'POST',
+                            body: submissionData
+                        });
+                    })
                     .then(response => {
                         if (!response.ok) return response.text().then(err => {
                             throw new Error(err || 'Unknown error occurred');
@@ -818,196 +849,197 @@
                     });
             });
         }
+    }
 
-        // Handle Search Listing Button Toggle
-        const searchListingBtn = document.getElementById('searchListingBtn');
-        const searchFormContainer = document.getElementById('searchFormContainer');
 
-        if (searchListingBtn && searchFormContainer) {
-            searchListingBtn.onclick = () => {
-                searchFormContainer.style.display = searchFormContainer.style.display === 'flex' ? 'none' : 'flex';
-            };
-        }
+    // Handle Search Listing Button Toggle
+    const searchListingBtn = document.getElementById('searchListingBtn');
+    const searchFormContainer = document.getElementById('searchFormContainer');
 
-        // Handle Perform Search
-        const performSearchBtn = document.getElementById('performSearchBtn');
-        if (performSearchBtn) {
-            performSearchBtn.onclick = function (event) {
-                event.preventDefault();
+    if (searchListingBtn && searchFormContainer) {
+        searchListingBtn.onclick = () => {
+            searchFormContainer.style.display = searchFormContainer.style.display === 'flex' ? 'none' : 'flex';
+        };
+    }
 
-                const searchType = document.getElementById('searchType').value;
-                const searchValue = document.getElementById('searchValue').value.trim();
+    // Handle Perform Search
+    const performSearchBtn = document.getElementById('performSearchBtn');
+    if (performSearchBtn) {
+        performSearchBtn.onclick = function (event) {
+            event.preventDefault();
 
-                if (!searchValue) {
-                    alert('Please enter a search value.');
-                    return;
-                }
+            const searchType = document.getElementById('searchType').value;
+            const searchValue = document.getElementById('searchValue').value.trim();
 
-                fetch(`/InfinityNetwork/agent/searchListing?type=${encodeURIComponent(searchType)}&value=${encodeURIComponent(searchValue)}`)
-                    .then(response => {
-                        if (!response.ok) throw new Error('Search request failed');
-                        return response.json();
-                    })
-                    .then(data => updateListingTable(data.listings))
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Failed to search listings.');
-                    });
-            };
-        }
-
-        // Handle Entries Per Page Change
-        const entriesSelect = document.getElementById('entries');
-        if (entriesSelect) {
-            entriesSelect.onchange = () => {
-                const selectedSize = parseInt(entriesSelect.value, 10);
-                window.location.href = `/InfinityNetwork/agent/dashboard?size=${selectedSize}&page=0`;
-            };
-        }
-
-        // Handle Edit Button Clicks
-        document.addEventListener('click', function (event) {
-            if (event.target.classList.contains('edit-button')) {
-                const listingId = event.target.getAttribute('data-listing-id');
-                openEditModal(listingId);
+            if (!searchValue) {
+                alert('Please enter a search value.');
+                return;
             }
-        });
 
-        /**
-         * Opens the edit modal and populates it with listing data.
-         * @param {string} listingId - The ID of the listing to edit.
-         */
-        function openEditModal(listingId) {
-            fetch(`/InfinityNetwork/agent/getListingById?id=${listingId}`)
+            fetch(`/InfinityNetwork/agent/searchListing?type=${encodeURIComponent(searchType)}&value=${encodeURIComponent(searchValue)}`)
                 .then(response => {
-                    if (!response.ok) throw new Error('Failed to fetch listing data');
+                    if (!response.ok) throw new Error('Search request failed');
                     return response.json();
                 })
-                .then(listing => populateEditModal(listing))
+                .then(data => updateListingTable(data.listings))
                 .catch(error => {
-                    console.error('Error fetching listing data:', error);
-                    alert('Failed to load listing data.');
+                    console.error('Error:', error);
+                    alert('Failed to search listings.');
                 });
+        };
+    }
+
+    // Handle Entries Per Page Change
+    const entriesSelect = document.getElementById('entries');
+    if (entriesSelect) {
+        entriesSelect.onchange = () => {
+            const selectedSize = parseInt(entriesSelect.value, 10);
+            window.location.href = `/InfinityNetwork/agent/dashboard?size=${selectedSize}&page=0`;
+        };
+    }
+
+    // Handle Edit Button Clicks
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('edit-button')) {
+            const listingId = event.target.getAttribute('data-listing-id');
+            openEditModal(listingId);
         }
+    });
 
-        /**
-         * Populates the edit modal with listing data.
-         * @param {Object} listing - The listing data.
-         */
-        function populateEditModal(listing) {
-            const editListingForm = document.getElementById('editListingForm');
-            document.getElementById('editListingId').value = listing.listingID;
-            document.getElementById('editCarPlateNumber').value = listing.carPlateNumber;
-            document.getElementById('editCarBrand').value = listing.carBrand;
-            document.getElementById('editCarModel').value = listing.carModel;
-            document.getElementById('editMillage').value = listing.millage;
-            document.getElementById('editManufacturedYear').value = listing.manufacturedYear;
-            document.getElementById('editListingStatus').value = listing.listingStatus;
-            document.getElementById('editPrice').value = listing.price;
-            document.getElementById('editListedBy').value = listing.listedBy;
-
-            // Display current photo if exists
-            const currentPhoto = document.getElementById('currentPhoto');
-            if (listing.photo) {
-                currentPhoto.src = listing.photo;
-                currentPhoto.style.display = 'block';
-            } else {
-                currentPhoto.style.display = 'none';
-            }
-
-            // Show the edit modal
-            const editModal = document.getElementById('editListingModal');
-            editModal.style.display = 'block';
-        }
-
-        // Handle Edit Listing Form Submission
-        const editListingForm = document.getElementById('editListingForm');
-        const editPhotoPreview = document.getElementById('editPhotoPreview');
-
-        if (editListingForm) {
-            editListingForm.addEventListener('submit', function (event) {
-                event.preventDefault();
-
-                if (!confirm('Are you sure you want to submit these changes?')) return;
-
-                const formData = new FormData(editListingForm);
-                const carListingData = {
-                    listingID: formData.get('listingID'),
-                    carPlateNumber: formData.get('carPlateNumber').trim(),
-                    carBrand: formData.get('carBrand').trim(),
-                    carModel: formData.get('carModel').trim(),
-                    millage: parseInt(formData.get('millage'), 10),
-                    manufacturedYear: parseInt(formData.get('manufacturedYear'), 10),
-                    listingStatus: formData.get('listingStatus'),
-                    price: parseFloat(formData.get('price'))
-                };
-
-                // Basic validation
-                if (Object.values(carListingData).some(value => !value && value !== 0)) {
-                    alert('Please fill in all required fields correctly.');
-                    return;
-                }
-
-                const submissionData = new FormData();
-                submissionData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
-                const photoFile = formData.get('photo');
-                if (photoFile) submissionData.append('photo', photoFile);
-
-                fetch('/InfinityNetwork/agent/updateListing', {
-                    method: 'PUT',
-                    body: submissionData
-                })
-                    .then(response => {
-                        if (!response.ok) return response.text().then(err => {
-                            throw new Error(err || 'Unknown error occurred');
-                        });
-                        return response.text();
-                    })
-                    .then(data => {
-                        console.log('Success:', data);
-                        const editModal = document.getElementById('editListingModal');
-                        editModal.style.display = 'none';
-                        editListingForm.reset();
-                        editPhotoPreview.style.display = 'none';
-                        alert('Listing updated successfully!');
-                        location.reload();
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Failed to update listing: ' + error.message);
-                    });
+    /**
+     * Opens the edit modal and populates it with listing data.
+     * @param {string} listingId - The ID of the listing to edit.
+     */
+    function openEditModal(listingId) {
+        fetch(`/InfinityNetwork/agent/getListingById?id=${listingId}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to fetch listing data');
+                return response.json();
+            })
+            .then(listing => populateEditModal(listing))
+            .catch(error => {
+                console.error('Error fetching listing data:', error);
+                alert('Failed to load listing data.');
             });
+    }
+
+    /**
+     * Populates the edit modal with listing data.
+     * @param {Object} listing - The listing data.
+     */
+    function populateEditModal(listing) {
+        const editListingForm = document.getElementById('editListingForm');
+        document.getElementById('editListingId').value = listing.listingID;
+        document.getElementById('editCarPlateNumber').value = listing.carPlateNumber;
+        document.getElementById('editCarBrand').value = listing.carBrand;
+        document.getElementById('editCarModel').value = listing.carModel;
+        document.getElementById('editMillage').value = listing.millage;
+        document.getElementById('editManufacturedYear').value = listing.manufacturedYear;
+        document.getElementById('editListingStatus').value = listing.listingStatus;
+        document.getElementById('editPrice').value = listing.price;
+        document.getElementById('editListedBy').value = listing.listedBy;
+
+        // Display current photo if exists
+        const currentPhoto = document.getElementById('currentPhoto');
+        if (listing.photo) {
+            currentPhoto.src = listing.photo;
+            currentPhoto.style.display = 'block';
+        } else {
+            currentPhoto.style.display = 'none';
         }
 
-        // Handle Delete Button Clicks
-        document.addEventListener('click', function (event) {
-            if (event.target.classList.contains('delete-button')) {
-                const listingId = event.target.getAttribute('data-listing-id');
+        // Show the edit modal
+        const editModal = document.getElementById('editListingModal');
+        editModal.style.display = 'block';
+    }
 
-                if (!confirm('Are you sure you want to delete this listing?')) return;
+    // Handle Edit Listing Form Submission
+    const editListingForm = document.getElementById('editListingForm');
+    const editPhotoPreview = document.getElementById('editPhotoPreview');
 
-                fetch(`/InfinityNetwork/agent/deleteListing?id=${listingId}`, {
-                    method: 'DELETE',
-                    headers: {'Content-Type': 'application/json'}
-                })
-                    .then(response => {
-                        if (!response.ok) return response.text().then(err => {
-                            throw new Error(err || 'Unknown error occurred');
-                        });
-                        return response.text();
-                    })
-                    .then(data => {
-                        console.log('Success:', data);
-                        alert('Listing deleted successfully!');
-                        location.reload();
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Failed to delete listing: ' + error.message);
-                    });
+    if (editListingForm) {
+        editListingForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            if (!confirm('Are you sure you want to submit these changes?')) return;
+
+            const formData = new FormData(editListingForm);
+            const carListingData = {
+                listingID: formData.get('listingID'),
+                carPlateNumber: formData.get('carPlateNumber').trim(),
+                carBrand: formData.get('carBrand').trim(),
+                carModel: formData.get('carModel').trim(),
+                millage: parseInt(formData.get('millage'), 10),
+                manufacturedYear: parseInt(formData.get('manufacturedYear'), 10),
+                listingStatus: formData.get('listingStatus'),
+                price: parseFloat(formData.get('price'))
+            };
+
+            // Basic validation
+            if (Object.values(carListingData).some(value => !value && value !== 0)) {
+                alert('Please fill in all required fields correctly.');
+                return;
             }
+
+            const submissionData = new FormData();
+            submissionData.append('carListing', new Blob([JSON.stringify(carListingData)], {type: "application/json"}));
+            const photoFile = formData.get('photo');
+            if (photoFile) submissionData.append('photo', photoFile);
+
+            fetch('/InfinityNetwork/agent/updateListing', {
+                method: 'PUT',
+                body: submissionData
+            })
+                .then(response => {
+                    if (!response.ok) return response.text().then(err => {
+                        throw new Error(err || 'Unknown error occurred');
+                    });
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    const editModal = document.getElementById('editListingModal');
+                    editModal.style.display = 'none';
+                    editListingForm.reset();
+                    editPhotoPreview.style.display = 'none';
+                    alert('Listing updated successfully!');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to update listing: ' + error.message);
+                });
         });
     }
+
+    // Handle Delete Button Clicks
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('delete-button')) {
+            const listingId = event.target.getAttribute('data-listing-id');
+
+            if (!confirm('Are you sure you want to delete this listing?')) return;
+
+            fetch(`/InfinityNetwork/agent/deleteListing?id=${listingId}`, {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'}
+            })
+                .then(response => {
+                    if (!response.ok) return response.text().then(err => {
+                        throw new Error(err || 'Unknown error occurred');
+                    });
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Listing deleted successfully!');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete listing: ' + error.message);
+                });
+        }
+    });
 
     // =======================
     // User Information Management

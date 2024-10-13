@@ -104,6 +104,13 @@ public class CarListingService {
         return carListingsRepository.findAll(pageable);
     }
 
+    public Page<CarListings> findAllListingsBySellerID(Long sellerID, int page, int size) {
+        AppUser seller = appUserRepository.findById(sellerID)
+                .orElseThrow(() -> new RuntimeException("Seller not found"));
+        Pageable pageable = PageRequest.of(page, size);
+        return carListingsRepository.findBySeller(seller, pageable);
+    }
+
     //Handle photo in DTO object
     private String handlePhotoUpload(MultipartFile photoFile) throws Exception {
         //Clean the file name

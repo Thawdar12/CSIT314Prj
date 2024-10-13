@@ -116,6 +116,8 @@ public class AgentController {
             @RequestPart("carListing") CarListings carListing,
             @RequestPart(value = "photo", required = false) MultipartFile photo) {
         try {
+            AppUser seller = appUserRepository.getReferenceById(carListing.getSeller().getUserID());
+            carListing.setSeller(seller);
             carListingService.registerListing(carListing, photo, uploadDir);
             return new ResponseEntity<>("Listing registered successfully", HttpStatus.CREATED);
         } catch (Exception e) {
@@ -308,6 +310,26 @@ public class AgentController {
                 .collect(Collectors.toList()));
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/searchSellerByUsername")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> searchSellerByUsername(@RequestParam String value) {
+        List<AppUser> sellers = appUserRepository.findByUsernameIgnoreCase(value);
+
+        List<Map<String, Object>> sellerList = sellers.stream()
+                .map(user -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("userID", user.getUserID());
+                    map.put("username", user.getUsername());
+                    return map;
+                })
+                .collect(Collectors.toList());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("sellers", sellerList);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**

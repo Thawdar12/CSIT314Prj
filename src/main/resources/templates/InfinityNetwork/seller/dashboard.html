@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Seller Dashboard</title>
+    <style>
+        /* =======================
+           Global Styles
+        ======================= */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* =======================
+           Top Bar Styles
+        ======================= */
+        .top-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .user-info {
+            font-size: 16px;
+            margin-right: 20px;
+        }
+
+        .user-info-button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .user-info-button:hover {
+            background-color: #45a049;
+        }
+
+        /* =======================
+           Main Content Styles
+        ======================= */
+        .main-content {
+            padding: 80px 20px 20px 20px; /* Top padding adjusted for fixed top bar */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        /* =======================
+           Action Buttons Styles
+        ======================= */
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-form-container {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-left: 10px;
+        }
+
+        .search-form-container select,
+        .search-form-container input,
+        .search-form-container button {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-form-container button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* =======================
+           Table Styles
+        ======================= */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            min-width: 800px;
+        }
+
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        .styled-table img {
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .edit-button,
+        .delete-button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 13px;
+            margin-right: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-button {
+            background-color: #4CAF50; /* Green */
+        }
+
+        .edit-button:hover {
+            background-color: #45a049;
+        }
+
+        .delete-button {
+            background-color: #f44336; /* Red */
+        }
+
+        .delete-button:hover {
+            background-color: #da190b;
+        }
+
+        /* =======================
+           Pagination Styles
+        ======================= */
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .pagination a.active {
+            background-color: #0056b3;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3;
+        }
+
+        /* =======================
+           Modal Styles
+        ======================= */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding-top: 60px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-content h2,
+        .modal-content h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        form input,
+        form select,
+        form button {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* =======================
+           Additional Styles
+        ======================= */
+        .entries-per-page {
+            margin-bottom: 20px;
+        }
+
+        .no-listings-message,
+        .no-users-message,
+        .no-listings-message {
+            text-align: center;
+            color: #888;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .styled-table {
+                font-size: 12px;
+            }
+
+            .styled-table th,
+            .styled-table td {
+                padding: 8px 10px;
+            }
+
+            .modal-content {
+                width: 90%;
+            }
+        }
+
+        /* =======================
+         Feedback Section Styles
+        ======================= */
+        .feedback-section {
+            margin-top: 40px;
+        }
+
+        .feedback-section h3 {
+            margin-bottom: 20px;
+            color: #007bff;
+            text-align: center;
+        }
+
+        .feedback-section form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .feedback-section form label {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .feedback-section form input,
+        .feedback-section form textarea,
+        .feedback-section form select,
+        .feedback-section form button {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .feedback-section form textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .feedback-section form button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+        }
+
+        .feedback-section form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <script th:inline="javascript" type="text/javascript">
+        // Inject userID into JavaScript variable
+        const currentUserID = /*[[${session.userID}]]*/ '0';
+        console.log('Current User ID:', currentUserID);
+    </script>
+</head>
+
+<body>
+<!-- =======================
+     Top Bar
+======================= -->
+<div class="top-bar">
+    <div class="user-info"
+         th:text="'Welcome, ' + ${session.username} + ' | Logged in at: ' + ${session.currentDateTime}"></div>
+    <button class="user-info-button" id="userInfoButton" th:attr="data-user-id=${session.userID}">My Account</button>
+    <a href="#" th:href="@{/logout}">Log Out</a>
+</div>
+
+<!-- =======================
+     Main Content
+======================= -->
+<div class="main-content">
+    <h2>Seller Dashboard</h2>
+
+    <!-- Entries Per Page Selector -->
+    <div class="entries-per-page">
+        <label for="entries">Show:</label>
+        <select id="entries" name="entries">
+            <option th:selected="${size == 5}" value="5">5</option>
+            <option th:selected="${size == 10}" value="10">10</option>
+            <option th:selected="${size == 20}" value="20">20</option>
+        </select>
+    </div>
+
+    <!-- Car Listings Table -->
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>Listing ID</th>
+                <th>Car Plate Number</th>
+                <th>Car Brand</th>
+                <th>Car Model</th>
+                <th>Listing Status</th>
+                <th>Listed By</th>
+                <th>Millage</th>
+                <th>Manufactured Year</th>
+                <th>Price</th>
+                <th>Photo</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="listing : ${listingPage.content}">
+                <td th:text="${listing.listingID}"></td>
+                <td th:text="${listing.carPlateNumber}"></td>
+                <td th:text="${listing.carBrand}"></td>
+                <td th:text="${listing.carModel}"></td>
+                <td th:text="${listing.listingStatus != null} ? ${listing.listingStatus.name()} : 'Unknown'"></td>
+                <td th:text="${listing.listedBy.username}"></td>
+                <td th:text="${listing.millage}"></td>
+                <td th:text="${listing.manufacturedYear}"></td>
+                <td th:text="${listing.price}"></td>
+                <td>
+                    <img alt="Car Photo" th:if="${listing.photo != null}" th:src="@{${listing.photo}}">
+                    <span th:if="${listing.photo == null}">No Photo</span>
+                </td>
+                <td th:text="${#temporals.format(listing.created_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#temporals.format(listing.updated_at, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listingPage.content)}">
+                <td class="no-listings-message" colspan="13">No listings found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination" th:if="${totalPages > 1}">
+        <!-- Previous Page -->
+        <span th:if="${currentPage > 0}">
+                <a th:href="@{'/InfinityNetwork/seller/dashboard'(page=${currentPage - 1}, size=${size})}">Previous</a>
+            </span>
+        <!-- Page Numbers -->
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:classappend="${i == currentPage} ? ' active' : ''"
+                   th:href="@{'/InfinityNetwork/seller/dashboard'(page=${i}, size=${size})}"
+                   th:text="${i + 1}"></a>
+            </span>
+        <!-- Next Page -->
+        <span th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{'/InfinityNetwork/seller/dashboard'(page=${currentPage + 1}, size=${size})}">Next</a>
+            </span>
+    </div>
+
+    <!-- =======================
+         Reviews
+    ======================= -->
+
+    <!-- User Feedback Section -->
+    <div class="feedback-section">
+        <h3>Leave a Review</h3>
+        <form id="feedbackForm">
+            <label for="feedbackUsername">Username:</label>
+            <input id="feedbackUsername" name="username" required type="text">
+
+            <label for="feedbackComments">Comments:</label>
+            <textarea id="feedbackComments" name="comments" required></textarea>
+
+            <label for="feedbackRating">Rating:</label>
+            <select id="feedbackRating" name="rating" required>
+                <option disabled selected value="">Select rating</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+    <!-- =======================
+         Modals
+    ======================= -->
+
+    <!-- User Information Modal -->
+    <div class="modal" id="userInfoModal">
+        <div class="modal-content">
+            <span class="close" id="userInfoModalClose">&times;</span>
+            <h2>User Information</h2>
+
+            <div id="userInfoDisplay">
+                <p><strong>Username:</strong> <span id="displayUsername"></span></p>
+                <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+                <p><strong>Phone Number:</strong> <span id="displayPhoneNumber"></span></p>
+
+                <button class="modal-button" id="changePasswordButton">Change Password</button>
+                <button class="modal-button" id="editInfoButton">Edit Info</button>
+            </div>
+
+            <!-- Change Password Form -->
+            <div id="changePasswordForm" style="display: none;">
+                <h3>Change Password</h3>
+                <form id="passwordForm">
+                    <label for="currentPassword">Current Password:</label>
+                    <input id="currentPassword" name="currentPassword" required type="password">
+
+                    <label for="newPassword">New Password:</label>
+                    <input id="newPassword" name="newPassword" required type="password">
+
+                    <label for="confirmPassword">Confirm New Password:</label>
+                    <input id="confirmPassword" name="confirmPassword" required type="password">
+
+                    <button type="submit">Update Password</button>
+                </form>
+            </div>
+
+            <!-- Edit Info Form -->
+            <div id="editInfoForm" style="display: none;">
+                <h3>Edit Information</h3>
+                <form id="infoForm">
+                    <label for="editUsername">Username:</label>
+                    <input id="editUsername" name="username" required type="text">
+
+                    <label for="editEmail">Email:</label>
+                    <input id="editEmail" name="email" required type="email">
+
+                    <label for="editPhoneNumber">Phone Number:</label>
+                    <input id="editPhoneNumber" name="phoneNumber" required type="tel">
+
+                    <button type="submit">Update Info</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =======================
+     JavaScript
+======================= -->
+<script>
+    // =======================
+    // Initialization
+    // =======================
+    document.addEventListener('DOMContentLoaded', function () {
+        handleModals();
+        initUserInfoManagement();
+        initFeedbackForm();
+    });
+
+    // =======================
+    // Helper Functions
+    // =======================
+
+    // =======================
+    // Modal Handling
+    // =======================
+
+    /**
+     * Handles the opening and closing of modals.
+     */
+    function handleModals() {
+        // User Info Modal
+        const userInfoModal = document.getElementById("userInfoModal");
+        const userInfoClose = document.getElementById("userInfoModalClose");
+
+        userInfoClose.onclick = () => userInfoModal.style.display = "none";
+
+        // Close modals when clicking outside
+        window.onclick = function (event) {
+            if (event.target === userInfoModal) userInfoModal.style.display = "none";
+        };
+    }
+
+    // =======================
+    // User Information Management
+    // =======================
+
+    /**
+     * Initializes user information related functionalities.
+     */
+    function initUserInfoManagement() {
+        const userInfoButton = document.getElementById('userInfoButton');
+        const userInfoModal = document.getElementById('userInfoModal');
+        const userInfoDisplay = document.getElementById('userInfoDisplay');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const editInfoForm = document.getElementById('editInfoForm');
+        const userID = userInfoButton.getAttribute('data-user-id');
+
+        // Open User Info Modal and Fetch Data
+        userInfoButton.addEventListener('click', function () {
+            fetch(`/InfinityNetwork/seller/getUserById?id=${userID}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch user data');
+                    return response.json();
+                })
+                .then(user => populateUserInfo(user))
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    alert('Failed to load user data.');
+                });
+        });
+
+        /**
+         * Populates the user info modal with fetched data.
+         * @param {Object} user - The user data.
+         */
+        function populateUserInfo(user) {
+            document.getElementById('displayUsername').innerText = user.username;
+            document.getElementById('displayEmail').innerText = user.email;
+            document.getElementById('displayPhoneNumber').innerText = user.phoneNumber;
+
+            // Reset forms visibility
+            userInfoDisplay.style.display = 'block';
+            changePasswordForm.style.display = 'none';
+            editInfoForm.style.display = 'none';
+
+            // Show the modal
+            userInfoModal.style.display = 'block';
+        }
+
+        // Close User Info Modal
+        const userInfoClose = document.getElementById('userInfoModalClose');
+        userInfoClose.onclick = () => userInfoModal.style.display = 'none';
+
+        // Toggle Forms within User Info Modal
+        const changePasswordButton = document.getElementById('changePasswordButton');
+        const editInfoButton = document.getElementById('editInfoButton');
+
+        changePasswordButton.addEventListener('click', function () {
+            userInfoDisplay.style.display = 'none';
+            changePasswordForm.style.display = 'block';
+            editInfoForm.style.display = 'none';
+        });
+
+        editInfoButton.addEventListener('click', function () {
+            userInfoDisplay.style.display = 'none';
+            changePasswordForm.style.display = 'none';
+            editInfoForm.style.display = 'block';
+
+            // Populate Edit Info Form with current data
+            document.getElementById('editUsername').value = document.getElementById('displayUsername').innerText;
+            document.getElementById('editEmail').value = document.getElementById('displayEmail').innerText;
+            document.getElementById('editPhoneNumber').value = document.getElementById('displayPhoneNumber').innerText;
+        });
+
+        // Handle Change Password Form Submission
+        const passwordForm = document.getElementById('passwordForm');
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                if (newPassword !== confirmPassword) {
+                    alert('New passwords do not match.');
+                    return;
+                }
+
+                fetch('/InfinityNetwork/seller/changePassword', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        userID: userID,
+                        currentPassword: currentPassword,
+                        newPassword: newPassword
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) return response.json().then(err => {
+                            throw new Error(err.error || 'Unknown error occurred');
+                        });
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        alert(data.message || 'Password changed successfully!');
+                        passwordForm.reset();
+                        changePasswordForm.style.display = 'none';
+                        userInfoDisplay.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to change password: ' + error.message);
+                    });
+            });
+        }
+
+        // Handle Edit Info Form Submission
+        const infoForm = document.getElementById('infoForm');
+        if (infoForm) {
+            infoForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const editedUsername = document.getElementById('editUsername').value.trim();
+                const editedEmail = document.getElementById('editEmail').value.trim();
+                const editedPhoneNumber = document.getElementById('editPhoneNumber').value.trim();
+
+                if (!editedUsername || !editedEmail || !editedPhoneNumber) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+
+                fetch('/InfinityNetwork/seller/updateUserInfo', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        userID: userID,
+                        username: editedUsername,
+                        email: editedEmail,
+                        phoneNumber: editedPhoneNumber
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) return response.json().then(err => {
+                            throw new Error(err.error || 'Unknown error occurred');
+                        });
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        alert(data.message || 'User information updated successfully!');
+                        document.getElementById('displayUsername').innerText = editedUsername;
+                        document.getElementById('displayEmail').innerText = editedEmail;
+                        document.getElementById('displayPhoneNumber').innerText = editedPhoneNumber;
+                        infoForm.reset();
+                        editInfoForm.style.display = 'none';
+                        userInfoDisplay.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to update information: ' + error.message);
+                    });
+            });
+        }
+    }
+
+    // =======================
+    // Feedback Form Submission
+    // =======================
+
+    /**
+     * Initializes feedback form submission functionality.
+     */
+    function initFeedbackForm() {
+        const feedbackForm = document.getElementById('feedbackForm');
+
+        if (feedbackForm) {
+            feedbackForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Collect form data
+                const userID = currentUserID;
+                const username = document.getElementById('feedbackUsername').value.trim();
+                const comments = document.getElementById('feedbackComments').value.trim();
+                const rating = document.getElementById('feedbackRating').value;
+                // Basic validation
+                if (!username || !comments || !rating) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+
+                // Prepare data to send
+                const reviewData = {
+                    userID: userID,
+                    username: username,
+                    comments: comments,
+                    rating: parseInt(rating, 10)
+                };
+
+                // Send data to the server
+                fetch('/InfinityNetwork/seller/submitReview', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(reviewData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => {
+                                throw new Error(err.error || 'Unknown error occurred');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Success:', data);
+                        alert(data.message || 'Review submitted successfully!');
+                        feedbackForm.reset(); // Reset the form
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Failed to submit review: ' + error.message);
+                    });
+            });
+        }
+    }
+</script>
+</body>
+</html>

@@ -20,6 +20,8 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     List<AppUser> findByUsernameContainingIgnoreCase(String username);
 
+    List<AppUser> findByUsernameIgnoreCase(String username);
+
     List<AppUser> findByEmailContainingIgnoreCase(String email);
 
     List<AppUser> findByPhoneNumberContaining(String phoneNumber);

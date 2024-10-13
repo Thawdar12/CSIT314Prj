@@ -32,7 +32,7 @@ public class CarListings {
 
     // Establish Many-to-One relationship with AppUser
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "userID", nullable = false)
+    @JoinColumn(name = "listedBy", nullable = false)
     private AppUser listedBy;
 
     @Column(nullable = false)
@@ -41,9 +41,12 @@ public class CarListings {
     @Column(nullable = false)
     private String manufacturedYear;
 
-    // New Field: Price
     @Column(nullable = false)
     private Double price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_id", nullable = false)
+    private AppUser seller;
 
     @Column(columnDefinition = "TEXT")
     private String photo;
@@ -149,6 +152,14 @@ public class CarListings {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public AppUser getSeller() {
+        return seller;
+    }
+
+    public void setSeller(AppUser seller) {
+        this.seller = seller;
     }
 
     public LocalDateTime getCreated_at() {
