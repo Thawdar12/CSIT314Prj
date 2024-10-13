@@ -27,4 +27,6 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     List<AppUser> findByPhoneNumberContaining(String phoneNumber);
 
     Optional<AppUser> findByEmail(String email);
+
+    List<AppUser> findAllByUserType(UserType userType);
 }

@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Csit314Application implements CommandLineRunner {
 
     private final AppUserRepository appUserRepository;
+
     private final AppUserService appUserService;
 
     public Csit314Application(AppUserRepository appUserRepository, AppUserService appUserService) {
@@ -25,20 +26,23 @@ public class Csit314Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        //Insert very first admin user
+        // Insert the very first admin user
         String username = "admin";
-        appUserRepository.findByUsername(username).ifPresentOrElse(user -> System.out.println("User 'admin' already exists."), () -> {
-            System.out.println("User 'admin' not found. Registering new user...");
-            try {
-                //Create a new user
-                AppUser newUser = new AppUser("admin", "admin@admin.com", "admin", "12345678", UserType.ADMIN);
-                //Register user through the service
-                appUserService.registerUser(newUser); // Use the instance variable
-                System.out.println("User 'admin' successfully registered.");
-            } catch (Exception e) {
-                System.err.println("Error registering user 'admin': " + e.getMessage());
-                e.printStackTrace();
-            }
-        });
+        appUserRepository.findByUsername(username).ifPresentOrElse(
+                user -> System.out.println("User 'admin' already exists."),
+                () -> {
+                    System.out.println("User 'admin' not found. Registering new user...");
+                    try {
+                        // Create a new user
+                        AppUser newUser = new AppUser("admin", "admin@admin.com", "admin", "12345678", UserType.ADMIN);
+                        // Register user through the service
+                        appUserService.registerUser(newUser);
+                        System.out.println("User 'admin' successfully registered.");
+                    } catch (Exception e) {
+                        System.err.println("Error registering user 'admin': " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+        );
     }
 }
