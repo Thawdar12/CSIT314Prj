@@ -1,0 +1,45 @@
+
+        body {
+            background-color: #F6F6F6;
+        }
+
+
+        .navFont{
+            font-family: "Montserrat", sans-serif;
+            font-size: 1.1rem;
+            font-weight: 550;
+        }
+        .nav-link{
+            color: #F6F6F6;
+        }
+
+        .nav-link:hover{
+            color: #FFDC7F;
+        }
+
+        .navColor{
+            background-color: #163172;
+        }
+
+        .brand-color{
+            font-family: "Open Sans", sans-serif;
+            color: #F6F6F6;
+        }
+
+        .heading{
+            font-family: "Montserrat", sans-serif;
+            font-weight: bold;
+        }
+
+        .form-color{
+        background-color: #fff;
+                    padding: 20px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    border-radius: 10px;
+                    width: 300px;
+        }
+
+        .footer-color{
+            background-color: #FFFFFF;
+        }
+
