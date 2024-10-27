@@ -1,6 +1,7 @@
 # End Point and Return Type
 
 User Admin
+
 1. As a user admin, I want to create user accounts so that users can log in - Done
    Controller: AdminCreateUserController
    Endpoint: "/InfinityNetwork/admin/createUser"
@@ -81,21 +82,22 @@ User Admin
    Payload to receive: JSON
    Payload example:
    Content-Type: application/json
-    {
-    "username": "tester123",
-    "email": "tester@test.com",
-    "enabled": true,
-    "password": "test",
-    "userType": "ADMIN",
-    "phoneNumber": "66666666"
-    }
+   {
+   "username": "tester123",
+   "email": "tester@test.com",
+   "enabled": true,
+   "password": "test",
+   "userType": "ADMIN",
+   "phoneNumber": "66666666"
+   }
    Expected return type: String
    Return object example:
    Success case: success
    Failure case: "error: (conn=1471) Duplicate entry 'admin' for key 'UKatqgqm46rh7b0lrgl80ryd5tp'"
    Note: Submit the full form, even if user only update 1 value
 
-4. As a user admin, I want to suspend user accounts so that the database isn't filled with empty or inactive accounts - Done
+4. As a user admin, I want to suspend user accounts so that the database isn't filled with empty or inactive accounts -
+   Done
    Controller: AdminSuspendUserController
    Endpoint: "/InfinityNetwork/admin/suspendUser?username=username&value=1"
    Request Method: fetch
@@ -103,7 +105,7 @@ User Admin
    Expected return type: String
    Return object example:
    Success case: success
-   Failure case: User not found. OR Invalid value provided. Use 0 to disable or 1 to enable the user. OR 
+   Failure case: User not found. OR Invalid value provided. Use 0 to disable or 1 to enable the user. OR
    Note: 0 means suspend and 1 is enabled
 
 5. As a user admin, I want to search user accounts so that I can find user accounts more easily - Done
@@ -148,8 +150,9 @@ User Admin
    Return object example:
    Success case: success
    Failure case: error: message
-   
-7. As a user admin, I want to be able to view user profiles so that I can find out the current types of profiles available
+
+7. As a user admin, I want to be able to view user profiles so that I can find out the current types of profiles
+   available
    Controller: AdminFetchAllProfileController
    Endpoint: "/InfinityNetwork/admin/fetchAllProfile"
    Request Method: GET
@@ -177,15 +180,16 @@ User Admin
    Failure case: error: message OR other message
 
 9. As a user admin, I want to delete user profiles so that redundant user profiles doesn't occupy the database
-   Controller: AdminDeleteProfileController
-   Endpoint: "/InfinityNetwork/admin/deleteProfile?profileName=MANAGER"
+   Controller: AdminSuspendProfileController
+   Endpoint: "/InfinityNetwork/admin/suspendUserProfile?profileName=admin&value=1"
    Request Method: FETCH
    Payload to receive: none
    Expected return type: String
    Return object example:
    Success case: success
    Failure case: error: message OR other message
-   
+   Note: value 0 for false, 1 for true, so you can resume all user under the profile
+
 10. As a user admin, I want to search user profiles so that I can have an easier time finding specific profiles
     //TODO, as im not sure what's the return type and what exactly to return, just the profile name?
 
@@ -201,11 +205,12 @@ User Admin
     "userType": "admin"
     }
     Expected return type: Bool
-    
+
 12. As a user admin, I want to log out of my account so that I can prevent other users from accessing my account - Done
     //TODO, as logout process in unclear
 
 Used Car Agent
+
 1. As a used car agent, I want to change my user account info so that it is always at the latest version - Done
    Controller: AgentUpdateAccountController
    Endpoint: "/InfinityNetwork/agent/updateUser"
@@ -220,29 +225,120 @@ Used Car Agent
    Payload to receive: none
    Expected return type: List<CarListing>
    Return object example:
-   Success case: success
+   Success case: List
    Failure case: error: message OR other message
-   
-3. As a used car agent, I want to create a new car listing so that I can display a new used car to potential buyers - Done
+
+3. As a used car agent, I want to create a new car listing so that I can display a new used car to potential buyers -
+   Done
+   Controller: AgentCreateListingController
+   Endpoint: "/InfinityNetwork/agent/createListing"
+   Request Method: POST
+   Payload to receive: Multipart/json
+   Payload example:
+   listing
+   {
+   "carBrand": "Toyota",
+   "carModel": "Corolla",
+   "carPlateNumber": "ABC12345",
+   "listingStatus": "OPEN",
+   "manufacturedYear": 2020,
+   "millage": 15000.5,
+   "price": 20000.0,
+   "listedBy": "102",
+   "sellerID": "103"
+   }
+
+   //Photo file, optional
+
+   Expected return type: String
+   Return object example:
+   Success case: success
+   Failure case: error: failure or other error message
 
 4. As a used car agent, I want to be able to update car listings so that I can input the latest info - Done
-5. As a used car agent, I want to delete car listings so that I can show that the car is de-listed to buyers - Done
-6. As a used car agent, I want to search car listings so that I can have an easier time finding specific car listings -Done
-7. As a used car agent, I want to view ratings about me so that I can understand what buyers and sellers think about my service - Done
-   //TODO, unclear about frontend presentation, does frontend request rating and review 1 shot at the same time, or this
-   will be 2 separate pages, not sure if 1 controller for both or need 2 controller
+   Controller: AgentCreateListingController
+   Endpoint: "/InfinityNetwork/agent/updateListing?originalCarPlateNumber=ABC123"
+   Request Method: POST
+   Payload to receive: Multipart/json
+   Expected return type: String
+   Return object example:
+   Success case: success
+   Failure case: error: failure or other error message
 
-8. As a used car agent, I want to view reviews about me so that I can understand what buyers and sellers think about my service - Done
+   Note: submit entire form with every detail, even if user only update 1 info, rest is the same as create
+5. As a used car agent, I want to delete car listings so that I can show that the car is de-listed to buyers - Done
+   Controller: AgentDeleteListingController
+   Endpoint: "/InfinityNetwork/agent/deleteListing?carPlateNumber=ABC12345678"
+   Request Method: POST
+   Payload to receive: None
+   Expected return type: String
+   Return object example:
+   Success case: success
+   Failure case: error: failure or other error message
+
+6. As a used car agent, I want to search car listings so that I can have an easier time finding specific car listings
+   -Done
+   Controller: AgentSearchListingController
+   Endpoint: "/InfinityNetwork/agent/searchListing?criteria=carPlateNumber&value=ABC123"
+   Request Method: GET
+   Payload to receive: None
+   Expected return type: List<CarListing>
+   Return object example:
+   [
+   {
+   "carBrand": "test",
+   "carModel": "Test",
+   "carPlateNumber": "ABC123",
+   "created_at": "2024-10-27T19:22:41",
+   "listingStatus": "OPEN",
+   "manufacturedYear": 2000,
+   "millage": 2090.0,
+   "photo": null,
+   "price": 2000.0,
+   "updated_at": "2024-10-27T19:23:06",
+   "listedBy": "102",
+   "sellerID": "103"
+   }
+   ]
+
+7. As a used car agent, I want to view ratings about me so that I can understand what buyers and sellers think about my
+   service - Done
+   Controller: AgentFetchRatingController
+   Endpoint: "/InfinityNetwork/agent/fetchRating?agentUserID=102"
+   Request Method: GET
+   Payload to receive: None
+   Expected return type: List<ReviewEntity>
+   Return object example:
+   [
+   {
+   "comment": "GoodJob",
+   "rating": 5.0,
+   "reviewFor": "102",
+   "reviewBy": "103",
+   "createdAt": "2024-10-22T23:27:34.943"
+   },
+   {
+   "comment": "BadJob",
+   "rating": 3.0,
+   "reviewFor": "102",
+   "reviewBy": "103",
+   "createdAt": "2024-10-22T23:27:50.341"
+   }
+   ]
+8. As a used car agent, I want to view reviews about me so that I can understand what buyers and sellers think about my
+   service - Done
    Refer to above point
 
 9. As a used car agent, I want to sign in to my account so that I can access the car listings - Done
    Controller: UserLoginController
    All user will use the same controller, can't split to 4 since they use same endpoint address to log in
 
-10. As a used car agent, I want to log out of my account so that I can prevent other users from accessing my account - Done
+10. As a used car agent, I want to log out of my account so that I can prevent other users from accessing my account -
+    Done
     //TODO, as logout process is unclear
 
 Seller
+
 1. As a seller, I want to sign in to my account so that I can access the car listings - Done
    Controller: UserLoginController
    All user will use the same controller, can't split to 4 since they use same endpoint address to log in
@@ -257,7 +353,8 @@ Seller
    but seller should only be able to modify themselves, so make sure when you call this function,
    hard-code the username to current user. Other info please refer to adminUpdateUser
 
-4. As a seller, I want to rate used car agents so that I can provide feedback to the agent and other customers for them to learn from my experience. - Done
+4. As a seller, I want to rate used car agents so that I can provide feedback to the agent and other customers for them
+   to learn from my experience. - Done
    Controller: SellerRateAgentController
    Endpoint: "/InfinityNetwork/seller/rateAgent"
    Request Method: FETCH
@@ -273,8 +370,11 @@ Seller
    Success case: success
    Failure case: error: message OR other message
 
-5. As a seller, I want to review used car agents so that the agent and other customers can learn from my experience with them. - Done
+5. As a seller, I want to review used car agents so that the agent and other customers can learn from my experience with
+   them. - Done
    Review and rating is the same function, you can just submit an empty comments
 
-6. As a seller, I want to see the number of views on my used cars so that I can track the interests on the used car - Can't do since I'm not doing Buyer class
-7. As a seller, I want to see the number of time my used car is shortlisted so that I can track the interests on my used car - Can't do since I'm not doing Buyer class
+6. As a seller, I want to see the number of views on my used cars so that I can track the interests on the used car -
+   Can't do since I'm not doing Buyer class
+7. As a seller, I want to see the number of time my used car is shortlisted so that I can track the interests on my used
+   car - Can't do since I'm not doing Buyer class
