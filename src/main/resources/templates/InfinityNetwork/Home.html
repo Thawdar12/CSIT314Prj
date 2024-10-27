@@ -13,28 +13,7 @@
     <title>User Login</title>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet">
-    <script>
-        window.onload = function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('error')) {
-                const errorType = urlParams.get('error');
-                let errorMessage = '';
-
-                if (errorType === 'locked') {
-                    errorMessage = "Your account is locked and cannot be accessed.";
-                } else if (errorType === 'badCredentials') {
-                    errorMessage = "Invalid username or password.";
-                } else if (errorType === 'invalidDomainGroup') {
-                    errorMessage = "Invalid domain group selected.";
-                }
-
-                // If there's an error message, show it as an alert
-                if (errorMessage) {
-                    alert(errorMessage); // Display the alert with the error message
-                }
-            }
-        };
-    </script>
+    
     <!--    <link rel="stylesheet" href="styles/login.css">-->
     <style>
         body {
@@ -187,22 +166,20 @@
 
             <!--        <button type="submit">Login</button>-->
             <!--    </form>-->
-            <form action="/login" method="post">
+            <form id="loginForm">
 
-                <select aria-label="Default select example" class="form-select" id="domainGroup" name="domainGroup"
-                        required>
+                <select aria-label="Default select example" class="form-select" id="userType" name="userType" required>
                     <option value="admin">Admin</option>
                     <option value="agent">Agent</option>
                     <option value="buyer">Buyer</option>
                     <option value="seller">Seller</option>
                 </select>
                 <div class="form-floating">
-                    <input class="form-control" id="floatingInput" name="username" placeholder="username" type="text">
+                    <input class="form-control" id="username" name="username" placeholder="username" required type="text">
                     <label for="floatingInput">Username</label>
                 </div>
                 <div class="form-floating">
-                    <input class="form-control" id="floatingPassword" name="password" placeholder="Password"
-                           type="password">
+                    <input class="form-control" id="password" name="password" placeholder="Password" required type="password">
                     <label for="floatingPassword">Password</label>
                 </div>
                 <button class="btn btn-primary w-100 py-2" type="submit">Sign In</button>
@@ -261,9 +238,63 @@
         </div>
     </footer>
 </div>
-<script crossorigin="anonymous"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent form's default submission
+
+        validateSignInInput();
+    });
+
+    function validateSignInInput(){
+        const data = {
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value,
+            userType: document.getElementById('userType').value
+        };
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                const loginResult = data;
+                if (loginResult) {
+                    // Redirect to the dashboard
+                    redirectToAccountDashboard();
+                } else {
+                    // Redirect to the home page with an error message
+                    //window.location.href = data.redirect;
+                    showDatabaseErrors();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Optionally, display an error message to the user
+            });
+    }
+
+    function redirectToAccountDashboard(){
+        /*let username = document.getElementById('floatingInput').value;
+        let role = document.getElementById('domainGroup').value;
+        sessionStorage.setItem("username", username);
+        sessionStorage.setItem("role", role);
+
+        window.location.href = "/InfinityNetwork/admin/dashboard";*/
+
+        console.log("Successful Login")
+    }
+
+    function showDatabaseErrors(){
+        
+        document.getElementById('signInError').innerHTML = "Incorrect password, username or account profile";
+    }
+
+</script>
 
 </body>
 </html>
