@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ReviewEntity {
@@ -61,6 +63,10 @@ public class ReviewEntity {
         return createdAt;
     }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     //Functions
     public String rateAgent(ReviewEntity review) {
         createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
@@ -94,7 +100,7 @@ public class ReviewEntity {
                     return "error: reviewBy username not found";
                 }
 
-                // Step 4: Insert the review into the review table
+                //Insert the review into the review table
                 String insertSql = "INSERT INTO review (comment, createdAt, rating, reviewFor, reviewBy) VALUES (?, ?, ?, ?, ?)";
                 try (PreparedStatement insertStmt = connection.prepareStatement(insertSql)) {
                     insertStmt.setString(1, review.getComment());
@@ -118,5 +124,35 @@ public class ReviewEntity {
             e.printStackTrace();
             return "error: " + e.getMessage();
         }
+    }
+
+    public List<ReviewEntity> fetchRating(int agentUserID) {
+        List<ReviewEntity> reviews = new ArrayList<>();
+        // SQL query to fetch reviews for the given agentUserID
+        String sql = "SELECT comment, rating, reviewFor, reviewBy, createdAt FROM review WHERE reviewFor = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Set the agentUserID parameter
+            statement.setInt(1, agentUserID);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                ReviewEntity review = new ReviewEntity();
+                review.setComment(rs.getString("comment"));
+                review.setRating(rs.getDouble("rating"));
+                review.setReviewFor(rs.getString("reviewFor"));
+                review.setReviewBy(rs.getString("reviewBy"));
+                review.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
+                reviews.add(review);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return reviews;
     }
 }

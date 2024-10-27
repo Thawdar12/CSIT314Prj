@@ -2,15 +2,21 @@ package org.example.csit314bce.Entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class CarListingEntity {
@@ -161,6 +167,245 @@ public class CarListingEntity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return listings;
+    }
+
+    public String createListing(MultipartFile photo, CarListingEntity listing) {
+        this.created_at = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        this.updated_at = this.created_at;
+
+        if (photo != null && !photo.isEmpty()) {
+            try {
+                // Generate a unique filename with the original extension
+                String originalFilename = photo.getOriginalFilename();
+                String extension = "";
+                if (originalFilename != null && originalFilename.contains(".")) {
+                    extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                }
+                String newFilename = UUID.randomUUID().toString() + extension;
+
+                // Define the path to save the photo in src/main/resources/static/img/
+                Path imagePath = Paths.get("src", "main", "resources", "static", "img", newFilename).toAbsolutePath().normalize();
+
+                // Create directories if they don't exist
+                Files.createDirectories(imagePath.getParent());
+
+                // Save the file locally
+                Files.copy(photo.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
+
+                // Set the photo path relative to the static directory
+                listing.setPhoto("/img/" + newFilename);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "error: Failed to save photo.";
+            }
+        }
+
+        String sql = "INSERT INTO carListings (carBrand, carModel, carPlateNumber, created_At, listingStatus, manufacturedYear, millage, photo, price, updated_at, listedBy, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, listing.getCarBrand());
+            statement.setString(2, listing.getCarModel());
+            statement.setString(3, listing.getCarPlateNumber());
+            statement.setTimestamp(4, Timestamp.valueOf(this.created_at));
+            statement.setString(5, listing.getListingStatus());
+            statement.setInt(6, listing.getManufacturedYear());
+            statement.setDouble(7, listing.getMillage());
+            statement.setString(8, listing.getPhoto());
+            statement.setDouble(9, listing.getPrice());
+            statement.setTimestamp(10, Timestamp.valueOf(this.updated_at));
+            statement.setString(11, listing.getListedBy());
+            statement.setString(12, listing.getSellerID());
+
+            int rowsInserted = statement.executeUpdate();
+
+            if (rowsInserted == 1) {
+                System.out.println("Listing created successfully!");
+                return "success";
+            } else {
+                System.out.println("Failed to create listing.");
+                return "failure";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "error: " + e.getMessage();
+        }
+    }
+
+    public String updateListing(MultipartFile photo, CarListingEntity listing, String originalCarPlateNumber) {
+        listing.setUpdated_at(LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+
+        //Handle photo upload if present
+        if (photo != null && !photo.isEmpty()) {
+            try {
+                // Generate a unique filename with the original extension
+                String originalFilename = photo.getOriginalFilename();
+                String extension = "";
+                if (originalFilename != null && originalFilename.contains(".")) {
+                    extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                }
+                String newFilename = UUID.randomUUID().toString() + extension;
+
+                // Define the path to save the photo in src/main/resources/static/img/
+                Path imagePath = Paths.get("src", "main", "resources", "static", "img", newFilename).toAbsolutePath().normalize();
+
+                // Create directories if they don't exist
+                Files.createDirectories(imagePath.getParent());
+
+                // Save the file locally
+                Files.copy(photo.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
+
+                // Set the photo path relative to the static directory
+                listing.setPhoto("/img/" + newFilename);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "error: Failed to save photo.";
+            }
+        }
+
+        String sql = "UPDATE carListings SET carBrand = ?, carModel = ?, carPlateNumber = ?, listingStatus = ?, manufacturedYear = ?, millage = ?, photo = ?, price = ?, updated_at = ?, listedBy = ?, seller_id = ? WHERE carPlateNumber = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, listing.getCarBrand());
+            statement.setString(2, listing.getCarModel());
+            statement.setString(3, listing.getCarPlateNumber());
+            statement.setString(4, listing.getListingStatus());
+            statement.setInt(5, listing.getManufacturedYear());
+            statement.setDouble(6, listing.getMillage());
+            statement.setString(7, listing.getPhoto());
+            statement.setDouble(8, listing.getPrice());
+            statement.setTimestamp(9, Timestamp.valueOf(listing.getUpdated_at()));
+            statement.setString(10, listing.getListedBy());
+            statement.setString(11, listing.getSellerID());
+            statement.setString(12, originalCarPlateNumber);
+
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated == 1) {
+                System.out.println("Listing updated successfully!");
+                return "success";
+            } else {
+                System.out.println("Failed to update listing. Listing may not exist.");
+                return "failure";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "error: " + e.getMessage();
+        }
+    }
+
+    public String deleteListing(String carPlateNumber) {
+        String photoPath = null;
+        String selectSql = "SELECT photo FROM carListings WHERE carPlateNumber = ?";
+        String deleteSql = "DELETE FROM carListings WHERE carPlateNumber = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement selectStmt = connection.prepareStatement(selectSql)) {
+
+            // Step 1: Retrieve the photo path for the listing
+            selectStmt.setString(1, carPlateNumber);
+            ResultSet rs = selectStmt.executeQuery();
+
+            if (rs.next()) {
+                photoPath = rs.getString("photo");
+            } else {
+                return "error: Listing not found.";
+            }
+
+            // Step 2: Delete the listing from the database
+            try (PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
+                deleteStmt.setString(1, carPlateNumber);
+                int rowsDeleted = deleteStmt.executeUpdate();
+
+                if (rowsDeleted == 1) {
+                    if (photoPath != null && !photoPath.isEmpty()) {
+                        // Extract the filename from the photo path
+                        String filename = Paths.get(photoPath).getFileName().toString();
+                        Path imagePath = Paths.get("src", "main", "resources", "static", "img", filename).toAbsolutePath().normalize();
+
+                        try {
+                            Files.deleteIfExists(imagePath);
+                            System.out.println("Photo deleted successfully!");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            // Optionally, log the error or handle it as needed
+                        }
+                    }
+
+                    System.out.println("Listing deleted successfully!");
+                    return "success";
+                } else {
+                    System.out.println("Failed to delete listing.");
+                    return "failure: Unable to delete listing.";
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "error: " + e.getMessage();
+        }
+    }
+
+    public List<CarListingEntity> searchListing(String criteria, String value) {
+        List<CarListingEntity> listings = new ArrayList<>();
+
+        // Define allowed columns to prevent SQL injection
+        List<String> allowedCriteria = Arrays.asList(
+                "carBrand",
+                "carModel",
+                "carPlateNumber",
+                "listingStatus",
+                "manufacturedYear",
+                "seller_id"
+        );
+
+        if (!allowedCriteria.contains(criteria)) {
+            System.out.println("Invalid search criteria: " + criteria);
+            return listings; // Returns an empty list if criteria is invalid
+        }
+
+        // SQL query using the validated criteria
+        String sql = "SELECT carBrand, carModel, carPlateNumber, created_At, listingStatus, " +
+                "manufacturedYear, millage, photo, price, updated_at, listedBy, seller_id " +
+                "FROM carListings WHERE " + criteria + " LIKE ?";
+
+        String likeValue = "%" + value + "%";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Wildcards search for partial matching
+            statement.setString(1, likeValue);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                CarListingEntity listing = new CarListingEntity();
+                listing.setCarBrand(rs.getString("carBrand"));
+                listing.setCarModel(rs.getString("carModel"));
+                listing.setCarPlateNumber(rs.getString("carPlateNumber"));
+                listing.setCreated_at(rs.getTimestamp("created_At").toLocalDateTime());
+                listing.setListingStatus(rs.getString("listingStatus"));
+                listing.setManufacturedYear(rs.getInt("manufacturedYear"));
+                listing.setMillage(rs.getDouble("millage"));
+                listing.setPhoto(rs.getString("photo"));
+                listing.setPrice(rs.getDouble("price"));
+                listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+                listing.setListedBy(rs.getString("listedBy"));
+                listing.setSellerID(rs.getString("seller_id"));
+                listings.add(listing);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return listings;
     }
 }

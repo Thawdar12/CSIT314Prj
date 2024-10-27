@@ -6,19 +6,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AdminDeleteProfileController {
+public class AdminSuspendProfileController {
     private final UserEntity userEntity;
 
-    public AdminDeleteProfileController(UserEntity userEntity) {
+    public AdminSuspendProfileController(UserEntity userEntity) {
         this.userEntity = userEntity;
     }
 
-    @PostMapping("/InfinityNetwork/admin/deleteProfile")
-    public String adminDeleteProfile(@RequestParam String profileName) {
+    @PostMapping("/InfinityNetwork/admin/suspendUserProfile")
+    public String adminDeleteProfile(@RequestParam String profileName,
+                                     @RequestParam int value) {
         //Biz logic, if any
 
         //Pass info to Entity
-        String result = userEntity.deleteProfile(profileName);
+        String result = userEntity.suspendProfile(profileName, value);
 
         //Get back from Entity
         return result;

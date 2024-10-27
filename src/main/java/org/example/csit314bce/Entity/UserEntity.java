@@ -480,49 +480,28 @@ public class UserEntity {
         }
     }
 
-    public String deleteProfile(String profileName) {
-        List<String> enumValues = new ArrayList<>();
-        String selectEnumSql = "SHOW COLUMNS FROM user LIKE 'userType'";
+    public String suspendProfile(String profileName, int value) {
+        boolean isEnabled = (value == 1);
+        // SQL statement to update the enabled status
+        String sql = "UPDATE user SET enabled = ? WHERE userType = ?";
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement selectStmt = connection.prepareStatement(selectEnumSql);
-             ResultSet rs = selectStmt.executeQuery()) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            if (rs.next()) {
-                String enumDefinition = rs.getString("Type"); // e.g., enum('ADMIN','USER','MANAGER')
-                // Extract values between parentheses
-                enumDefinition = enumDefinition.substring(enumDefinition.indexOf('(') + 1, enumDefinition.lastIndexOf(')'));
-                String[] values = enumDefinition.split(",");
-                for (String value : values) {
-                    String trimmedValue = value.trim().replace("'", "");
-                    if (!trimmedValue.equalsIgnoreCase(profileName)) {
-                        enumValues.add(trimmedValue);
-                    }
-                }
-            }
+            // Set the parameters
+            statement.setBoolean(1, isEnabled);
+            statement.setString(2, profileName);
 
-            // Check if the profileName existed
-            if (enumValues.isEmpty()) {
-                return "Profile does not exist or cannot be deleted.";
-            }
+            // Execute the update
+            int rowsUpdated = statement.executeUpdate();
 
-            // Build new ENUM definition
-            StringBuilder newEnum = new StringBuilder("enum(");
-            for (int i = 0; i < enumValues.size(); i++) {
-                newEnum.append("'").append(enumValues.get(i)).append("'");
-                if (i < enumValues.size() - 1) {
-                    newEnum.append(",");
-                }
-            }
-            newEnum.append(")");
-
-            // Alter table to update ENUM
-            String alterSql = "ALTER TABLE user MODIFY userType " + newEnum.toString();
-
-            try (PreparedStatement alterStmt = connection.prepareStatement(alterSql)) {
-                alterStmt.executeUpdate();
-                System.out.println("Profile '" + profileName + "' deleted successfully!");
+            if (rowsUpdated > 0) {
+                String action = isEnabled ? "unsuspended" : "suspended";
+                System.out.println("Successfully " + action + " " + rowsUpdated + " user(s) with profile: " + profileName);
                 return "success";
+            } else {
+                System.out.println("No users found with profile: " + profileName);
+                return "failure: No users found with the specified profile.";
             }
 
         } catch (SQLException e) {
@@ -530,4 +509,29 @@ public class UserEntity {
             return "error: " + e.getMessage();
         }
     }
+
+    public String getID(String username) {
+        String id = null;
+        String sql = "SELECT userID FROM user WHERE username = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Set the exact username parameter
+            statement.setString(1, username);
+
+            ResultSet rs = statement.executeQuery();
+
+            // If user is found, retrieve the ID
+            if (rs.next()) {
+                id = rs.getString("userID");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
 }

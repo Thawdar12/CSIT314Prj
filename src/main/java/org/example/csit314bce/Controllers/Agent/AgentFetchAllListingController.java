@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class fetchAllListingController {
+public class AgentFetchAllListingController {
     private final CarListingEntity carListing;
 
-    public fetchAllListingController(CarListingEntity carListing) {
+    public AgentFetchAllListingController(CarListingEntity carListing) {
         this.carListing = carListing;
     }
 
