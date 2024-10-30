@@ -16,7 +16,7 @@ public class AgentSearchListingController {
     }
 
     @GetMapping(value = "/InfinityNetwork/agent/searchListing")
-    public List<CarListingEntity> adminSearchUser(@RequestParam String criteria,
+    public List<CarListingEntity> agentSearchListing(@RequestParam String criteria,
                                                   @RequestParam String value) {
         //Biz logic, if any
 
