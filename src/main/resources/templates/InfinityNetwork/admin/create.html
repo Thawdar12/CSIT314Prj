@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{header :: header}"></div>
+<title>Create Account</title>
+<link rel="stylesheet" href="/css/adminDashboard.css" />
+<script>
+    console.log(sessionStorage.getItem("loginStatus"));
+    if(!sessionStorage.getItem("loginStatus")) {
+        window.location.href = "/InfinityNetwork/Login";
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentUrl = window.location.pathname;
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+
+        navLinks.forEach(link => {
+            if (link.getAttribute("href") === currentUrl) {
+                link.classList.add("active");
+            }
+        });
+
+        // Check form validation
+        const form = document.getElementById("user-form");
+        form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+
+              form.classList.add('was-validated')
+              // Create the user
+              const data = {
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value,
+                    userType: document.getElementById('user-type').value,
+                    email: document.getElementById('email').value,
+                    phoneNumber: document.getElementById('phone-number').value
+               };
+              try {
+                  fetch('/InfinityNetwork/admin/createUser', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+              } catch(error) {
+                console.log(error);
+              }
+        });
+
+
+    });
+</script>
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color: white">
+<div th:insert="~{adminNavbar :: admin-navbar}"></div>
+
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold">Create User</h1>
+</div>
+
+<div class="container-fluid mb-5">
+    <form class="row g-1 needs-validation" id="user-form" novalidate>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" required>
+                <div class="invalid-feedback">
+                    Username is taken.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" required>
+                <div class="invalid-feedback">
+                    Please provide a valid email.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" required>
+                <div class="invalid-feedback">
+                    Please provide a password.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="user-type" class="form-label">UserType</label>
+                <select class="form-select" id="user-type" required>
+                    <option selected disabled value="">Choose...</option>
+                    <option>AGENT</option>
+                    <option>BUYER</option>
+                    <option>SELLER</option>
+                    <option>ADMIN</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a valid user type.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="phone-number" class="form-label">Phone</label>
+                <div class="input-group">
+                    <span class="input-group-text">+65</span>
+                    <input type="text" class="form-control" id="phone-number" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid phone.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-6 text-center">
+                <button class="btn btn-outline-secondary" type="submit">Submit form</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="mt-auto footer-color" th:insert="~{footer :: footer}"></div>
+</body>
+</html>

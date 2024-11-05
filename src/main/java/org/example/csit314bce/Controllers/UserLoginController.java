@@ -2,6 +2,7 @@ package org.example.csit314bce.Controllers;
 
 import org.example.csit314bce.Entity.UserEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +14,7 @@ public class UserLoginController {
         this.userEntity = userEntity;
     }
 
-    @GetMapping(value = "/login", consumes = "application/json")
+    @PostMapping(value = "/login", consumes = "application/json")
     public boolean userLogin(@RequestBody UserEntity userEntity) {
         // Biz logic, if any
 

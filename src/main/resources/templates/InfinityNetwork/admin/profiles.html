@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{header :: header}"></div>
+<script>
+    console.log(sessionStorage.getItem("loginStatus"));
+    if(!sessionStorage.getItem("loginStatus")) {
+        window.location.href = "/InfinityNetwork/Login";
+    }
+     document.addEventListener("DOMContentLoaded", function() {
+        const currentUrl = window.location.pathname;
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+
+        navLinks.forEach(link => {
+            if (link.getAttribute("href") === currentUrl) {
+                link.classList.add("active");
+            }
+        });
+    });
+</script>
+<link rel="stylesheet" href="/css/adminDashboard.css" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:insert="~{adminNavbar :: admin-navbar}"></div>
+
+<div class="mt-auto footer-color" th:insert="~{footer :: footer}"></div>
+</body>
+</html>

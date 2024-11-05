@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{header :: header}"></div>
+<title>Dashboard</title>
+<link rel="stylesheet" href="/css/adminDashboard.css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    console.log(sessionStorage.getItem("loginStatus"));
+    if(!sessionStorage.getItem("loginStatus")) {
+        window.location.href = "/InfinityNetwork/Login";
+    }
+
+    async function unsuspendUser(name) {
+        console.log(name);
+        const data = new FormData();
+        data.append('username', name);
+        data.append('value', 1);
+        data.forEach((value, key) => {
+            console.log(`${key}: ${value}`);
+        });;
+        fetch('/InfinityNetwork/admin/suspendUser', {
+            method: 'POST',
+            body: data
+        })
+        .then(response => {
+            if (response.ok) {
+                fetchUserData();
+                return response.text();
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        })
+        .then(data => {
+            console.log('Response:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        fetchUserData();
+    }
+
+    async function suspendUser(name) {
+        const data = new FormData();
+        data.append('username', name);
+        data.append('value', 0);
+        data.forEach((value, key) => {
+            console.log(`${key}: ${value}`);
+        });;
+        fetch('/InfinityNetwork/admin/suspendUser', {
+            method: 'POST',
+            body: data
+        })
+        .then(response => {
+            if (response.ok) {
+                fetchUserData();
+                return response.text();
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        })
+        .then(data => {
+            console.log('Response:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        fetchUserData();
+    }
+
+    async function updateUser(name) {
+        window.location.href = `/InfinityNetwork/admin/update?username=${name}`;
+    }
+
+    function createUserCards(users) {
+        const userCardsContainer = document.getElementById('userCards');
+        userCardsContainer.innerHTML = ''; // Clear any existing content
+    // Generate a card for each user
+        users.forEach(user => {
+            const card = document.createElement('div');
+            card.classList.add('col-md-4'); // Bootstrap column class for responsive layout
+
+            // Create card HTML structure
+            card.innerHTML = `
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Username: ${user.username}</h5>
+                        <p class="card-text"><span class="user-info">Email</span>: ${user.email}</p>
+                        <p class="card-text"><span class="user-info">UserType</span>: ${user.userType}</p>
+                        <p class="card-text"><span class="user-info">Phone</span>: ${user.phoneNumber}</p>
+                        <p class="card-text"><span class="user-info">Average Rating</span>: ${user.averageRating}</p>
+                        <p class="card-text"><span class="user-info">Created At</span>: ${user.created_At}</p>
+                        <p class="card-text"><span class="user-info">Updated At</span>: ${user.updated_At}</p>
+                        <p class="card-text text-danger"><b>Suspended: ${!user.enabled}</b></p>
+                    </div>
+                    <div class="card-footer container">
+                        <div class="row justify-content-between">
+                            <button class="btn btn-primary col-5" onclick="${user.enabled ? `suspendUser('${user.username}')` : `unsuspendUser('${user.username}')`}">
+                                ${user.enabled ? 'Suspend Account' : 'Unsuspend Account'}
+                            </button>
+                            <button class="btn btn-primary col-5" onclick="updateUser('${user.username}')">Update Account</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Append the card to the container
+            userCardsContainer.appendChild(card);
+        });
+    }
+
+    async function fetchUserData() {
+    try {
+        const response = await fetch("/InfinityNetwork/admin/fetchAllUser");
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const users = await response.json();
+
+        createUserCards(users);
+
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+}
+
+
+     document.addEventListener("DOMContentLoaded", function() {
+        const currentUrl = window.location.pathname;
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+
+        navLinks.forEach(link => {
+            if (link.getAttribute("href") === currentUrl) {
+                link.classList.add("active");
+            }
+        });
+
+        fetchUserData();
+
+        const searchButton = document.getElementById("search-button");
+        searchButton.addEventListener("click", async function() {
+            const input = document.getElementById("search-value");
+            const value = input.value;
+            try {
+                const url = `/InfinityNetwork/admin/searchUser?criteria=username&value=${value}`;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const users = await response.json();
+                createUserCards(users);
+            } catch(error) {
+            }
+        });
+
+        const allButton = document.getElementById("search-all-button");
+        allButton.addEventListener("click", async function() {
+            try {
+                fetchUserData();
+                const input = document.getElementById("search-value");
+                input.value = "";
+            } catch(error) {
+                console.log("error");
+            }
+        });
+    });
+</script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <div th:insert="~{adminNavbar :: admin-navbar}"></div>
+
+    <div class="px-4 py-5 my-5 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="57" fill="currentColor" class="d-block mx-auto mb-4 bi bi-person-fill-gear" viewBox="0 0 16 16">
+            <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4m9.886-3.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
+        </svg>
+        <h1 class="display-5 fw-bold">User Management</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Manage Users Here. Create, View, Update And Suspend accounts.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button type="button" class="btn btn-outline-secondary btn-lg px-4 gap-3">Create User</button>
+                <button type="button" class="btn btn-outline-secondary btn-lg px-4">View Profiles</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="container-fluid px-5 py-3" style="background-color: white">
+        <!-- Search bar -->
+        <div class="row">
+            <div class="col-md-5">
+                <div class="input-group mb-3">
+                    <input id="search-value" type="text" class="form-control" placeholder="Username" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="search-button">Search</button>
+                    <button class="btn btn-outline-secondary" type="button" id="search-all-button">All</button>
+                </div>
+            </div>
+        </div>
+        <!-- Users -->
+        <div id="userCards" class="row g-4"></div>
+    </div>
+
+    <div class="mt-auto footer-color container-fluid" th:insert="~{footer :: footer}"></div>
+</body>
+</html>
