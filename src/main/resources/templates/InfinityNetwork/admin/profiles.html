@@ -2,9 +2,194 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
 <div th:insert="~{header :: header}"></div>
 <script>
-    console.log(sessionStorage.getItem("loginStatus"));
-    if(!sessionStorage.getItem("loginStatus")) {
-        window.location.href = "/InfinityNetwork/Login";
+
+    async function updateProfile(name) {
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop-update'), {
+          backdrop: 'static',
+          keyboard: false
+        });
+        const oldProfileName = document.getElementById("old-profile-name");
+        oldProfileName.innerHTML = name;
+        myModal.show();
+
+        const newProfileName = document.getElementById("input-profile");
+
+        const btn = document.getElementById("update-button");
+        btn.addEventListener('click', async (event) => {
+            const data = new FormData();
+            const newName = newProfileName.value;
+            data.append('oldProfileName', name);
+            data.append('newProfileName', newName);
+            data.forEach((value, key) => {
+                console.log(`${key}: ${value}`);
+            });;
+            // If the old and new name are the same
+            console.log(name, newName);
+            if (name === newName) {
+                Swal.fire({
+                        title: 'Failed to update!',
+                        text: 'Old and new name must be different!',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                 });
+            }
+            else {
+                try {
+                    fetch('/InfinityNetwork/admin/updateProfile', {
+                    method: 'POST',
+                    body: data
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            Swal.fire({
+                                      title: "Account Name Updated!",
+                                      icon: "success",
+                                      confirmButtonText: 'OK'
+                            });
+                            fetchProfilesData();
+                            // Reset form
+                            const f = document.getElementById("input-profile");
+                            f.innerHTML = "";
+                            f.value = "";
+                            myModal.hide();
+                            return response.text();
+                        }
+                    });
+                    } catch (error) {
+                        Swal.fire({
+                                title: 'Error!',
+                                text: 'Failed to update user profile.!',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                         });
+                        throw new Error('Network response was not ok.');
+                    }
+                }
+            });
+    }
+
+    async function unsuspendProfile(name) {
+        const data = new FormData();
+        data.append('profileName', name);
+        data.append('value', 1);
+        data.forEach((value, key) => {
+            console.log(`${key}: ${value}`);
+        });;
+        fetch('/InfinityNetwork/admin/suspendUserProfile', {
+            method: 'POST',
+            body: data
+        })
+        .then(response => {
+            if (response.ok) {
+                Swal.fire({
+                          title: "Profile Unsuspended!",
+                          icon: "success",
+                          confirmButtonText: 'OK'
+                });
+                fetchProfilesData();
+                return response.text();
+            } else {
+                Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to unsuspend account.!',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                 });
+                throw new Error('Network response was not ok.');
+            }
+        })
+        .then(data => {
+            console.log('Response:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        fetchProfilesData();
+    }
+
+    async function suspendProfile(name) {
+        const data = new FormData();
+        data.append('profileName', name);
+        data.append('value', 0);
+        data.forEach((value, key) => {
+            console.log(`${key}: ${value}`);
+        });;
+        fetch('/InfinityNetwork/admin/suspendUserProfile', {
+            method: 'POST',
+            body: data
+        })
+        .then(response => {
+            if (response.ok) {
+                Swal.fire({
+                          title: "Profile Suspended!",
+                          icon: "success",
+                          confirmButtonText: 'OK'
+                });
+                fetchProfilesData();
+                return response.text();
+            } else {
+                Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to Suspend account.!',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                 });
+                throw new Error('Network response was not ok.');
+            }
+        })
+        .then(data => {
+            console.log('Response:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+        fetchProfilesData();
+    }
+
+    function createProfileCards(profiles) {
+        const userCardsContainer = document.getElementById('profile-cards');
+        userCardsContainer.innerHTML = ''; // Clear any existing content
+    // Generate a card for each user
+        profiles.forEach(profile => {
+            const card = document.createElement('div');
+            card.classList.add('col-md-4'); // Bootstrap column class for responsive layout
+
+            // Create card HTML structure
+            card.innerHTML = `
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Profile Name: ${profile}</h5>
+                    </div>
+                    <div class="card-footer container">
+                        <div class="row justify-content-between">
+                            <button class="btn btn-primary col-3" onclick="updateProfile('${profile}')">Update Profile</button>
+                            <button class="btn btn-primary col-3" onclick="suspendProfile('${profile}')">Suspend Profile</button>
+                            <button class="btn btn-primary col-3" onclick="unsuspendProfile('${profile}')">Unsuspend Profile</button>
+                        </div>
+
+                    </div>
+                </div>
+            `;
+
+            // Append the card to the container
+            userCardsContainer.appendChild(card);
+        });
+    }
+
+    async function fetchProfilesData() {
+        try {
+            const response = await fetch("/InfinityNetwork/admin/fetchAllProfile");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const profiles = await response.json();
+
+            console.log(profiles);
+            createProfileCards(profiles);
+
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
     }
      document.addEventListener("DOMContentLoaded", function() {
         const currentUrl = window.location.pathname;
@@ -15,13 +200,55 @@
                 link.classList.add("active");
             }
         });
+
+        fetchProfilesData();
+
     });
 </script>
 <link rel="stylesheet" href="/css/adminDashboard.css" />
 </head>
 <body class="d-flex flex-column min-vh-100">
-<div th:insert="~{adminNavbar :: admin-navbar}"></div>
+    <div th:insert="~{adminNavbar :: admin-navbar}"></div>
 
-<div class="mt-auto footer-color" th:insert="~{footer :: footer}"></div>
+    <!-- Modal Structure for updating profile -->
+    <div class="modal fade" id="staticBackdrop-update" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Update Profile</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Now Changing: <span id="old-profile-name"></span></h5>
+                    <label for="input-profile" class="form-label">New Profile Name</label>
+                    <input type="text" id="input-profile" class="form-control" aria-describedby="helpBlock" required>
+                    <div id="helpBlock" class="form-text">
+                        Your new profile must be unique from existing profiles.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="update-button">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="px-4 py-5 my-5 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="57" fill="currentColor" class="bi bi-person-lines-fill mb-4" viewBox="0 0 16 16">
+            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z"/>
+        </svg>
+        <h1 class="display-5 fw-bold">Profiles</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Manage Profiles Here. Create, View, Update And Delete profiles.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button type="button" class="btn btn-outline-secondary btn-lg px-4 gap-3" id="create-button">Create Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-cards" class="row g-4 px-5"></div>
+
+    <div class="mt-auto footer-color" th:insert="~{footer :: footer}"></div>
 </body>
 </html>

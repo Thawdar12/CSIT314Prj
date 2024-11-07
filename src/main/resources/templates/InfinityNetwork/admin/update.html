@@ -4,9 +4,6 @@
         <title>Update Account</title>
         <link rel="stylesheet" href="/css/adminDashboard.css"/>
     <script>
-        if(!sessionStorage.getItem("loginStatus")) {
-            window.location.href = "/InfinityNetwork/Login";
-        }
 
         // Parse the query parameters to get the username
         const urlParams = new URLSearchParams(window.location.search);

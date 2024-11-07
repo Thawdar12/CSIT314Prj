@@ -4,10 +4,6 @@
 <title>Create Account</title>
 <link rel="stylesheet" href="/css/adminDashboard.css" />
 <script>
-    console.log(sessionStorage.getItem("loginStatus"));
-    if(!sessionStorage.getItem("loginStatus")) {
-        window.location.href = "/InfinityNetwork/Login";
-    }
 
     document.addEventListener("DOMContentLoaded", function() {
         const currentUrl = window.location.pathname;
@@ -21,10 +17,11 @@
 
         // Check form validation
         const form = document.getElementById("user-form");
-        form.addEventListener('submit', event => {
+        form.addEventListener('submit', async (event) => {
+              event.preventDefault();
               if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
+                    form.classList.add('was-validated');
+                    return;
               }
 
               form.classList.add('was-validated')
@@ -37,15 +34,32 @@
                     phoneNumber: document.getElementById('phone-number').value
                };
               try {
-                  fetch('/InfinityNetwork/admin/createUser', {
+                  const response = await fetch('/InfinityNetwork/admin/createUser', {
                     method: 'POST',
                     headers: {
                     'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(data)
                 })
+                if (!response.ok) {
+                       throw new Error(`Error: ${response.statusText}`);
+                }
+                Swal.fire({
+                      title: "User Account Created!",
+                      icon: "success",
+                      confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Redirect after user clicks "OK" in Swal
+                        window.location.href = "/InfinityNetwork/admin/dashboard";
+                });
               } catch(error) {
                 console.log(error);
+                 Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to create user. Username is taken!',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                 });
               }
         });
 

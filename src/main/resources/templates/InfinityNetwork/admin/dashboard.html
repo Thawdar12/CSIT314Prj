@@ -5,10 +5,6 @@
 <link rel="stylesheet" href="/css/adminDashboard.css" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    console.log(sessionStorage.getItem("loginStatus"));
-    if(!sessionStorage.getItem("loginStatus")) {
-        window.location.href = "/InfinityNetwork/Login";
-    }
 
     async function unsuspendUser(name) {
         console.log(name);
@@ -24,9 +20,20 @@
         })
         .then(response => {
             if (response.ok) {
+                Swal.fire({
+                          title: "User Unsuspended!",
+                          icon: "success",
+                          confirmButtonText: 'OK'
+                });
                 fetchUserData();
                 return response.text();
             } else {
+                Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to unsuspend user.!',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                 });
                 throw new Error('Network response was not ok.');
             }
         })
@@ -52,9 +59,20 @@
         })
         .then(response => {
             if (response.ok) {
+                 Swal.fire({
+                      title: "User Suspended!",
+                      icon: "success",
+                      confirmButtonText: 'OK'
+                 });
                 fetchUserData();
                 return response.text();
             } else {
+                Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to suspend user.!',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                 });
                 throw new Error('Network response was not ok.');
             }
         })
@@ -162,6 +180,17 @@
                 console.log("error");
             }
         });
+
+        // Add redirection to buttons
+        const createButton = document.getElementById("create-button");
+        createButton.addEventListener("click", () => {
+            window.location.href = "/InfinityNetwork/admin/create";
+        });
+
+        const viewButton = document.getElementById("view-button");
+        viewButton.addEventListener("click", () => {
+            window.location.href = "/InfinityNetwork/admin/profiles";
+        });
     });
 </script>
 </head>
@@ -176,8 +205,8 @@
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">Manage Users Here. Create, View, Update And Suspend accounts.</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <button type="button" class="btn btn-outline-secondary btn-lg px-4 gap-3">Create User</button>
-                <button type="button" class="btn btn-outline-secondary btn-lg px-4">View Profiles</button>
+                <button type="button" class="btn btn-outline-secondary btn-lg px-4 gap-3" id="create-button">Create User</button>
+                <button type="button" class="btn btn-outline-secondary btn-lg px-4" id="view-button">View Profiles</button>
             </div>
         </div>
     </div>

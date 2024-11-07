@@ -101,7 +101,11 @@
         sessionStorage.setItem("role", role);
         sessionStorage.setItem("loginStatus", true);
 
-        window.location.href = "/InfinityNetwork/admin/dashboard";
+        console.log(role);
+
+        if (role === "admin") {
+            window.location.href = "/InfinityNetwork/admin/dashboard";
+        }
 
         console.log("Successful Login")
     }

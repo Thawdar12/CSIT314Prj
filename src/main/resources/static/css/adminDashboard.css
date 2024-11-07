@@ -41,12 +41,12 @@ body {
     font-weight: 500;
 }
 
-.nav-link:active {
+.nav-link.active {
     color: #FFDC7F;
 }
 
 .active {
-    color: #FFDC7F;
+    color: #FFDC7F !important;
 }
 
 
