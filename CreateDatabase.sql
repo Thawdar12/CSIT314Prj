@@ -33,14 +33,14 @@ create table carlistings
     photo            text                    null,
     price            double                  not null,
     updated_at       datetime(3)             not null,
-    listedBy         bigint                  not null,
-    seller_id        bigint                  not null,
+    listedBy         varchar(50)             not null,
+    sellerUsername  varchar(50)             not null,
     constraint UK3oasb4n1acr4kl6j9h63poby5
         unique (carPlateNumber),
     constraint FK8mxrm0fxek63e4274m2pgbyv4
-        foreign key (listedBy) references user (userID),
+        foreign key (listedBy) references user (username),
     constraint FKac7efr49wux1fh8w2ncyb8q1s
-        foreign key (seller_id) references user (userID)
+        foreign key (sellerUsername) references user (username)
 );
 
 create table review
@@ -50,12 +50,12 @@ create table review
     comment   varchar(1000)  null,
     createdAt datetime(3)    not null,
     rating    decimal(10, 2) not null,
-    reviewFor bigint         not null,
-    reviewBy  bigint         not null,
+    reviewFor varchar(50)    not null,
+    reviewBy  varchar(50)    not null,
     constraint FKjchjtsqwf4hco76ygvo5af4pa
-        foreign key (reviewBy) references user (userID),
+        foreign key (reviewBy) references user (username),
     constraint FKr63muddle4s28qw1jrfi72jby
-        foreign key (reviewFor) references user (userID)
+        foreign key (reviewFor) references user (username)
 );
 
 INSERT INTO csit314database.user (averageRating, created_at, email, enabled, password, phoneNumber, updated_at,

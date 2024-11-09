@@ -14,7 +14,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class UserEntity {
@@ -123,31 +122,34 @@ public class UserEntity {
 
     //Functions
     public Boolean userLogIn(UserEntity userEntity) {
-        username = userEntity.getUsername();
-        password = userEntity.getPassword();
-        userType = userEntity.getUserType();
+        String username = userEntity.getUsername();
+        String password = userEntity.getPassword();
+        String userType = userEntity.getUserType();
 
-        // SQL query to verify user credentials
-        String sql = "SELECT * FROM user WHERE username = ? AND password = ? AND userType = ?";
+        // SQL query to verify user credentials and check if the profile is enabled
+        String sql = "SELECT u.*, p.isEnabled AS profileEnabled " +
+                "FROM user u " +
+                "JOIN profile p ON u.userType = p.profileName " +
+                "WHERE u.username = ? AND u.password = ? AND u.userType = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             // Set parameters to prevent SQL injection
-            statement.setString(1, this.username);
-            statement.setString(2, this.password);
-            statement.setString(3, this.userType);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            statement.setString(3, userType);
 
             // Execute the query
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.next() && resultSet.getBoolean("enabled")) {
-                // Credentials are correct
+            if (resultSet.next() && resultSet.getBoolean("enabled") && resultSet.getBoolean("profileEnabled")) {
+                // Credentials are correct and both user and profile are enabled
                 System.out.println("Entity: Login successful");
                 return true;
             } else {
-                // Credentials are incorrect
-                System.out.println("Entity: Invalid username, password, or user type");
+                // Credentials are incorrect or user/profile is not enabled
+                System.out.println("Entity: Invalid username, password, user type, or profile is disabled");
                 return false;
             }
         } catch (SQLException e) {
@@ -349,167 +351,6 @@ public class UserEntity {
         return users;
     }
 
-    public String createProfile(String profileName) {
-        List<String> enumValues = new ArrayList<>();
-        String selectEnumSql = "SHOW COLUMNS FROM user LIKE 'userType'";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement selectStmt = connection.prepareStatement(selectEnumSql);
-             ResultSet rs = selectStmt.executeQuery()) {
-
-            if (rs.next()) {
-                String enumDefinition = rs.getString("Type");
-                // Extract values between parentheses
-                enumDefinition = enumDefinition.substring(enumDefinition.indexOf('(') + 1, enumDefinition.lastIndexOf(')'));
-                String[] values = enumDefinition.split(",");
-                for (String value : values) {
-                    enumValues.add(value.trim().replace("'", ""));
-                }
-            }
-
-            // Check if profile already exists
-            if (enumValues.contains(profileName)) {
-                return "Profile already exists.";
-            }
-
-            // Add new profile
-            enumValues.add(profileName);
-
-            // Construct new ENUM definition
-            StringBuilder newEnum = new StringBuilder("enum(");
-            for (int i = 0; i < enumValues.size(); i++) {
-                newEnum.append("'").append(enumValues.get(i)).append("'");
-                if (i < enumValues.size() - 1) {
-                    newEnum.append(",");
-                }
-            }
-            newEnum.append(")");
-
-            // Alter table to update ENUM
-            String alterSql = "ALTER TABLE user MODIFY userType " + newEnum.toString();
-
-            try (PreparedStatement alterStmt = connection.prepareStatement(alterSql)) {
-                alterStmt.executeUpdate();
-                System.out.println("Profile '" + profileName + "' added successfully!");
-                return "success";
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return "error: " + e.getMessage();
-        }
-    }
-
-    @JsonIgnore
-    public List<String> fetchALlProfile() {
-        List<String> profiles = new ArrayList<>();
-        String sql = "SHOW COLUMNS FROM user LIKE 'userType'";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
-
-            if (rs.next()) {
-                String enumDefinition = rs.getString("Type");
-                // Extract values between parentheses
-                enumDefinition = enumDefinition.substring(enumDefinition.indexOf('(') + 1, enumDefinition.lastIndexOf(')'));
-                String[] values = enumDefinition.split(",");
-                for (String value : values) {
-                    profiles.add(value.trim().replace("'", ""));
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return profiles;
-    }
-
-    public String updateProfile(String oldProfileName, String newProfileName) {
-        List<String> enumValues = new ArrayList<>();
-        String selectEnumSql = "SHOW COLUMNS FROM user LIKE 'userType'";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement selectStmt = connection.prepareStatement(selectEnumSql);
-             ResultSet rs = selectStmt.executeQuery()) {
-
-            if (rs.next()) {
-                String enumDefinition = rs.getString("Type");
-                enumDefinition = enumDefinition.substring(enumDefinition.indexOf('(') + 1, enumDefinition.lastIndexOf(')'));
-                String[] values = enumDefinition.split(",");
-                for (String value : values) {
-                    enumValues.add(value.trim().replace("'", ""));
-                }
-            }
-
-            if (!enumValues.contains(oldProfileName)) {
-                return "Old profile name does not exist.";
-            }
-
-            if (enumValues.contains(newProfileName)) {
-                return "New profile name already exists.";
-            }
-
-            enumValues = enumValues.stream()
-                    .map(val -> val.equals(oldProfileName) ? newProfileName : val)
-                    .collect(Collectors.toList());
-
-            // Build new ENUM definition
-            StringBuilder newEnum = new StringBuilder("enum(");
-            for (int i = 0; i < enumValues.size(); i++) {
-                newEnum.append("'").append(enumValues.get(i)).append("'");
-                if (i < enumValues.size() - 1) {
-                    newEnum.append(",");
-                }
-            }
-            newEnum.append(")");
-
-            // Alter table to update ENUM
-            String alterSql = "ALTER TABLE user MODIFY userType " + newEnum.toString();
-
-            try (PreparedStatement alterStmt = connection.prepareStatement(alterSql)) {
-                alterStmt.executeUpdate();
-                System.out.println("Profile '" + oldProfileName + "' updated to '" + newProfileName + "' successfully!");
-                return "success";
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return "error: " + e.getMessage();
-        }
-    }
-
-    public String suspendProfile(String profileName, int value) {
-        boolean isEnabled = (value == 1);
-        // SQL statement to update the enabled status
-        String sql = "UPDATE user SET enabled = ? WHERE userType = ?";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            // Set the parameters
-            statement.setBoolean(1, isEnabled);
-            statement.setString(2, profileName);
-
-            // Execute the update
-            int rowsUpdated = statement.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                String action = isEnabled ? "unsuspended" : "suspended";
-                System.out.println("Successfully " + action + " " + rowsUpdated + " user(s) with profile: " + profileName);
-                return "success";
-            } else {
-                System.out.println("No users found with profile: " + profileName);
-                return "failure: No users found with the specified profile.";
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return "error: " + e.getMessage();
-        }
-    }
-
     public String getID(String username) {
         String id = null;
         String sql = "SELECT userID FROM user WHERE username = ?";
@@ -533,5 +374,4 @@ public class UserEntity {
 
         return id;
     }
-
 }

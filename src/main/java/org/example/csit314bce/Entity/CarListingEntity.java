@@ -31,7 +31,7 @@ public class CarListingEntity {
     private double price;
     private LocalDateTime updated_at;
     private String listedBy;
-    private String sellerID;
+    private String sellerUsername;
     private DataSource dataSource;
 
     public CarListingEntity() {
@@ -130,40 +130,43 @@ public class CarListingEntity {
         this.listedBy = listedBy;
     }
 
-    public String getSellerID() {
-        return sellerID;
+    public String getSellerUsername() {
+        return sellerUsername;
     }
 
-    public void setSellerID(String sellerID) {
-        this.sellerID = sellerID;
+    public void setSellerUsername(String sellerUsername) {
+        this.sellerUsername = sellerUsername;
     }
 
     //Functions
-    public List<CarListingEntity> fetchAllListing() {
+    public List<CarListingEntity> fetchAllListing(String username) {
         List<CarListingEntity> listings = new ArrayList<>();
-        String sql = "SELECT * FROM carlistings";
+        String sql = "SELECT * FROM carlistings WHERE listedBy = ?";
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                CarListingEntity listing = new CarListingEntity();
-                listing.setCarBrand(rs.getString("carBrand"));
-                listing.setCarModel(rs.getString("carModel"));
-                listing.setCarPlateNumber(rs.getString("carPlateNumber"));
-                listing.setCreated_at(rs.getTimestamp("createdAt").toLocalDateTime());
-                listing.setListingStatus(rs.getString("listingStatus"));
-                listing.setManufacturedYear(rs.getInt("manufacturedYear"));
-                listing.setMillage(rs.getDouble("millage"));
-                listing.setPhoto(rs.getString("photo"));
-                listing.setPrice(rs.getDouble("price"));
-                listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
-                listing.setListedBy(rs.getString("listedBy"));
-                listing.setSellerID(rs.getString("sellerID"));
-                listings.add(listing);
+            // Set the username parameter in the SQL query
+            statement.setString(1, username);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    CarListingEntity listing = new CarListingEntity();
+                    listing.setCarBrand(rs.getString("carBrand"));
+                    listing.setCarModel(rs.getString("carModel"));
+                    listing.setCarPlateNumber(rs.getString("carPlateNumber"));
+                    listing.setCreated_at(rs.getTimestamp("createdAt").toLocalDateTime());
+                    listing.setListingStatus(rs.getString("listingStatus"));
+                    listing.setManufacturedYear(rs.getInt("manufacturedYear"));
+                    listing.setMillage(rs.getDouble("millage"));
+                    listing.setPhoto(rs.getString("photo"));
+                    listing.setPrice(rs.getDouble("price"));
+                    listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+                    listing.setListedBy(rs.getString("listedBy"));
+                    listing.setSellerUsername(rs.getString("sellerUsername"));
+                    listings.add(listing);
+                }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -201,7 +204,7 @@ public class CarListingEntity {
             }
         }
 
-        String sql = "INSERT INTO carListings (carBrand, carModel, carPlateNumber, created_At, listingStatus, manufacturedYear, millage, photo, price, updated_at, listedBy, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carListings (carBrand, carModel, carPlateNumber, created_At, listingStatus, manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -217,7 +220,7 @@ public class CarListingEntity {
             statement.setDouble(9, listing.getPrice());
             statement.setTimestamp(10, Timestamp.valueOf(this.updated_at));
             statement.setString(11, listing.getListedBy());
-            statement.setString(12, listing.getSellerID());
+            statement.setString(12, listing.getSellerUsername());
 
             int rowsInserted = statement.executeUpdate();
 
@@ -266,7 +269,7 @@ public class CarListingEntity {
             }
         }
 
-        String sql = "UPDATE carListings SET carBrand = ?, carModel = ?, carPlateNumber = ?, listingStatus = ?, manufacturedYear = ?, millage = ?, photo = ?, price = ?, updated_at = ?, listedBy = ?, seller_id = ? WHERE carPlateNumber = ?";
+        String sql = "UPDATE carListings SET carBrand = ?, carModel = ?, carPlateNumber = ?, listingStatus = ?, manufacturedYear = ?, millage = ?, photo = ?, price = ?, updated_at = ?, listedBy = ?, sellerUsername = ? WHERE carPlateNumber = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -281,7 +284,7 @@ public class CarListingEntity {
             statement.setDouble(8, listing.getPrice());
             statement.setTimestamp(9, Timestamp.valueOf(listing.getUpdated_at()));
             statement.setString(10, listing.getListedBy());
-            statement.setString(11, listing.getSellerID());
+            statement.setString(11, listing.getSellerUsername());
             statement.setString(12, originalCarPlateNumber);
 
             int rowsUpdated = statement.executeUpdate();
@@ -352,7 +355,7 @@ public class CarListingEntity {
         }
     }
 
-    public List<CarListingEntity> searchListing(String criteria, String value) {
+    public List<CarListingEntity> searchListing(String criteria, String value, String username) {
         List<CarListingEntity> listings = new ArrayList<>();
 
         // Define allowed columns to prevent SQL injection
@@ -362,7 +365,7 @@ public class CarListingEntity {
                 "carPlateNumber",
                 "listingStatus",
                 "manufacturedYear",
-                "seller_id"
+                "sellerUsername"
         );
 
         if (!allowedCriteria.contains(criteria)) {
@@ -370,10 +373,10 @@ public class CarListingEntity {
             return listings; // Returns an empty list if criteria is invalid
         }
 
-        // SQL query using the validated criteria
+        // SQL query using the validated criteria and filtering by listedBy
         String sql = "SELECT carBrand, carModel, carPlateNumber, created_At, listingStatus, " +
-                "manufacturedYear, millage, photo, price, updated_at, listedBy, seller_id " +
-                "FROM carListings WHERE " + criteria + " LIKE ?";
+                "manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername " +
+                "FROM carListings WHERE " + criteria + " LIKE ? AND listedBy = ?";
 
         String likeValue = "%" + value + "%";
 
@@ -382,6 +385,8 @@ public class CarListingEntity {
 
             // Wildcards search for partial matching
             statement.setString(1, likeValue);
+            // Set the username parameter
+            statement.setString(2, username);
 
             ResultSet rs = statement.executeQuery();
 
@@ -398,7 +403,7 @@ public class CarListingEntity {
                 listing.setPrice(rs.getDouble("price"));
                 listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
                 listing.setListedBy(rs.getString("listedBy"));
-                listing.setSellerID(rs.getString("seller_id"));
+                listing.setSellerUsername(rs.getString("sellerUsername"));
                 listings.add(listing);
             }
 
