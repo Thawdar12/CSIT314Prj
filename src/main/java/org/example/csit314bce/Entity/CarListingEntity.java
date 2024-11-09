@@ -32,6 +32,7 @@ public class CarListingEntity {
     private LocalDateTime updated_at;
     private String listedBy;
     private String sellerUsername;
+    private int viewCount;
     private DataSource dataSource;
 
     public CarListingEntity() {
@@ -138,6 +139,14 @@ public class CarListingEntity {
         this.sellerUsername = sellerUsername;
     }
 
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
     //Functions
     public List<CarListingEntity> fetchAllListing(String username) {
         List<CarListingEntity> listings = new ArrayList<>();
@@ -155,7 +164,7 @@ public class CarListingEntity {
                     listing.setCarBrand(rs.getString("carBrand"));
                     listing.setCarModel(rs.getString("carModel"));
                     listing.setCarPlateNumber(rs.getString("carPlateNumber"));
-                    listing.setCreated_at(rs.getTimestamp("createdAt").toLocalDateTime());
+                    listing.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
                     listing.setListingStatus(rs.getString("listingStatus"));
                     listing.setManufacturedYear(rs.getInt("manufacturedYear"));
                     listing.setMillage(rs.getDouble("millage"));
@@ -164,6 +173,7 @@ public class CarListingEntity {
                     listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
                     listing.setListedBy(rs.getString("listedBy"));
                     listing.setSellerUsername(rs.getString("sellerUsername"));
+                    listing.setViewCount(rs.getInt("viewCount"));
                     listings.add(listing);
                 }
             }
@@ -204,7 +214,7 @@ public class CarListingEntity {
             }
         }
 
-        String sql = "INSERT INTO carListings (carBrand, carModel, carPlateNumber, created_At, listingStatus, manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carListings (carBrand, carModel, carPlateNumber, created_At, listingStatus, manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,viewCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -221,6 +231,7 @@ public class CarListingEntity {
             statement.setTimestamp(10, Timestamp.valueOf(this.updated_at));
             statement.setString(11, listing.getListedBy());
             statement.setString(12, listing.getSellerUsername());
+            statement.setString(13, "0");
 
             int rowsInserted = statement.executeUpdate();
 
@@ -404,6 +415,7 @@ public class CarListingEntity {
                 listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
                 listing.setListedBy(rs.getString("listedBy"));
                 listing.setSellerUsername(rs.getString("sellerUsername"));
+                listing.setViewCount(rs.getInt("viewCount"));
                 listings.add(listing);
             }
 

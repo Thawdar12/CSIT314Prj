@@ -8,8 +8,9 @@ import javax.sql.DataSource;
 @Component
 public class FavoriteEntity {
     Long favoriteID;
-    String favoriteBy; //username
     String carPlateNumber;
+    String favoriteBy;
+    String sellerUsername;
     private DataSource dataSource;
 
     public FavoriteEntity() {
@@ -19,4 +20,33 @@ public class FavoriteEntity {
     public FavoriteEntity(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
+    public String getFavoriteBy() {
+        return favoriteBy;
+    }
+
+    public void setFavoriteBy(String favoriteBy) {
+        this.favoriteBy = favoriteBy;
+    }
+
+    public String getCarPlateNumber() {
+        return carPlateNumber;
+    }
+
+    public void setCarPlateNumber(String carPlateNumber) {
+        this.carPlateNumber = carPlateNumber;
+    }
+
+    public String getSellerUsername() {
+        return sellerUsername;
+    }
+
+    public void setSellerUsername(String sellerUsername) {
+        this.sellerUsername = sellerUsername;
+    }
+
+    //crete
+    //retrieve
+    //delete
+    //retrieve number
 }
