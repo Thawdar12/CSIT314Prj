@@ -35,6 +35,7 @@ create table carlistings
     updated_at       datetime(3)             not null,
     listedBy         bigint                  not null,
     seller_id        bigint                  not null,
+    favorite         bigint                  DEFAULT 0,
     constraint UK3oasb4n1acr4kl6j9h63poby5
         unique (carPlateNumber),
     constraint FK8mxrm0fxek63e4274m2pgbyv4
@@ -56,6 +57,21 @@ create table review
         foreign key (reviewBy) references user (userID),
     constraint FKr63muddle4s28qw1jrfi72jby
         foreign key (reviewFor) references user (userID)
+);
+
+create table favourite
+(
+    favId        bigint auto_increment
+        primary key,
+    favFor          bigint          not null,
+    favBy           bigint          not null,
+    created_at      DATETIME(3)     not null DEFAULT CURRENT_TIMESTAMP,
+
+    constraint FK_favFor_listingID
+        foreign key (favFor) references carlistings (listingID),
+    constraint FK_favBy_userID
+        foreign key (favBy) references user (userID),
+    UNIQUE (favFor, favBy)
 );
 
 INSERT INTO csit314database.user (averageRating, created_at, email, enabled, password, phoneNumber, updated_at,

@@ -32,6 +32,7 @@ public class CarListingEntity {
     private LocalDateTime updated_at;
     private String listedBy;
     private String sellerID;
+    private long favourite;
     private DataSource dataSource;
 
     public CarListingEntity() {
@@ -138,6 +139,15 @@ public class CarListingEntity {
         this.sellerID = sellerID;
     }
 
+    public long getFavourite() {
+
+        return favourite;
+    }
+
+    public void setFavourite(long favourite) {
+        this.favourite = favourite;
+    }
+
     //Functions
     public List<CarListingEntity> fetchAllListing() {
         List<CarListingEntity> listings = new ArrayList<>();
@@ -152,7 +162,7 @@ public class CarListingEntity {
                 listing.setCarBrand(rs.getString("carBrand"));
                 listing.setCarModel(rs.getString("carModel"));
                 listing.setCarPlateNumber(rs.getString("carPlateNumber"));
-                listing.setCreated_at(rs.getTimestamp("createdAt").toLocalDateTime());
+                listing.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
                 listing.setListingStatus(rs.getString("listingStatus"));
                 listing.setManufacturedYear(rs.getInt("manufacturedYear"));
                 listing.setMillage(rs.getDouble("millage"));
@@ -160,7 +170,9 @@ public class CarListingEntity {
                 listing.setPrice(rs.getDouble("price"));
                 listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
                 listing.setListedBy(rs.getString("listedBy"));
-                listing.setSellerID(rs.getString("sellerID"));
+                listing.setSellerID(rs.getString("seller_id"));
+                listing.setFavourite(rs.getLong("favourite"));
+
                 listings.add(listing);
             }
 
@@ -201,7 +213,7 @@ public class CarListingEntity {
             }
         }
 
-        String sql = "INSERT INTO carListings (carBrand, carModel, carPlateNumber, created_At, listingStatus, manufacturedYear, millage, photo, price, updated_at, listedBy, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carListings (carBrand, carModel, carPlateNumber, created_At, listingStatus, manufacturedYear, millage, photo, price, updated_at, listedBy, seller_id, favourite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -218,6 +230,7 @@ public class CarListingEntity {
             statement.setTimestamp(10, Timestamp.valueOf(this.updated_at));
             statement.setString(11, listing.getListedBy());
             statement.setString(12, listing.getSellerID());
+            statement.setLong(13, listing.getFavourite());
 
             int rowsInserted = statement.executeUpdate();
 
@@ -266,7 +279,7 @@ public class CarListingEntity {
             }
         }
 
-        String sql = "UPDATE carListings SET carBrand = ?, carModel = ?, carPlateNumber = ?, listingStatus = ?, manufacturedYear = ?, millage = ?, photo = ?, price = ?, updated_at = ?, listedBy = ?, seller_id = ? WHERE carPlateNumber = ?";
+        String sql = "UPDATE carListings SET carBrand = ?, carModel = ?, carPlateNumber = ?, listingStatus = ?, manufacturedYear = ?, millage = ?, photo = ?, price = ?, updated_at = ?, listedBy = ?, seller_id = ?, favourite = ? WHERE carPlateNumber = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -282,7 +295,8 @@ public class CarListingEntity {
             statement.setTimestamp(9, Timestamp.valueOf(listing.getUpdated_at()));
             statement.setString(10, listing.getListedBy());
             statement.setString(11, listing.getSellerID());
-            statement.setString(12, originalCarPlateNumber);
+            statement.setLong(12, listing.getFavourite());
+            statement.setString(13, originalCarPlateNumber);
 
             int rowsUpdated = statement.executeUpdate();
 
@@ -372,7 +386,7 @@ public class CarListingEntity {
 
         // SQL query using the validated criteria
         String sql = "SELECT carBrand, carModel, carPlateNumber, created_At, listingStatus, " +
-                "manufacturedYear, millage, photo, price, updated_at, listedBy, seller_id " +
+                "manufacturedYear, millage, photo, price, updated_at, listedBy, seller_id , favourite" +
                 "FROM carListings WHERE " + criteria + " LIKE ?";
 
         String likeValue = "%" + value + "%";
@@ -399,6 +413,7 @@ public class CarListingEntity {
                 listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
                 listing.setListedBy(rs.getString("listedBy"));
                 listing.setSellerID(rs.getString("seller_id"));
+                listing.setFavourite(rs.getInt("favourite"));
                 listings.add(listing);
             }
 
