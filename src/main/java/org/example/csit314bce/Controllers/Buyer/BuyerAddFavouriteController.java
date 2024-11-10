@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class BuyerAddFavouriteController {
     private final FavouriteEntity favouriteEntity;
 
-    public BuyerAddFavouriteController(FavouriteEntity favouriteEntity) {
-        this.favouriteEntity = favouriteEntity;
+    public BuyerAddFavouriteController(FavouriteEntity favourite) {
+        this.favouriteEntity = favourite;
     }
 
     @PostMapping(value = "/InfinityNetwork/buyer/addFavorite",
