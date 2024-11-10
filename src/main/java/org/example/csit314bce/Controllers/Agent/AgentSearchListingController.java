@@ -17,11 +17,12 @@ public class AgentSearchListingController {
 
     @GetMapping(value = "/InfinityNetwork/agent/searchListing")
     public List<CarListingEntity> agentSearchListing(@RequestParam String criteria,
-                                                  @RequestParam String value) {
+                                                  @RequestParam String value,
+                                                     @RequestParam String username) {
         //Biz logic, if any
 
         //Pass info to Entity
-        List<CarListingEntity> result = this.carListingEntity.searchListing(criteria, value);
+        List<CarListingEntity> result = this.carListingEntity.searchListing(criteria, value, username);
 
         //Get back from Entity class
         return result;

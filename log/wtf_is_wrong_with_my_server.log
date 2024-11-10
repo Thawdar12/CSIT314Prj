@@ -47,3 +47,200 @@
 2024-11-05T16:35:07.868+08:00  WARN 13496 --- [CSIT314] [http-nio-8080-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content-Type is not supported]
 2024-11-05T16:36:20.361+08:00  WARN 13496 --- [CSIT314] [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'username' for method parameter type String is not present]
 2024-11-05T16:40:42.131+08:00  WARN 13496 --- [CSIT314] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'username' for method parameter type String is not present]
+2024-11-09T20:25:17.429+08:00  INFO 54280 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 54280 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T20:25:17.433+08:00  INFO 54280 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T20:25:18.619+08:00  INFO 54280 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T20:25:18.642+08:00  INFO 54280 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 0 JDBC repository interfaces.
+2024-11-09T20:25:19.115+08:00  INFO 54280 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T20:25:19.128+08:00  INFO 54280 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T20:25:19.129+08:00  INFO 54280 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T20:25:19.177+08:00  INFO 54280 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T20:25:19.178+08:00  INFO 54280 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1525 ms
+2024-11-09T20:25:19.577+08:00  INFO 54280 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T20:25:19.657+08:00  INFO 54280 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@17e0933c
+2024-11-09T20:25:19.658+08:00  INFO 54280 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T20:25:19.814+08:00  INFO 54280 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T20:25:19.822+08:00  INFO 54280 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 3.046 seconds (process running for 4.359)
+2024-11-09T20:25:53.486+08:00  INFO 54280 --- [CSIT314] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T20:25:53.486+08:00  INFO 54280 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T20:25:53.486+08:00  INFO 54280 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-11-09T20:25:53.532+08:00  WARN 54280 --- [CSIT314] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'profileDescription' for method parameter type String is not present]
+2024-11-09T20:32:08.534+08:00  INFO 54280 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-09T20:32:08.540+08:00  INFO 54280 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-09T20:32:11.053+08:00  INFO 65500 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 65500 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T20:32:11.055+08:00  INFO 65500 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T20:32:11.516+08:00  INFO 65500 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T20:32:11.531+08:00  INFO 65500 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2024-11-09T20:32:11.866+08:00  INFO 65500 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T20:32:11.881+08:00  INFO 65500 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T20:32:11.881+08:00  INFO 65500 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T20:32:11.925+08:00  INFO 65500 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T20:32:11.926+08:00  INFO 65500 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 837 ms
+2024-11-09T20:32:12.291+08:00  INFO 65500 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T20:32:12.369+08:00  INFO 65500 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@2415e4c7
+2024-11-09T20:32:12.371+08:00  INFO 65500 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T20:32:12.496+08:00  INFO 65500 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T20:32:12.504+08:00  INFO 65500 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 1.788 seconds (process running for 2.255)
+2024-11-09T20:34:15.813+08:00  INFO 65500 --- [CSIT314] [http-nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T20:34:15.814+08:00  INFO 65500 --- [CSIT314] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T20:34:15.814+08:00  INFO 65500 --- [CSIT314] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-11-09T20:34:45.783+08:00  WARN 65500 --- [CSIT314] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content-Type 'text/plain' is not supported]
+2024-11-09T20:36:11.855+08:00  INFO 65500 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-09T20:36:11.859+08:00  INFO 65500 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-09T20:36:14.663+08:00  INFO 62564 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 62564 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T20:36:14.666+08:00  INFO 62564 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T20:36:15.240+08:00  INFO 62564 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T20:36:15.256+08:00  INFO 62564 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 0 JDBC repository interfaces.
+2024-11-09T20:36:15.618+08:00  INFO 62564 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T20:36:15.629+08:00  INFO 62564 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T20:36:15.630+08:00  INFO 62564 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T20:36:15.669+08:00  INFO 62564 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T20:36:15.669+08:00  INFO 62564 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 935 ms
+2024-11-09T20:36:16.014+08:00  INFO 62564 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T20:36:16.085+08:00  INFO 62564 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@592ca48c
+2024-11-09T20:36:16.087+08:00  INFO 62564 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T20:36:16.219+08:00  INFO 62564 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T20:36:16.225+08:00  INFO 62564 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 2.154 seconds (process running for 2.746)
+2024-11-09T20:38:30.466+08:00  INFO 62564 --- [CSIT314] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T20:38:30.467+08:00  INFO 62564 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T20:38:30.468+08:00  INFO 62564 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-11-09T20:41:48.141+08:00  INFO 62564 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-09T20:41:48.144+08:00  INFO 62564 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-09T20:42:47.600+08:00  INFO 42704 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 42704 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T20:42:47.602+08:00  INFO 42704 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T20:42:48.135+08:00  INFO 42704 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T20:42:48.151+08:00  INFO 42704 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2024-11-09T20:42:48.512+08:00  INFO 42704 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T20:42:48.523+08:00  INFO 42704 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T20:42:48.524+08:00  INFO 42704 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T20:42:48.564+08:00  INFO 42704 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T20:42:48.564+08:00  INFO 42704 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 919 ms
+2024-11-09T20:42:48.912+08:00  INFO 42704 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T20:42:48.983+08:00  INFO 42704 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@382dc417
+2024-11-09T20:42:48.984+08:00  INFO 42704 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T20:42:49.113+08:00  INFO 42704 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T20:42:49.118+08:00  INFO 42704 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 1.948 seconds (process running for 2.405)
+2024-11-09T20:43:48.179+08:00  INFO 42704 --- [CSIT314] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T20:43:48.179+08:00  INFO 42704 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T20:43:48.180+08:00  INFO 42704 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-11-09T20:43:48.197+08:00  WARN 42704 --- [CSIT314] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2024-11-09T20:49:47.662+08:00  INFO 42704 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-09T20:49:47.694+08:00  INFO 42704 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-09T20:49:50.157+08:00  INFO 63440 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 63440 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T20:49:50.159+08:00  INFO 63440 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T20:49:50.647+08:00  INFO 63440 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T20:49:50.664+08:00  INFO 63440 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 JDBC repository interfaces.
+2024-11-09T20:49:51.043+08:00  INFO 63440 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T20:49:51.054+08:00  INFO 63440 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T20:49:51.054+08:00  INFO 63440 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T20:49:51.094+08:00  INFO 63440 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T20:49:51.094+08:00  INFO 63440 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 900 ms
+2024-11-09T20:49:51.450+08:00  INFO 63440 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T20:49:51.529+08:00  INFO 63440 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@7cff3f1d
+2024-11-09T20:49:51.531+08:00  INFO 63440 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T20:49:51.679+08:00  INFO 63440 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T20:49:51.688+08:00  INFO 63440 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 1.942 seconds (process running for 2.508)
+2024-11-09T20:49:51.858+08:00  INFO 63440 --- [CSIT314] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T20:49:51.858+08:00  INFO 63440 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T20:49:51.859+08:00  INFO 63440 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-11-09T20:52:32.061+08:00  INFO 63440 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-09T20:52:32.064+08:00  INFO 63440 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-09T20:52:34.339+08:00  INFO 64944 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 64944 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T20:52:34.341+08:00  INFO 64944 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T20:52:34.816+08:00  INFO 64944 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T20:52:34.832+08:00  INFO 64944 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 JDBC repository interfaces.
+2024-11-09T20:52:35.175+08:00  INFO 64944 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T20:52:35.184+08:00  INFO 64944 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T20:52:35.185+08:00  INFO 64944 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T20:52:35.226+08:00  INFO 64944 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T20:52:35.226+08:00  INFO 64944 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 849 ms
+2024-11-09T20:52:35.577+08:00  INFO 64944 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T20:52:35.649+08:00  INFO 64944 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@7302ff13
+2024-11-09T20:52:35.650+08:00  INFO 64944 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T20:52:35.776+08:00  INFO 64944 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T20:52:35.782+08:00  INFO 64944 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 1.797 seconds (process running for 2.434)
+2024-11-09T20:53:21.275+08:00  INFO 64944 --- [CSIT314] [http-nio-8080-exec-4] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T20:53:21.275+08:00  INFO 64944 --- [CSIT314] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T20:53:21.276+08:00  INFO 64944 --- [CSIT314] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-11-09T21:02:44.794+08:00  INFO 64944 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-09T21:02:44.799+08:00  INFO 64944 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-09T21:02:47.170+08:00  INFO 61156 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 61156 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T21:02:47.171+08:00  INFO 61156 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T21:02:47.676+08:00  INFO 61156 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T21:02:47.691+08:00  INFO 61156 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2024-11-09T21:02:48.031+08:00  INFO 61156 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T21:02:48.041+08:00  INFO 61156 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T21:02:48.042+08:00  INFO 61156 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T21:02:48.080+08:00  INFO 61156 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T21:02:48.081+08:00  INFO 61156 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 873 ms
+2024-11-09T21:02:48.450+08:00  INFO 61156 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T21:02:48.523+08:00  INFO 61156 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@592ca48c
+2024-11-09T21:02:48.524+08:00  INFO 61156 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T21:02:48.659+08:00  INFO 61156 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T21:02:48.667+08:00  INFO 61156 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 1.866 seconds (process running for 2.432)
+2024-11-09T21:04:20.202+08:00  INFO 61156 --- [CSIT314] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T21:04:20.203+08:00  INFO 61156 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T21:04:20.203+08:00  INFO 61156 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-11-09T21:04:20.222+08:00  WARN 61156 --- [CSIT314] [http-nio-8080-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+2024-11-09T21:16:18.504+08:00  WARN 61156 --- [CSIT314] [http-nio-8080-exec-7] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+2024-11-09T21:16:22.062+08:00  WARN 61156 --- [CSIT314] [http-nio-8080-exec-8] o.m.jdbc.message.server.ErrorPacket      : Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`csit314database`.`user`, CONSTRAINT `user_profile_profileName_fk` FOREIGN KEY (`username`) REFERENCES `profile` (`profileName`))
+2024-11-09T21:16:29.520+08:00  WARN 61156 --- [CSIT314] [http-nio-8080-exec-9] o.m.jdbc.message.server.ErrorPacket      : Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`csit314database`.`user`, CONSTRAINT `user_profile_profileName_fk` FOREIGN KEY (`username`) REFERENCES `profile` (`profileName`))
+2024-11-09T21:16:34.872+08:00  WARN 61156 --- [CSIT314] [http-nio-8080-exec-10] o.m.jdbc.message.server.ErrorPacket      : Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`csit314database`.`user`, CONSTRAINT `user_profile_profileName_fk` FOREIGN KEY (`username`) REFERENCES `profile` (`profileName`))
+2024-11-09T21:19:38.863+08:00  INFO 61156 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-09T21:19:38.865+08:00  INFO 61156 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-09T21:19:42.024+08:00  INFO 57692 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 57692 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T21:19:42.027+08:00  INFO 57692 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T21:19:42.532+08:00  INFO 57692 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T21:19:42.546+08:00  INFO 57692 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 JDBC repository interfaces.
+2024-11-09T21:19:42.889+08:00  INFO 57692 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T21:19:42.901+08:00  INFO 57692 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T21:19:42.901+08:00  INFO 57692 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T21:19:42.943+08:00  INFO 57692 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T21:19:42.944+08:00  INFO 57692 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 879 ms
+2024-11-09T21:19:43.344+08:00  INFO 57692 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T21:19:43.415+08:00  INFO 57692 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@3e26482
+2024-11-09T21:19:43.416+08:00  INFO 57692 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T21:19:43.548+08:00  INFO 57692 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T21:19:43.554+08:00  INFO 57692 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 1.967 seconds (process running for 2.57)
+2024-11-09T21:20:00.096+08:00  INFO 57692 --- [CSIT314] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T21:20:00.098+08:00  INFO 57692 --- [CSIT314] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T21:20:00.098+08:00  INFO 57692 --- [CSIT314] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-11-09T21:20:00.187+08:00  WARN 57692 --- [CSIT314] [http-nio-8080-exec-2] o.m.jdbc.message.server.ErrorPacket      : Error: 1452-23000: Cannot add or update a child row: a foreign key constraint fails (`csit314database`.`user`, CONSTRAINT `user_profile_profileName_fk` FOREIGN KEY (`username`) REFERENCES `profile` (`profileName`))
+2024-11-09T21:22:31.456+08:00  INFO 57692 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-09T21:22:31.460+08:00  INFO 57692 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-09T21:24:09.413+08:00  INFO 63680 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 63680 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T21:24:09.416+08:00  INFO 63680 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T21:24:10.015+08:00  INFO 63680 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T21:24:10.033+08:00  INFO 63680 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 0 JDBC repository interfaces.
+2024-11-09T21:24:10.401+08:00  INFO 63680 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T21:24:10.414+08:00  INFO 63680 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T21:24:10.414+08:00  INFO 63680 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T21:24:10.457+08:00  INFO 63680 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T21:24:10.458+08:00  INFO 63680 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 994 ms
+2024-11-09T21:24:10.830+08:00  INFO 63680 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T21:24:10.908+08:00  INFO 63680 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@7f0a133d
+2024-11-09T21:24:10.910+08:00  INFO 63680 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T21:24:11.051+08:00  INFO 63680 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T21:24:11.058+08:00  INFO 63680 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 2.026 seconds (process running for 2.474)
+2024-11-09T21:24:13.100+08:00  INFO 63680 --- [CSIT314] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T21:24:13.101+08:00  INFO 63680 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T21:24:13.101+08:00  INFO 63680 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2024-11-09T21:26:50.141+08:00  INFO 63680 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-09T21:26:50.143+08:00  INFO 63680 --- [CSIT314] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-09T21:29:32.843+08:00  INFO 27124 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Starting Csit314BceApplication using Java 21.0.2 with PID 27124 (C:\Users\adwwe\Desktop\CSIT314\build\classes\java\main started by adwwe in C:\Users\adwwe\Desktop\CSIT314)
+2024-11-09T21:29:32.845+08:00  INFO 27124 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-11-09T21:29:33.389+08:00  INFO 27124 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-09T21:29:33.405+08:00  INFO 27124 --- [CSIT314] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 JDBC repository interfaces.
+2024-11-09T21:29:33.775+08:00  INFO 27124 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-09T21:29:33.786+08:00  INFO 27124 --- [CSIT314] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-09T21:29:33.787+08:00  INFO 27124 --- [CSIT314] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2024-11-09T21:29:33.829+08:00  INFO 27124 --- [CSIT314] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-09T21:29:33.830+08:00  INFO 27124 --- [CSIT314] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 931 ms
+2024-11-09T21:29:34.182+08:00  INFO 27124 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-09T21:29:34.256+08:00  INFO 27124 --- [CSIT314] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@382dc417
+2024-11-09T21:29:34.258+08:00  INFO 27124 --- [CSIT314] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-09T21:29:34.390+08:00  INFO 27124 --- [CSIT314] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-09T21:29:34.397+08:00  INFO 27124 --- [CSIT314] [main] o.e.csit314bce.Csit314BceApplication     : Started Csit314BceApplication in 1.997 seconds (process running for 2.497)
+2024-11-09T21:29:37.720+08:00  INFO 27124 --- [CSIT314] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-09T21:29:37.721+08:00  INFO 27124 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-09T21:29:37.722+08:00  INFO 27124 --- [CSIT314] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms

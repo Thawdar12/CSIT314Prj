@@ -1,22 +1,35 @@
+create table profile
+(
+    profileID          bigint auto_increment
+        primary key,
+    profileName        varchar(50)   not null,
+    profileDescription varchar(2000) null,
+    isEnabled          bit           not null,
+    constraint profile_pk
+        unique (profileName)
+);
+
 create table user
 (
     userID        bigint auto_increment
         primary key,
-    averageRating double                                     not null,
-    created_at    datetime(3)                                not null,
-    email         varchar(100)                               not null,
-    enabled       bit                                        not null,
-    password      varchar(255)                               not null,
-    phoneNumber   varchar(20)                                not null,
-    updated_at    datetime(3)                                not null,
-    userType      enum ('ADMIN', 'AGENT', 'BUYER', 'SELLER') null,
-    username      varchar(50)                                not null,
-    constraint UKatqgqm46rh7b0lrgl80ryd5tp
+    averageRating double       not null,
+    created_at    datetime(3)  not null,
+    email         varchar(100) not null,
+    enabled       bit          not null,
+    password      varchar(255) not null,
+    phoneNumber   varchar(20)  not null,
+    updated_at    datetime(3)  not null,
+    userType      VARCHAR(50)  not null,
+    username      varchar(50)  not null,
+    constraint user_pk
         unique (username),
-    constraint UKkbwn0on0lnegf5lckdxvlu495
+    constraint user_pk_2
         unique (phoneNumber),
-    constraint UKmbarshl1giy6v93ewbfoqtim2
-        unique (email)
+    constraint user_pk_3
+        unique (email),
+    constraint user_profile_profileName_fk
+        foreign key (userType) references profile (profileName)
 );
 
 create table carlistings
@@ -33,15 +46,15 @@ create table carlistings
     photo            text                    null,
     price            double                  not null,
     updated_at       datetime(3)             not null,
-    listedBy         bigint                  not null,
-    seller_id        bigint                  not null,
-    favorite         bigint                  DEFAULT 0,
-    constraint UK3oasb4n1acr4kl6j9h63poby5
+    listedBy         varchar(50)             not null,
+    sellerUsername   varchar(50)             not null,
+    viewCount        int                     not null,
+    constraint carlistings_pk
         unique (carPlateNumber),
-    constraint FK8mxrm0fxek63e4274m2pgbyv4
-        foreign key (listedBy) references user (userID),
-    constraint FKac7efr49wux1fh8w2ncyb8q1s
-        foreign key (seller_id) references user (userID)
+    constraint carlistings_user_username_fk
+        foreign key (listedBy) references user (username),
+    constraint carlistings_user_username_fk_2
+        foreign key (sellerUsername) references user (username)
 );
 
 create table review
@@ -51,12 +64,12 @@ create table review
     comment   varchar(1000)  null,
     createdAt datetime(3)    not null,
     rating    decimal(10, 2) not null,
-    reviewFor bigint         not null,
-    reviewBy  bigint         not null,
-    constraint FKjchjtsqwf4hco76ygvo5af4pa
-        foreign key (reviewBy) references user (userID),
-    constraint FKr63muddle4s28qw1jrfi72jby
-        foreign key (reviewFor) references user (userID)
+    reviewFor varchar(50)    not null,
+    reviewBy  varchar(50)    not null,
+    constraint review_user_username_fk
+        foreign key (reviewBy) references user (username),
+    constraint review_user_username_fk_2
+        foreign key (reviewFor) references user (username)
 );
 
 create table favourite

@@ -2,6 +2,7 @@ package org.example.csit314bce.Controllers.Agent;
 
 import org.example.csit314bce.Entity.CarListingEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,11 +16,11 @@ public class AgentFetchAllListingController {
     }
 
     @GetMapping("/InfinityNetwork/agent/fetchAllListing")
-    public List<CarListingEntity> fetchAllListings() {
+    public List<CarListingEntity> fetchAllListings(@RequestParam String username) {
         //Biz logic, if any
 
         //Pass data to controller
-        List<CarListingEntity> result = this.carListing.fetchAllListing();
+        List<CarListingEntity> result = this.carListing.fetchAllListing(username);
 
         //Get back from Controller
         return result;
