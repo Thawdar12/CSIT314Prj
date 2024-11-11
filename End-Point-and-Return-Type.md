@@ -378,3 +378,137 @@ Seller
    Can't do since I'm not doing Buyer class
 7. As a seller, I want to see the number of time my used car is shortlisted so that I can track the interests on my used
    car - Can't do since I'm not doing Buyer class
+
+Buyer
+1. As a buyer, I want to be able to view car listings so that I can find out the current listings 
+- Service - Done
+      Controller: BuyerfetchAllListingController
+      Endpoint: "/InfinityNetwork/buyer/fetchAllListingForBuyer"
+      Request Method: GET
+      Payload to receive: none
+      Expected return type: List<CarListing>
+      Return object example: [
+  {
+  "carBrand": "Polestar",
+  "carModel": "PT Cruiser",
+  "carPlateNumber": "RM12MVX",
+  "created_at": "2024-11-08T01:49:09.55",
+  "listingStatus": "OPEN",
+  "manufacturedYear": 2006,
+  "millage": 2356.11,
+  "photo": "/img/car(6).jpg",
+  "price": 700012.0,
+  "updated_at": "2024-11-10T20:54:06.671",
+  "listedBy": "Roy.Kerluke",
+  "sellerUsername": "Ari_Mraz",
+  "viewCount": 3348
+  }
+]
+      Success case: List
+      Failure case: error: message OR other message
+
+2. As a buyer, I want to view used car listings (view favourite car listing) so that I can find out which used car I want to buy
+   service - Done
+   Controller: BuyerFetchAllFavController
+   Endpoint: "/InfinityNetwork/buyer/fetchAllFavoriteListings?username=Hayden47"
+   Request Method: GET
+   Payload to receive: None
+   Expected return type: List<CarListing>
+   Return object example:
+   [
+   {
+   "carBrand": "Ford",
+   "carModel": "Jetta",
+   "carPlateNumber": "JJ87MQV",
+   "created_at": "2024-10-28T21:17:56.753",
+   "listingStatus": "OPEN",
+   "manufacturedYear": 2016,
+   "millage": 12427.85,
+   "photo": "/img/car(4).jpg",
+   "price": 646085.0,
+   "updated_at": "2024-11-11T19:24:34.723",
+   "listedBy": "Dale_Graham",
+   "sellerUsername": "Percy_Effertz67",
+   "viewCount": 7507
+   },
+   {
+   "carBrand": "Porsche",
+   "carModel": "911",
+   "carPlateNumber": "SU91KDN",
+   "created_at": "2024-11-01T02:48:37.364",
+   "listingStatus": "OPEN",
+   "manufacturedYear": 2015,
+   "millage": 25803.64,
+   "photo": "/img/car(11).jpg",
+   "price": 465634.0,
+   "updated_at": "2024-11-12T09:31:31.651",
+   "listedBy": "Candelario_Larkin",
+   "sellerUsername": "Emery.Hane22",
+   "viewCount": 2447
+   }
+   ]
+   
+3. As a buyer, I want to search used car listings so that I can search for cars that fit my criteria
+   -Done
+   Controller: BuyerSearchListingController
+   Endpoint: "/InfinityNetwork/buyer/searchListing?criteria=carPlateNumber&value=ABC123"
+   Request Method: GET
+   Payload to receive: None
+   Expected return type: List<CarListing>
+   Return object example:
+   [
+   {
+   "carBrand": "test",
+   "carModel": "Test",
+   "carPlateNumber": "ABC123",
+   "created_at": "2024-10-27T19:22:41",
+   "listingStatus": "OPEN",
+   "manufacturedYear": 2000,
+   "millage": 2090.0,
+   "photo": null,
+   "price": 2000.0,
+   "updated_at": "2024-10-27T19:23:06",
+   "listedBy": "102",
+   "sellerID": "103"
+   }
+   ]
+   
+4. As a buyer, I want to save used car listings so that I can refer to preferred used car listings easily
+Done
+
+   
+5. As a buyer, I want to remove used car listings so that I can update my current preferred car listing
+Done
+   
+6. As a buyer, I want to access a loan calculator so that I can determine if the selected used car is within my budget
+   
+7. As a buyer, I want to rate and review used car agents so that I can provide feedback to the agent and other customers for them to learn from my experience.
+Done
+Controller: BuyerRateAgentController
+      Endpoint: "/InfinityNetwork/buyer/rateAgent"
+      Request Method: FETCH
+      Payload to receive: JSON
+      Payload example:
+      {
+      "comment": "", //this field accept empty comments, and in that case it will become a pure rating
+      "rating": 3,
+      "reviewFor": "admin",
+      "reviewBy": "test"
+      }
+      Expected return type: String
+      Success case: success
+      Failure case: error: message OR other message
+   
+8. As a buyer, I want to sign in to my account so that I can access the car listings
+Done
+   
+9. As a buyer, I want to log out of my account so that I can prevent other users from accessing my account
+Done
+
+
+10. As a buyer, I want to change my user account info so that it is always at the latest version - Done
+       Controller: BuyerUpdateAccountController
+       Endpoint: "/InfinityNetwork/buyer/updateUser"
+       This method is calling same function as adminUpdateUser. The key different is that admin can modify any user,
+       but buyer should only be able to modify themselves, so make sure when you call this function,
+       hard-code the username to current user. Other info please refer to adminUpdateUser

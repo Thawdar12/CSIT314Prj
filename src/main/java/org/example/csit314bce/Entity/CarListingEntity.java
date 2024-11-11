@@ -33,8 +33,6 @@ public class CarListingEntity {
     private String listedBy;
     private String sellerUsername;
     private int viewCount;
-    private String sellerID;
-    private long favourite;
     private DataSource dataSource;
 
     public CarListingEntity() {
@@ -148,6 +146,7 @@ public class CarListingEntity {
     public void setViewCount(int viewCount) {
         this.viewCount = viewCount;
     }
+
 
     //Functions
     public List<CarListingEntity> fetchAllListing(String username) {
@@ -425,6 +424,38 @@ public class CarListingEntity {
             e.printStackTrace();
         }
 
+        return listings;
+    }
+
+    public List<CarListingEntity> fetchAllListingForBuyer() {
+        List<CarListingEntity> listings = new ArrayList<>();
+        String sql = "SELECT * FROM carlistings";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    CarListingEntity listing = new CarListingEntity();
+                    listing.setCarBrand(rs.getString("carBrand"));
+                    listing.setCarModel(rs.getString("carModel"));
+                    listing.setCarPlateNumber(rs.getString("carPlateNumber"));
+                    listing.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+                    listing.setListingStatus(rs.getString("listingStatus"));
+                    listing.setManufacturedYear(rs.getInt("manufacturedYear"));
+                    listing.setMillage(rs.getDouble("millage"));
+                    listing.setPhoto(rs.getString("photo"));
+                    listing.setPrice(rs.getDouble("price"));
+                    listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+                    listing.setListedBy(rs.getString("listedBy"));
+                    listing.setSellerUsername(rs.getString("sellerUsername"));
+                    listing.setViewCount(rs.getInt("viewCount"));
+                    listings.add(listing);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return listings;
     }
 }

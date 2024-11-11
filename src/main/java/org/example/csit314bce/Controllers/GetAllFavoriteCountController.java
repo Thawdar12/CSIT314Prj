@@ -1,33 +1,30 @@
-package org.example.csit314bce.Controllers.Buyer;
+package org.example.csit314bce.Controllers;
 
-import org.example.csit314bce.Entity.CarListingEntity;
 import org.example.csit314bce.Entity.FavoriteEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-public class BuyerFetchAllFavController {
+public class GetAllFavoriteCountController {
     private final FavoriteEntity favoriteEntity;
 
-    public BuyerFetchAllFavController(FavoriteEntity favoriteEntity){
+    public GetAllFavoriteCountController(FavoriteEntity favoriteEntity) {
         this.favoriteEntity = favoriteEntity;
     }
 
-    @GetMapping("/InfinityNetwork/buyer/fetchAllFavoriteListings")
-    public List<CarListingEntity> fetchAllFavorites(@RequestParam String username) {
+    @GetMapping("/InfinityNetwork/user/getFavoriteCountForAllListings")
+    public Map<String, Integer> fetchAllListings() {
         //Biz logic, if any
 
         //Pass data to controller
-        List<CarListingEntity> result = this.favoriteEntity.fetchAllFavoriteListings(username);
+        Map<String, Integer> result = this.favoriteEntity.getFavoriteCountForAllListings();
 
         //Get back from Controller
         return result;
     }
-
-
-
-
 }
+

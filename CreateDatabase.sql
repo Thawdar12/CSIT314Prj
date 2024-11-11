@@ -72,24 +72,19 @@ create table review
         foreign key (reviewFor) references user (username)
 );
 
-create table favourite
+
+CREATE TABLE favorite
 (
-    favId        bigint auto_increment
-        primary key,
-    favFor          bigint          not null,
-    favBy           bigint          not null,
-    created_at      DATETIME(3)     not null DEFAULT CURRENT_TIMESTAMP,
+    favoriteID          BIGINT AUTO_INCREMENT     PRIMARY KEY,
+    favoriteFor         VARCHAR(255)              NOT NULL,
+    favoriteBy          VARCHAR(50)               NOT NULL,
+    sellerUsername      VARCHAR(50)               NOT NULL,
+    created_at          DATETIME(3)               NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    constraint FK_favFor_listingID
-        foreign key (favFor) references carlistings (listingID),
-    constraint FK_favBy_userID
-        foreign key (favBy) references user (userID),
-    UNIQUE (favFor, favBy)
+    -- Foreign key constraints
+    CONSTRAINT FK_carPlateNumber_carListing FOREIGN KEY (favoriteFor) REFERENCES carlistings (carPlateNumber),
+    CONSTRAINT FK_sellerName_sellerName FOREIGN KEY (sellerUsername) REFERENCES carlistings (sellerUsername),
+    CONSTRAINT FK_favBy_userID FOREIGN KEY (favoriteBy) REFERENCES user (username),
+    UNIQUE (favoriteFor, favoriteBy)
 );
-
-INSERT INTO csit314database.user (averageRating, created_at, email, enabled, password, phoneNumber, updated_at,
-                                  userType, username)
-VALUES (0, '2024-10-27 20:35:07.000', 'admin@admin.com', true, 'admin', '12345678', '2024-10-27 20:35:22.000', 'ADMIN',
-        'admin');
-
 
