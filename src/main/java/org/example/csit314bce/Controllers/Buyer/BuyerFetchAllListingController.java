@@ -17,7 +17,7 @@ public class BuyerFetchAllListingController {
     }
 
     @GetMapping("/InfinityNetwork/buyer/fetchAllListingForBuyer")
-    public List<CarListingEntity> fetchAllListings() {
+    public List<CarListingEntity> buyerFetchAllListings() {
         //Biz logic, if any
 
         //Pass data to controller

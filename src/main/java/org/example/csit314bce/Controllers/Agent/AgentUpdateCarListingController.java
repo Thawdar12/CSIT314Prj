@@ -17,7 +17,7 @@ public class AgentUpdateCarListingController {
     }
 
     @PostMapping(value = "/InfinityNetwork/agent/updateListing", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String createListing(
+    public String agentUpdateListing(
             @RequestPart("listing") CarListingEntity listing,
             @RequestPart(value = "photo", required = false) MultipartFile photo,
             @RequestParam String originalCarPlateNumber) {

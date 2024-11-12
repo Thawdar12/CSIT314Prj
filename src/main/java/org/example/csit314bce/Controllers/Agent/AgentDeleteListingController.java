@@ -14,7 +14,7 @@ public class AgentDeleteListingController {
     }
 
     @PostMapping(value = "/InfinityNetwork/agent/deleteListing")
-    String AgentDeleteListing(@RequestParam String carPlateNumber) {
+    String agentDeleteListing(@RequestParam String carPlateNumber) {
         //Biz logic, if any
 
         //Pass data to Entity

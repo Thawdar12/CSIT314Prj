@@ -16,7 +16,7 @@ public class AgentFetchRatingController {
     }
 
     @GetMapping("/InfinityNetwork/agent/fetchRating")
-    public List<ReviewEntity> AgentFetchRating(@RequestParam int agentUserID) {
+    public List<ReviewEntity> agentFetchRating(@RequestParam int agentUserID) {
         //Biz logic, if any
 
         //Pass data to Entity

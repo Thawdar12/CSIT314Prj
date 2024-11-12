@@ -17,7 +17,7 @@ public class BuyerFetchAllFavController {
     }
 
     @GetMapping("/InfinityNetwork/buyer/fetchAllFavoriteListings")
-    public List<CarListingEntity> fetchAllFavorites(@RequestParam String username) {
+    public List<CarListingEntity> buyerFetchAllFavorites(@RequestParam String username) {
         //Biz logic, if any
 
         //Pass data to controller

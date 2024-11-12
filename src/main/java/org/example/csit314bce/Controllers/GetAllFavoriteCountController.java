@@ -17,7 +17,7 @@ public class GetAllFavoriteCountController {
     }
 
     @GetMapping("/InfinityNetwork/user/getFavoriteCountForAllListings")
-    public Map<String, Integer> fetchAllListings() {
+    public Map<String, Integer> getAllFavoriteCount() {
         //Biz logic, if any
 
         //Pass data to controller

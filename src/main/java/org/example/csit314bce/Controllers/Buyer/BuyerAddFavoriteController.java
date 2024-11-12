@@ -15,7 +15,7 @@ public class BuyerAddFavoriteController {
 
     @PostMapping(value = "/InfinityNetwork/buyer/addFavorite",
             consumes = "application/json")
-    public String addFavorite(@RequestBody FavoriteEntity favoriteEntity) {
+    public String buyerAddFavorite(@RequestBody FavoriteEntity favoriteEntity) {
         //Biz logic, if any
 
         //Pass info to Entity

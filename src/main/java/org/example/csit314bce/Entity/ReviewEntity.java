@@ -106,8 +106,8 @@ public class ReviewEntity {
                     insertStmt.setString(1, review.getComment());
                     insertStmt.setTimestamp(2, Timestamp.valueOf(createdAt));
                     insertStmt.setDouble(3, review.getRating());
-                    insertStmt.setLong(4, reviewForId);
-                    insertStmt.setLong(5, reviewById);
+                    insertStmt.setString(4, review.getReviewFor());
+                    insertStmt.setString(5, review.getReviewBy());
 
                     int rowsInserted = insertStmt.executeUpdate();
 

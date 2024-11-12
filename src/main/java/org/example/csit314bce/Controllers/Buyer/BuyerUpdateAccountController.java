@@ -15,7 +15,7 @@ public class BuyerUpdateAccountController {
     }
 
     @PostMapping(value = "/InfinityNetwork/buyer/updateUser", consumes = "application/json")
-    public String agentUpdateAccount(
+    public String buyerUpdateAccount(
             @RequestBody UserEntity user,
             @RequestParam String originalUsername) {
         //Biz logic, if any

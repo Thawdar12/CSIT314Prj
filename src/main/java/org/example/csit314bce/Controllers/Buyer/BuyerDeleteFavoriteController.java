@@ -16,7 +16,7 @@ public class BuyerDeleteFavoriteController {
 
     @PostMapping(value = "/InfinityNetwork/buyer/removeFavorite",
             consumes = "application/json")
-    public String removeFavorite(@RequestBody String username,
+    public String buyerRemoveFavorite(@RequestBody String username,
                                   @RequestBody String carPlateNumber) {
         //Biz logic, if any
 

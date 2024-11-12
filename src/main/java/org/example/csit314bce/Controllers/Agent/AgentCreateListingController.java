@@ -16,7 +16,7 @@ public class AgentCreateListingController {
     }
 
     @PostMapping(value = "/InfinityNetwork/agent/createListing", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String createListing(
+    public String agentCreateListing(
             @RequestPart("listing") CarListingEntity listing,
             @RequestPart(value = "photo", required = false) MultipartFile photo) {
         //Biz logic, if any

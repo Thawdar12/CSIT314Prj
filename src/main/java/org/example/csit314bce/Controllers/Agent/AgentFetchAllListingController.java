@@ -16,7 +16,7 @@ public class AgentFetchAllListingController {
     }
 
     @GetMapping("/InfinityNetwork/agent/fetchAllListing")
-    public List<CarListingEntity> fetchAllListings(@RequestParam String username) {
+    public List<CarListingEntity> agentFetchAllListings(@RequestParam String username) {
         //Biz logic, if any
 
         //Pass data to controller
