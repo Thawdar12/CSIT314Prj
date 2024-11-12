@@ -31,6 +31,73 @@
             }
         }
 
+        function displayAccountSuccess() {
+            Swal.fire({
+                  title: "User Account Updated!",
+                  icon: "success",
+                  confirmButtonText: 'OK'
+            }).then(() => {
+                    // Redirect after user clicks "OK" in Swal
+                    window.location.href = "/InfinityNetwork/admin/dashboard";
+            });
+        }
+
+        function displayError(error) {
+            console.log("error");
+            Swal.fire({
+                title: 'Error!',
+                text: `Failed to update user. Your new username, email and phone number must be different from existing accounts.`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        async function updateUserAccount(){
+            const form = document.getElementById("user-form");
+            event.preventDefault(); // Prevent form from submitting normally
+
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
+                return;
+            }
+
+            const user = await getTheUser();
+
+            // Update user
+            try {
+                const url = `/InfinityNetwork/admin/updateUser?originalUsername=${user.username}`
+                // Create the user
+                const data = {
+                    username: document.getElementById('username').value || user.username,
+                    password: document.getElementById('password').value || user.password,
+                    userType: document.getElementById('user-type').value || user.userType,
+                    email: document.getElementById('email').value || user.email,
+                    phoneNumber: document.getElementById('phone-number').value || user.phoneNumber,
+                    enabled: document.getElementById('user-suspension').value === "Unsuspend" ? true : user.enabled,
+                };
+                console.log(url);
+                console.log(data);
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.statusText}`);
+                }
+                const result = await response.text();
+                if (result !== "success") {
+                    throw new Error(`Error: ${result}`);
+                }
+                displayAccountSuccess();
+                console.log("User updated successfully");
+            } catch (error) {
+                displayError(error);
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", async function() {
             const user = await getTheUser();
             console.log(user);
@@ -48,60 +115,6 @@
             document.getElementById("form-phone").innerHTML = `Current Phone: ${user.phoneNumber}`;
             document.getElementById("form-suspension").innerHTML = `Current Status: ${text}`;
 
-            // Handle form submission
-            const form = document.getElementById("user-form");
-            form.addEventListener("submit",async (event) => {
-                event.preventDefault(); // Prevent form from submitting normally
-
-                if (!form.checkValidity()) {
-                    form.classList.add('was-validated');
-                    return;
-                }
-
-                // Update user
-                try {
-                    const url = `/InfinityNetwork/admin/updateUser?originalUsername=${user.username}`
-                    // Create the user
-                    const data = {
-                        username: document.getElementById('username').value || user.username,
-                        password: document.getElementById('password').value || user.password,
-                        userType: document.getElementById('user-type').value || user.userType,
-                        email: document.getElementById('email').value || user.email,
-                        phoneNumber: document.getElementById('phone-number').value || user.phoneNumber,
-                        enabled: document.getElementById('user-suspension').value === "Unsuspend" ? true : user.enabled
-                    };
-                    console.log(url);
-                    console.log(data);
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: {
-                        'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    });
-                    if (!response.ok) {
-                        throw new Error(`Error: ${response.statusText}`);
-                    }
-
-                    console.log("User updated successfully");
-                    Swal.fire({
-                      title: "User Account Updated!",
-                      icon: "success",
-                      confirmButtonText: 'OK'
-                    }).then(() => {
-                        // Redirect after user clicks "OK" in Swal
-                        window.location.href = "/InfinityNetwork/admin/dashboard";
-                    });
-                } catch (error) {
-                    console.log("error");
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Failed to update user.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            })
         })
 
     </script>
@@ -119,7 +132,7 @@
 
         <!-- Display form -->
         <div class="container-fluid mb-5">
-            <form class="row g-1 needs-validation" id="user-form" novalidate>
+            <form class="row g-1 needs-validation" id="user-form" onsubmit="updateUserAccount()" novalidate>
                 <div class="row justify-content-md-center">
                     <div class="mb-3 col-md-6">
                         <label for="username" class="form-label" id="form-username"></label>
@@ -189,7 +202,7 @@
                 </div>
                 <div class="row justify-content-md-center">
                     <div class="col-md-6 text-center">
-                        <button class="btn btn-outline-secondary" type="submit">Submit form</button>
+                        <button class="btn btn-outline-secondary" type="submit">Confirm</button>
                     </div>
                 </div>
             </form>

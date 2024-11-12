@@ -37,10 +37,10 @@
                     <label for="password">Password</label>
                 </div>
                 <select class="form-select mb-3" aria-label="Default select example"  id="userType" name="domainGroup" required>&ndash;&gt;-->
-                    <option value="admin">Admin</option>
-                    <option value="agent">Agent</option>
-                    <option value="buyer">Buyer</option>
-                    <option value="seller">Seller</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="AGENT">AGENT</option>
+                    <option value="BUYER">BUYER</option>
+                    <option value="SELLER">SELLER</option>
                 </select>
 
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
@@ -62,11 +62,16 @@
     });
 
     function validateSignInInput(){
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const userType = document.getElementById('userType').value;
+
         const data = {
             username: document.getElementById('username').value,
             password: document.getElementById('password').value,
             userType: document.getElementById('userType').value
         };
+
 
         fetch('/login', {
             method: 'POST',
@@ -103,7 +108,7 @@
 
         console.log(role);
 
-        if (role === "admin") {
+        if (role === "ADMIN") {
             window.location.href = "/InfinityNetwork/admin/dashboard";
         }
 

@@ -35,4 +35,17 @@ public class URLResolver {
         model.addAttribute("username", username);
         return "InfinityNetwork/admin/update";
     }
+
+    @GetMapping("InfinityNetwork/admin/createProfile")
+    public String createProfile() {
+        return "InfinityNetwork/admin/createProfile";
+    }
+
+    @GetMapping("InfinityNetwork/admin/updateProfile")
+    public String updateProfile(@RequestParam String profileName, Model model) {
+        System.out.println(profileName);
+        // Pass data to the page
+        model.addAttribute("profileName", profileName);
+        return "InfinityNetwork/admin/updateProfileUI";
+    }
 }

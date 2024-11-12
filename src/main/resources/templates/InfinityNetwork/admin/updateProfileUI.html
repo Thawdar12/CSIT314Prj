@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:insert="~{header :: header}"></div>
+<title>Update Account</title>
+<link rel="stylesheet" href="/css/adminDashboard.css"/>
+<script>
+
+    // Parse the query parameters to get the username
+    const urlParams = new URLSearchParams(window.location.search);
+    const profileName = urlParams.get('profileName');
+
+    console.log("ProfileName:", profileName); // or display it in the page
+
+    if(!profileName) {
+        window.location.href = "/InfinityNetwork/admin/profiles";
+    }
+
+    async function displayUpdateProfileForm() {
+         // Search user data
+        try {
+            const url = `/InfinityNetwork/admin/searchProfile?profileName=${profileName}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const profiles = await response.json();
+             // Return the matching user
+            return profiles.find(profile => profile.profileName === profileName);
+        } catch(error) {
+            console.log("error getting data");
+        }
+    }
+
+    function displayUpdateProfileSuccess() {
+        Swal.fire({
+              title: "User Account Updated!",
+              icon: "success",
+              confirmButtonText: 'OK'
+        }).then(() => {
+                // Redirect after user clicks "OK" in Swal
+                window.location.href = "/InfinityNetwork/admin/dashboard";
+        });
+    }
+
+    function displayError(error) {
+        console.log("error");
+        Swal.fire({
+            title: 'Error!',
+            text: `Failed to update profile`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
+
+    async function updateUserProfile(){
+        const form = document.getElementById("profile-form");
+        event.preventDefault(); // Prevent form from submitting normally
+
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;
+        }
+
+        const profile = await displayUpdateProfileForm();
+        console.log(profile);
+
+        // Update profile
+        try {
+            const url = `/InfinityNetwork/admin/updateProfile?oldProfileName=${profile.profileName}`
+
+            const data = {
+                profileName: document.getElementById('profile-name').value || profile.profileName,
+                profileDescription: document.getElementById("profile-description").value || profile.profileDescription
+            };
+            console.log(url);
+            console.log(data);
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            console.log(response.ok);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+            //const result = await response.text();
+            displayUpdateProfileSuccess();
+            console.log("User updated successfully");
+        } catch (error) {
+            displayError(error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async function() {
+        const profile = await displayUpdateProfileForm();
+        console.log(profile);
+        document.getElementById("profile-label").innerHTML = `Current Profile Name: ${profile.profileName}`;
+
+    })
+
+</script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:insert="~{adminNavbar :: admin-navbar}"></div>
+
+<div class="px-4 pt-2 mt-2 text-center">
+    <h1 class="display-5">Update Profile</h1>
+</div>
+
+<div class="px-4 py-5 text-center">
+    <h6 class="h6 fw-bold">Type new info or leave blank for current info.</h6>
+</div>
+
+<div class="container-fluid mb-5">
+    <form class="row g-1 needs-validation" id="profile-form" onsubmit="updateUserProfile()" novalidate>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="profile-name" class="form-label" id="profile-label">Profile Name</label>
+                <input type="text" class="form-control" id="profile-name">
+                <div class="invalid-feedback">
+                    Please provide a valid profile name.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="profile-description" class="form-label">Profile Description (Optional)</label>
+                <textarea class="form-control" id="profile-description" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-6 text-center">
+                <button class="btn btn-outline-secondary" type="submit">Submit form</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="mt-auto footer-color container-fluid" th:insert="~{footer :: footer}"></div>
+</body>
+</html>

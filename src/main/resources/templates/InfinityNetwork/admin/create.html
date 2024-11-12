@@ -4,6 +4,49 @@
 <title>Create Account</title>
 <link rel="stylesheet" href="/css/adminDashboard.css" />
 <script>
+    async function adminCreateUser(user) {
+      try {
+          const response = await fetch('/InfinityNetwork/admin/createUser', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        if (!response.ok) {
+               throw new Error(`Error: ${response.statusText}`);
+        }
+        const result = await response.text();
+        if (result !== "success") {
+            throw new Error(`Error: ${result}`);
+        }
+        Swal.fire({
+              title: "User Account Created!",
+              icon: "success",
+              confirmButtonText: 'OK'
+            }).then(() => {
+                // Redirect after user clicks "OK" in Swal
+                redirectToAccountDashboard();
+        });
+      } catch(error) {
+        console.log(error);
+        displayError(error);
+      }
+    }
+
+    function redirectToAccountDashboard() {
+        // Redirect after user clicks "OK" in Swal
+        window.location.href = "/InfinityNetwork/admin/dashboard";
+    }
+
+    function displayError(error) {
+        Swal.fire({
+                title: 'Error!',
+                text: 'Failed to create user. Email and username must be different from existing users',
+                icon: 'error',
+                confirmButtonText: 'OK'
+        })
+    }
 
     document.addEventListener("DOMContentLoaded", function() {
         const currentUrl = window.location.pathname;
@@ -15,54 +58,27 @@
             }
         });
 
-        // Check form validation
         const form = document.getElementById("user-form");
-        form.addEventListener('submit', async (event) => {
-              event.preventDefault();
-              if (!form.checkValidity()) {
-                    form.classList.add('was-validated');
-                    return;
-              }
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;
+            }
 
-              form.classList.add('was-validated')
-              // Create the user
-              const data = {
-                    username: document.getElementById('username').value,
-                    password: document.getElementById('password').value,
-                    userType: document.getElementById('user-type').value,
-                    email: document.getElementById('email').value,
-                    phoneNumber: document.getElementById('phone-number').value
-               };
-              try {
-                  const response = await fetch('/InfinityNetwork/admin/createUser', {
-                    method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                if (!response.ok) {
-                       throw new Error(`Error: ${response.statusText}`);
-                }
-                Swal.fire({
-                      title: "User Account Created!",
-                      icon: "success",
-                      confirmButtonText: 'OK'
-                    }).then(() => {
-                        // Redirect after user clicks "OK" in Swal
-                        window.location.href = "/InfinityNetwork/admin/dashboard";
-                });
-              } catch(error) {
-                console.log(error);
-                 Swal.fire({
-                        title: 'Error!',
-                        text: 'Failed to create user. Username is taken!',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                 });
-              }
-        });
+            form.classList.add('was-validated')
 
+            const user = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                userType: document.getElementById('profile').value,
+                email: document.getElementById('email').value,
+                phoneNumber: document.getElementById('phone-number').value
+            };
+
+            await adminCreateUser(user);
+
+        })
 
     });
 </script>
@@ -105,8 +121,8 @@
         </div>
         <div class="row justify-content-md-center">
             <div class="mb-3 col-md-6">
-                <label for="user-type" class="form-label">UserType</label>
-                <select class="form-select" id="user-type" required>
+                <label for="profile" class="form-label">UserType</label>
+                <select class="form-select" id="profile" required>
                     <option selected disabled value="">Choose...</option>
                     <option>AGENT</option>
                     <option>BUYER</option>

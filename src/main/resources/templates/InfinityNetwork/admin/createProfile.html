@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{header :: header}"></div>
+<title>Create Profile</title>
+<link rel="stylesheet" href="/css/adminDashboard.css" />
+<script>
+    async function createProfile(profileName) {
+      try {
+          const response = await fetch('/InfinityNetwork/admin/createProfile', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(profileName)
+        })
+        if (!response.ok) {
+               throw new Error(`Error: ${response.statusText}`);
+        }
+        const result = await response.text();
+        if (result !== "Profile created successfully.") {
+            throw new Error(`Error: ${result}`);
+        }
+        Swal.fire({
+              title: "New Profile Created!",
+              icon: "success",
+              confirmButtonText: 'OK'
+            }).then(() => {
+                redirectToAccountDashboard();
+        });
+      } catch(error) {
+        console.log(error);
+        displayError(error);
+      }
+    }
+
+    function redirectToAccountDashboard() {
+        // Redirect after user clicks "OK" in Swal
+        window.location.href = "/InfinityNetwork/admin/dashboard";
+    }
+
+    function displayError(error) {
+        Swal.fire({
+                title: 'Error!',
+                text: `Failed to create new profile. Profile already exists`,
+                icon: 'error',
+                confirmButtonText: 'OK'
+        })
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentUrl = window.location.pathname;
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+
+        navLinks.forEach(link => {
+            if (link.getAttribute("href") === currentUrl) {
+                link.classList.add("active");
+            }
+        });
+
+        const form = document.getElementById("profile-form");
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;
+            }
+
+            form.classList.add('was-validated')
+
+            const profileName = {
+                profileName: document.getElementById("profile-name").value,
+                profileDescription: document.getElementById("profile-description").value,
+            };
+
+            await createProfile(profileName);
+        })
+
+    });
+</script>
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color: white">
+<div th:insert="~{adminNavbar :: admin-navbar}"></div>
+
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold">Create Profile</h1>
+</div>
+
+<div class="container-fluid mb-5">
+    <form class="row g-1 needs-validation" id="profile-form" novalidate>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="profile-name" class="form-label">Profile Name</label>
+                <input type="text" class="form-control" id="profile-name" required>
+                <div class="invalid-feedback">
+                    Please provide a valid profile name.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="profile-description" class="form-label">Profile Description (Optional)</label>
+                <textarea class="form-control" id="profile-description" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-6 text-center">
+                <button class="btn btn-outline-secondary" type="submit">Submit form</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="mt-auto footer-color" th:insert="~{footer :: footer}"></div>
+</body>
+</html>

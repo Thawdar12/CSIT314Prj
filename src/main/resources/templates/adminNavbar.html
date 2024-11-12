@@ -1,11 +1,11 @@
 <div th:fragment="admin-navbar" xmlns:th="http://www.w3.org/1999/xhtml">
     <script>
         <!-- Checking login status and role -->
-        if(!sessionStorage.getItem("loginStatus") || sessionStorage.getItem("role") !== "admin"){
+        if(!sessionStorage.getItem("loginStatus") || sessionStorage.getItem("role") !== "ADMIN"){
             window.location.href = "/InfinityNetwork/login";
         }
 
-        function signOut() {
+        function logoutAdminAccount() {
             sessionStorage.clear();
             window.location.href = "/InfinityNetwork/login";
         }
@@ -19,13 +19,16 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav gap-5 navFont">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/InfinityNetwork/admin/dashboard}">Management</a>
+                        <a class="nav-link" th:href="@{/InfinityNetwork/admin/dashboard}">User Accounts</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/InfinityNetwork/admin/profiles}">User Profiles</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/InfinityNetwork/admin/create}">Create User</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/InfinityNetwork/admin/createProfile}">Create Profile</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -36,7 +39,7 @@
                             <li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Another action</a></li>
 
-                            <li><a class="dropdown-item" href="#" id="sign-out-button" onclick="signOut()">Sign Out</a></li>
+                            <li><a class="dropdown-item" href="#" id="sign-out-button" onclick="logoutAdminAccount()">Sign Out</a></li>
                         </ul>
                     </li>
 
