@@ -1,8 +1,10 @@
 package org.example.csit314bce.Controllers.Buyer;
 
+import org.example.csit314bce.Entity.CarListingEntity;
 import org.example.csit314bce.Entity.FavoriteEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -14,10 +16,9 @@ public class BuyerDeleteFavoriteController {
         this.favoriteEntity = favoriteEntity;
     }
 
-    @PostMapping(value = "/InfinityNetwork/buyer/removeFavorite",
-            consumes = "application/json")
-    public String buyerRemoveFavorite(@RequestBody String username,
-                                  @RequestBody String carPlateNumber) {
+    @PostMapping(value = "/InfinityNetwork/buyer/removeFavorite")
+    public String buyerRemoveFavorite(@RequestParam String username,
+                                  @RequestParam String carPlateNumber) {
         //Biz logic, if any
 
         //Pass info to Entity
@@ -27,3 +28,4 @@ public class BuyerDeleteFavoriteController {
         return result;
     }
 }
+

@@ -1,8 +1,8 @@
 package org.example.csit314bce.Controllers.Seller;
 
 import org.example.csit314bce.Entity.CarListingEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -16,14 +16,13 @@ public class SellerFetchViewedNumberController {
         this.carListingEntity = carListingEntity;
     }
 
-    @PostMapping(value = "/InfinityNetwork/seller/fetchViewCountForSellerListings",
-            consumes = "application/json")
+    @GetMapping(value = "/InfinityNetwork/seller/fetchViewCountForSellerListings")
     public Map<String, Integer> sellerFetchViewedNumber(
-            @RequestBody String carPlateNumber) {
+            @RequestParam String username) {
         //Biz logic, if any
 
         //Pass info to Entity
-        Map<String, Integer> result = this.carListingEntity.fetchViewCountForSellerListings(carPlateNumber);
+        Map<String, Integer> result = this.carListingEntity.fetchViewCountForSellerListings(username);
 
         //Get back from Entity class
         return result;

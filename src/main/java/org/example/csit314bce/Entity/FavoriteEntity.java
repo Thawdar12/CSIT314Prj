@@ -67,7 +67,7 @@ public class FavoriteEntity {
 
     // Method to add a favorite entry
     public String addFavorite(FavoriteEntity favoriteEntity) {
-        created_at = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        this.created_at = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
         String insertSql = "INSERT INTO favorite (favoriteFor, favoriteBy, sellerUsername, created_at) VALUES (?, ?, ?, ?)";
 
@@ -77,7 +77,7 @@ public class FavoriteEntity {
             insertStmt.setString(1, favoriteEntity.getFavoriteFor());
             insertStmt.setString(2, favoriteEntity.getFavoriteBy());
             insertStmt.setString(3, favoriteEntity.getSellerUsername());
-            insertStmt.setTimestamp(4, Timestamp.valueOf(favoriteEntity.getCreatedAt()));
+            insertStmt.setTimestamp(4, Timestamp.valueOf(this.created_at));
 
             int rowsInserted = insertStmt.executeUpdate();
 
@@ -100,7 +100,7 @@ public class FavoriteEntity {
 
     // Method to remove a favorite entry
     // favoriteFor = carPlateNumber, favoriteBy = username
-    public String removeFavorite(String favoriteFor, String favoriteBy) {
+    public String removeFavorite(String favoriteBy, String favoriteFor) {
         String deleteSql = "DELETE FROM favorite WHERE favoriteFor = ? AND favoriteBy = ?";
 
         try (Connection connection = dataSource.getConnection();

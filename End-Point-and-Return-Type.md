@@ -375,11 +375,34 @@ Seller
    Review and rating is the same function, you can just submit an empty comments
 
 6. As a seller, I want to see the number of views on my used cars so that I can track the interests on the used car -
-   Can't do since I'm not doing Buyer class
    - Done
+   -   Controller: SellerFetchViewedNumberController
+       Endpoint: "/InfinityNetwork/seller/fetchViewCountForSellerListings?username=Ari_Mraz"
+       Request Method: GET
+       Payload to receive: none
+       Expected return type: Map
+       Return object example: {
+       "AZ75SCO": 7784,
+       "RM12MVX": 3349,
+       "KD59SLE": 2272,
+       "HA43BRU": 193
+       }
+       Success case: Success
+       Failure case: error: message OR other message
+   
 7. As a seller, I want to see the number of time my used car is shortlisted so that I can track the interests on my used
-   car - Can't do since I'm not doing Buyer class
    - Done
+-   Controller: SellerFetchFavoritedNumberController
+    Endpoint: "/InfinityNetwork/seller/fetchFavoriteCountForSellerListings?username=Roscoe70"
+    Request Method: GET
+    Payload to receive: none
+    Expected return type: Map
+    Return object example: {
+    "PU11YOY": 1,
+    "BH95DUO": 1
+    }
+    Success case: Success
+    Failure case: error: message OR other message
 
 Buyer
 1. As a buyer, I want to be able to view car listings so that I can find out the current listings 
@@ -477,11 +500,33 @@ Buyer
    
 4. As a buyer, I want to save used car listings so that I can refer to preferred used car listings easily
 Done
-
+Controller: BuyerAddFavoriteController
+   Endpoint: "/InfinityNetwork/buyer/addFavorite"
+   Request Method: Post or Fetch
+   Payload to receive: JSON
+   Payload example:
+   {
+   "favoriteFor" : "BH34PEG",
+   "favoriteBy" : "Roel_White9",
+   "sellerUsername" : "Grace_VonRueden"
+   }
+   Expected return type: String
+   Success case: success
+   Failure case: error: message OR other message
+ 
+   Payload to receive: None
    
 5. As a buyer, I want to remove used car listings so that I can update my current preferred car listing
-Done
-   
+   Done
+   Controller: BuyerRemoveFavoriteController
+   Endpoint: "/InfinityNetwork/buyer/removeFavorite?username=Hayden47&carPlateNumber=OK20VUP"
+   Request Method: Post or Fetch
+   Header : Content-Type, Application/json
+   Expected return type: String
+   Success case: success
+   Failure case: error: message OR other message
+
+
 6. As a buyer, I want to access a loan calculator so that I can determine if the selected used car is within my budget
    
 7. As a buyer, I want to rate and review used car agents so that I can provide feedback to the agent and other customers for them to learn from my experience.
@@ -514,3 +559,13 @@ Done
        This method is calling same function as adminUpdateUser. The key different is that admin can modify any user,
        but buyer should only be able to modify themselves, so make sure when you call this function,
        hard-code the username to current user. Other info please refer to adminUpdateUser
+
+Buyer Record View
+Done 
+Controller: BuyerRecordViewController
+Endpoint: "/InfinityNetwork/buyer/recordView?carPlateNumber=RM12MVX"
+Request Method: Get
+Header : Content-Type, Application/json
+Expected return type: String
+Success case: success
+Failure case: error: message OR other message

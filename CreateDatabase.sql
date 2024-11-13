@@ -82,9 +82,10 @@ CREATE TABLE favorite
     created_at          DATETIME(3)               NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     -- Foreign key constraints
-    CONSTRAINT FK_carPlateNumber_carListing FOREIGN KEY (favoriteFor) REFERENCES carlistings (carPlateNumber),
-    CONSTRAINT FK_sellerName_sellerName FOREIGN KEY (sellerUsername) REFERENCES carlistings (sellerUsername),
-    CONSTRAINT FK_favBy_userID FOREIGN KEY (favoriteBy) REFERENCES user (username),
+    CONSTRAINT FK_carPlateNumber_carListing FOREIGN KEY (favoriteFor) REFERENCES carlistings (carPlateNumber) ON DELETE CASCADE,
+    CONSTRAINT FK_sellerName_sellerName FOREIGN KEY (sellerUsername) REFERENCES carlistings (sellerUsername) ON DELETE CASCADE,
+    CONSTRAINT FK_favBy_userID FOREIGN KEY (favoriteBy) REFERENCES user (username) ON DELETE CASCADE,
     UNIQUE (favoriteFor, favoriteBy)
 );
+
 
