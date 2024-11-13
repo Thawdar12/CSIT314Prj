@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{header :: header}"></div>
+<title>Dashboard</title>
+<link rel="stylesheet" href="/css/agentDashboard.css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function displayCreateListingSuccess() {
+        Swal.fire({
+          title: "Listing Created!",
+          icon: "success",
+          confirmButtonText: 'OK'
+        }).then(() => {
+            // Redirect after user clicks "OK" in Swal
+            window.location.href = "/InfinityNetwork/agent/listings";
+        });
+    }
+
+    function displayError(error) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Failed to update listing.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
+
+    async function createCarListing() {
+      event.preventDefault();
+
+      const username = sessionStorage.getItem("username");
+      event.preventDefault();
+      const carBrand = document.getElementById("car-brand").value;
+      const carModel = document.getElementById("car-model").value;
+      const carPlateNumber = document.getElementById("plate-number").value;
+      const listingStatus = document.getElementById("status").value;
+      const manufacturedYear = document.getElementById("year").value;
+      const millage = parseFloat(document.getElementById("millage").value);
+      const price = parseFloat(document.getElementById("price").value);
+      const listedBy = username;
+      const sellerUsername = document.getElementById("seller").value;
+      const photoFile = document.getElementById("photo").files[0];
+
+      const listingData = {
+        carBrand,
+        carModel,
+        carPlateNumber,
+        listingStatus,
+        manufacturedYear: parseInt(manufacturedYear, 10),
+        millage,
+        price,
+        listedBy,
+        sellerUsername
+      };
+
+      const formData = new FormData();
+      const json = JSON.stringify(listingData);
+      console.log(json);
+      const blob = new Blob([json], {type: 'application/json'});
+      formData.append("listing", blob);
+      if (photoFile) {
+        formData.append("photo", photoFile);
+      }
+
+      console.log("FormData contents:");
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
+      try {
+        const response = await fetch("/InfinityNetwork/agent/createListing", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.text();
+        if (result !== "success" || !response.ok) {
+            throw new Error(`Error: ${result}`);
+        }
+        displayCreateListingSuccess()
+      } catch (error) {
+        console.error("Error:", error);
+        displayError(error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentUrl = window.location.pathname;
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+
+        navLinks.forEach(link => {
+            if (link.getAttribute("href") === currentUrl) {
+                link.classList.add("active");
+            }
+        });
+    });
+</script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:insert="~{agentNavbar :: agent-navbar}"></div>
+
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold">Create Listing</h1>
+</div>
+
+<div class="container-fluid mb-5">
+    <form class="row g-1 needs-validation" id="listing-form" onsubmit="createCarListing()" novalidate>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="car-brand" class="form-label">Car brand</label>
+                <input type="text" class="form-control" id="car-brand" required>
+                <div class="invalid-feedback">
+                    Please provide a car brand.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="car-model" class="form-label">Car Model</label>
+                <input type="text" class="form-control" id="car-model" required>
+                <div class="invalid-feedback">
+                    Please provide a car label.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="plate-number" class="form-label">Car Plate Number</label>
+                <input type="text" class="form-control" id="plate-number" required>
+                <div class="invalid-feedback">
+                    Please provide a car plate number.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="status" class="form-label">Listing Status</label>
+                <select class="form-select" id="status" required>
+                    <option selected disabled value="">Choose...</option>
+                    <option>OPEN</option>
+                    <option>CLOSED</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a valid listing status.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="year" class="form-label">Manufactured Year</label>
+                <input type="number" class="form-control" id="year" required>
+                <div class="invalid-feedback">
+                    Please provide a manufactured year.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="millage" class="form-label">Millage</label>
+                <input type="number" class="form-control" id="millage" required>
+                <div class="invalid-feedback">
+                    Please provide millage.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" class="form-control" id="price" required>
+                <div class="invalid-feedback">
+                    Please provide a price.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="seller" class="form-label">Seller Username</label>
+                <input type="text" class="form-control" id="seller" required>
+                <div class="invalid-feedback">
+                    Please provide a seller ID.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="photo" class="form-label">Photo (optional)</label>
+                <input type="file" class="form-control" id="photo">
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-6 text-center">
+                <button class="btn btn-outline-secondary" type="submit">Create</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="mt-auto footer-color container-fluid" th:insert="~{footer :: footer}"></div>
+</body>
+</html>

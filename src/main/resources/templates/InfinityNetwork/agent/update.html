@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:insert="~{header :: header}"></div>
+<title>Update Account</title>
+<link rel="stylesheet" href="/css/agentDashboard.css"/>
+<script>
+
+    // Parse the query parameters to get the username
+    const urlParams = new URLSearchParams(window.location.search);
+    const carPlateNumber = urlParams.get('carPlateNumber');
+
+    console.log("Plate:", carPlateNumber); // or display it in the page
+
+    if(!carPlateNumber) {
+        window.location.href = "/InfinityNetwork/agent/dashboard";
+    }
+
+    async function displayUpdateListingForm() {
+         // Search user data
+        try {
+            const username = sessionStorage.getItem("username");
+            const url = `/InfinityNetwork/agent/searchListing?criteria=carPlateNumber&value=${carPlateNumber}&username=${username}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const plates = await response.json();
+             // Return the matching user
+            return plates.find(plate => plate.carPlateNumber === carPlateNumber);
+        } catch(error) {
+            console.log("error getting data");
+        }
+    }
+
+    function displayUpdateListingSuccess() {
+        Swal.fire({
+          title: "Listing Updated!",
+          icon: "success",
+          confirmButtonText: 'OK'
+        }).then(() => {
+            // Redirect after user clicks "OK" in Swal
+            window.location.href = "/InfinityNetwork/agent/listings";
+        });
+    }
+
+    function displayError(error) {
+         Swal.fire({
+            title: 'Error!',
+            text: `Failed to update listing. ${error}`,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
+
+    async function updateListingForm() {
+        console.log("hello");
+        // Update user
+        try {
+            const listing = await displayUpdateListingForm();
+            console.log(listing);
+            const url = `/InfinityNetwork/agent/updateListing?originalCarPlateNumber=${listing.carPlateNumber}`
+            // Create listing
+            console.log(url);
+            const photoFile = document.getElementById("photo").files[0];
+            const username = sessionStorage.getItem("username");
+            const data = {
+                carBrand: document.getElementById('car-brand').value || listing.carBrand,
+                carModel: document.getElementById('car-model').value || listing.carModel,
+                carPlateNumber: document.getElementById('plate-number').value || listing.carPlateNumber,
+                listingStatus: document.getElementById('status').value || listing.listingStatus,
+                manufacturedYear: document.getElementById('year').value || listing.manufacturedYear,
+                millage: document.getElementById('millage').value || listing.millage,
+                price: document.getElementById('price').value || listing.price,
+                sellerUsername: document.getElementById('seller').value || listing.sellerUsername,
+                listedBy: username,
+                photo: document.getElementById('photo').value || listing.photo
+            };
+            console.log(url);
+            const json = JSON.stringify(data);
+            console.log(json);
+            const blob = new Blob([json], {type: 'application/json'});
+            const formData = new FormData();
+            formData.append("listing", blob);
+            console.log("photo");
+            console.log(listing.photo);
+            if (photoFile) {
+                formData.append("photo", photoFile);
+            } else {
+                formData.append("photo", listing.photo);
+            }
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+            });
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+            const result = await response.text();
+            if (result !== "success") {
+                throw new Error();
+            }
+
+            console.log("User updated successfully");
+            displayUpdateListingSuccess()
+
+        } catch (error) {
+            console.log("error");
+            displayError(error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async function() {
+        const listing = await displayUpdateListingForm();
+        console.log(listing);
+
+        document.getElementById("form-brand").innerHTML = `Current Car Brand: ${listing.carBrand}`;
+        document.getElementById("form-model").innerHTML = `Current Car Model: ${listing.carModel}`;
+        document.getElementById("form-plate").innerHTML = `Current Car Plate Number: ${listing.carPlateNumber}`;
+        document.getElementById("form-status").innerHTML = `Current Listing Status: ${listing.listingStatus}`;
+        document.getElementById("form-year").innerHTML = `Current Manufactured Year: ${listing.manufacturedYear}`;
+        document.getElementById("form-millage").innerHTML = `Current Millage: ${listing.millage}`;
+        document.getElementById("form-price").innerHTML = `Current Price: ${listing.price}`;
+        document.getElementById("form-seller").innerHTML = `Current Seller ID: ${listing.sellerUsername}`;
+
+        const form = document.getElementById("listing-form");
+        form.addEventListener("submit", () => {
+            event.preventDefault();
+            if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;
+            }
+            updateListingForm();
+        })
+    })
+
+</script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:insert="~{agentNavbar :: agent-navbar}"></div>
+
+<div class="px-4 pt-2 mt-2 text-center">
+    <h1 class="display-5">Update Listing</h1>
+</div>
+
+<div class="px-4 py-5 text-center">
+    <h6 class="h6 fw-bold">Type new info or leave blank for current info.</h6>
+</div>
+
+<!-- Display form -->
+<div class="container-fluid mb-5">
+    <form class="row g-1 needs-validation" id="listing-form" onsubmit="updateListingForm" novalidate>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="car-brand" class="form-label" id="form-brand">Car brand</label>
+                <input type="text" class="form-control" id="car-brand">
+                <div class="invalid-feedback">
+                    Please provide a car brand.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="car-model" class="form-label" id="form-model">Car Model</label>
+                <input type="text" class="form-control" id="car-model">
+                <div class="invalid-feedback">
+                    Please provide a car label.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="plate-number" class="form-label" id="form-plate">Car Plate Number</label>
+                <input type="text" class="form-control" id="plate-number">
+                <div class="invalid-feedback">
+                    Please provide a car plate number.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="status" class="form-label" id="form-status">Listing Status</label>
+                <select class="form-select" id="status">
+                    <option selected disabled value="">Choose...</option>
+                    <option>OPEN</option>
+                    <option>CLOSED</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a valid listing status.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="year" class="form-label" id="form-year">Manufactured Year</label>
+                <input type="number" class="form-control" id="year">
+                <div class="invalid-feedback">
+                    Please provide a manufactured year.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="millage" class="form-label" id="form-millage">Millage</label>
+                <input type="number" class="form-control" id="millage">
+                <div class="invalid-feedback">
+                    Please provide millage.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="price" class="form-label" id="form-price">Price</label>
+                <input type="number" class="form-control" id="price">
+                <div class="invalid-feedback">
+                    Please provide a price.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="seller" class="form-label" id="form-seller">Seller ID</label>
+                <input type="text" class="form-control" id="seller">
+                <div class="invalid-feedback">
+                    Please provide a seller ID.
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="mb-3 col-md-6">
+                <label for="photo" class="form-label" id="form-photo">Photo (optional)</label>
+                <input type="file" class="form-control" id="photo">
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-6 text-center">
+                <button class="btn btn-outline-secondary" type="submit">Edit Car Listing</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="mt-auto footer-color container-fluid" th:insert="~{footer :: footer}"></div>
+</body>
+</html>

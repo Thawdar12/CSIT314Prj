@@ -48,4 +48,44 @@ public class URLResolver {
         model.addAttribute("profileName", profileName);
         return "InfinityNetwork/admin/updateProfileUI";
     }
+
+    // AGENT
+
+    @GetMapping("InfinityNetwork/agent/dashboard")
+    public String agentDashboard() {
+        return "InfinityNetwork/agent/dashboard";
+    }
+
+    @GetMapping("InfinityNetwork/agent/listings")
+    public String agentListings() {
+        return "InfinityNetwork/agent/listings";
+    }
+
+    @GetMapping("InfinityNetwork/agent/create")
+    public String agentCreateListing() {
+        return "InfinityNetwork/agent/create";
+    }
+
+    @GetMapping("InfinityNetwork/agent/reviews")
+    public String agentReviews() {
+        return "InfinityNetwork/agent/reviews";
+    }
+
+    @GetMapping("InfinityNetwork/agent/edit")
+    public String editAccountInfo() {
+        return "InfinityNetwork/agent/edit";
+    }
+
+    @GetMapping("InfinityNetwork/agent/update")
+    public String updateListing(@RequestParam String carPlateNumber, Model model) {
+        System.out.println(carPlateNumber);
+        // Pass data to the page
+        model.addAttribute("carPlateNumber", carPlateNumber);
+        return "InfinityNetwork/agent/update";
+    }
+
+    @GetMapping("InfinityNetwork/agent/account")
+    public String account() {
+        return "InfinityNetwork/agent/account";
+    }
 }
