@@ -167,6 +167,7 @@ public class FavoriteEntity {
     }
 
     //retrieve number
+    // get fav count for all listings
     public Map<String, Integer> getFavoriteCountForAllListings() {
         String sql = "SELECT favoriteFor AS carPlateNumber, COUNT(*) AS favoriteCount " +
                 "FROM favorite GROUP BY favoriteFor";
@@ -180,6 +181,34 @@ public class FavoriteEntity {
                 String carPlateNumber = rs.getString("carPlateNumber");
                 int favoriteCount = rs.getInt("favoriteCount");
                 favoriteCounts.put(carPlateNumber, favoriteCount);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return favoriteCounts;
+    }
+
+    // get fav count for seller's listing
+    public Map<String, Integer> fetchFavoriteCountForSellerListings(String sellerUsername) {
+        String sql = "SELECT f.favoriteFor AS carPlateNumber, COUNT(*) AS favoriteCount " +
+                "FROM favorite f " +
+                "JOIN carlistings l ON f.favoriteFor = l.carPlateNumber " +
+                "WHERE l.sellerUsername = ? " +
+                "GROUP BY f.favoriteFor;";
+        Map<String, Integer> favoriteCounts = new HashMap<>();
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, sellerUsername);  // Set the sellerUsername parameter
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    String carPlateNumber = rs.getString("carPlateNumber");
+                    int favoriteCount = rs.getInt("favoriteCount");
+                    favoriteCounts.put(carPlateNumber, favoriteCount);
+                }
             }
 
         } catch (SQLException e) {

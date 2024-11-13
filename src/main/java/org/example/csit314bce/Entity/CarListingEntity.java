@@ -13,10 +13,7 @@ import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 public class CarListingEntity {
@@ -458,4 +455,57 @@ public class CarListingEntity {
         }
         return listings;
     }
+
+
+    // When a buyer view, record the view
+    public String recordView(String carPlateNumber) {
+        String sql = "UPDATE carlistings SET viewCount = viewCount + 1 WHERE carPlateNumber = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Set the carPlateNumber parameter
+            statement.setString(1, carPlateNumber);
+
+            // Execute the update
+            statement.executeUpdate();
+
+            System.out.println("View Count updated successfully!");
+            return "success";
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            System.out.println("View Count updated Failed!");
+            return "failed";
+        }
+    }
+
+
+    // Seller getting the number of viewers of his listings
+    public Map<String, Integer> fetchViewCountForSellerListings(String sellerUsername) {
+        String sql = "SELECT carPlateNumber, viewCount FROM carlistings WHERE sellerUsername = ?";
+        Map<String, Integer> viewCounts = new HashMap<>();
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Set the sellerUsername parameter
+            statement.setString(1, sellerUsername);
+
+            // Execute the query and process the result set
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    String carPlateNumber = rs.getString("carPlateNumber");
+                    int viewCount = rs.getInt("viewCount");
+                    viewCounts.put(carPlateNumber, viewCount);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return viewCounts;
+    }
+
+
 }

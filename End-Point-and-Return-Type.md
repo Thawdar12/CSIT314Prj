@@ -376,8 +376,10 @@ Seller
 
 6. As a seller, I want to see the number of views on my used cars so that I can track the interests on the used car -
    Can't do since I'm not doing Buyer class
+   - Done
 7. As a seller, I want to see the number of time my used car is shortlisted so that I can track the interests on my used
    car - Can't do since I'm not doing Buyer class
+   - Done
 
 Buyer
 1. As a buyer, I want to be able to view car listings so that I can find out the current listings 
