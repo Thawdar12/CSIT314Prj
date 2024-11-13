@@ -88,4 +88,25 @@ public class URLResolver {
     public String account() {
         return "InfinityNetwork/agent/account";
     }
+
+    // Seller
+    @GetMapping("InfinityNetwork/seller/dashboard")
+    public String sellerDashboard() {
+        return "InfinityNetwork/seller/dashboard";
+    }
+
+    @GetMapping("InfinityNetwork/seller/account")
+    public String sellerAccount() {
+        return "InfinityNetwork/seller/account";
+    }
+
+    @GetMapping("InfinityNetwork/seller/edit")
+    public String sellerEditAccountInfo() {
+        return "InfinityNetwork/seller/edit";
+    }
+
+    @GetMapping("InfinityNetwork/seller/rate")
+    public String sellerRateAgent() {
+        return "InfinityNetwork/seller/rate";
+    }
 }

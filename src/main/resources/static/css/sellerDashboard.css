@@ -1,0 +1,66 @@
+@ -0,0 +1,65 @@
+body {
+    background-color: white;
+}
+
+ .navFont{
+     font-family: "Montserrat", sans-serif;
+     font-size: 1.1rem;
+     font-weight: 550;
+ }
+
+ .nav-link{
+    color: #F6F6F6;
+ }
+
+.nav-link:hover{
+    color: #FFDC7F;
+}
+
+.navColor{
+    background-color: #163172;
+}
+
+  .brand-color{
+             font-family: "Open Sans", sans-serif;
+             color: #F6F6F6;
+  }
+
+    .footer-color{
+              background-color: #F6F6F6;
+          }
+
+.active {
+    color: #FFDC7F;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #163172;
+}
+
+.user-info {
+    font-weight: 500;
+}
+
+.nav-link.active {
+    color: #FFDC7F;
+}
+
+.active {
+    color: #FFDC7F !important;
+}
+
+.btn-outline-secondary {
+    background-color: #024CAA;
+    color: white;
+}
+
+.card-body {
+    background-color: #FAF7F0;
+}
+
+.card-img {
+    height: 200px;
+}
+
+
