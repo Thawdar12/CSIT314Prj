@@ -126,7 +126,7 @@ public class ReviewEntity {
         }
     }
 
-    public List<ReviewEntity> fetchRating(int agentUserID) {
+    public List<ReviewEntity> fetchRating(String username) {
         List<ReviewEntity> reviews = new ArrayList<>();
         // SQL query to fetch reviews for the given agentUserID
         String sql = "SELECT comment, rating, reviewFor, reviewBy, createdAt FROM review WHERE reviewFor = ?";
@@ -135,7 +135,7 @@ public class ReviewEntity {
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             // Set the agentUserID parameter
-            statement.setInt(1, agentUserID);
+            statement.setString(1, username);
 
             ResultSet rs = statement.executeQuery();
 

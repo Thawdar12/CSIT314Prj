@@ -6,6 +6,53 @@
 <link rel="stylesheet" href="/css/agentDashboard.css" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    function displayAgentRating(reviews) {
+        console.log("Hello");
+        const reviewContainer = document.getElementById("reviews-container");
+        // Clear existing content in the container
+        reviewContainer.innerHTML = '';
+
+        reviews.forEach(review => {
+            const card = document.createElement('div');
+            card.classList.add('feature', 'col-lg-5');
+
+            card.innerHTML = `
+            <div class="card h-100 px-3 py-3" style="background-color:#EBD3F8">
+                <h3 class="fs-2">Review by: ${review.reviewBy}</h3>
+                <p><strong>Rating:</strong> ${review.rating} / 5</p>
+                <p>${review.comment}</h1>
+            </div>
+            `;
+
+            // Append the card to the container
+            reviewContainer.appendChild(card);
+        })
+    }
+
+    async function fetchRating() {
+        const username = sessionStorage.getItem("username");
+        const url = `/InfinityNetwork/agent/fetchRating?username=${username}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error("Error fetching data");
+            }
+            const reviews = await response.json();
+            console.log(reviews);
+            displayAgentRating(reviews);
+        } catch (error) {
+            displayError(error);
+        }
+    }
+
+    function displayError(error) {
+        Swal.fire({
+                title: 'Error!',
+                text: 'Failed to fetch listings',
+                icon: 'error',
+                confirmButtonText: 'OK'
+        })
+    }
 
     document.addEventListener("DOMContentLoaded", function() {
         const currentUrl = window.location.pathname;
@@ -16,6 +63,8 @@
                 link.classList.add("active");
             }
         });
+
+        fetchRating();
     });
 
 </script>
@@ -31,12 +80,11 @@
 </div>
 
 <div class="container-fluid mb-5">
-    <div class="container px-4" id="featured-3">
+    <div class="container px-4" id="reviews-container">
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
             <div class="feature col">
                 <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
-                    <!-- Bootstrap Icons CDN -->
-                    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+                    <svg class="bi" width="1em" height="1em"><use xlink:href="#people-circle"></use></svg>
                 </div>
                 <h3 class="fs-2">Featured title</h3>
                 <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>

@@ -16,11 +16,11 @@ public class AgentFetchRatingController {
     }
 
     @GetMapping("/InfinityNetwork/agent/fetchRating")
-    public List<ReviewEntity> agentFetchRating(@RequestParam int agentUserID) {
+    public List<ReviewEntity> agentFetchRating(@RequestParam String username) {
         //Biz logic, if any
 
         //Pass data to Entity
-        List<ReviewEntity> result = this.reviewEntity.fetchRating(agentUserID);
+        List<ReviewEntity> result = this.reviewEntity.fetchRating(username);
 
         //Get Back from Entity
         return result;
