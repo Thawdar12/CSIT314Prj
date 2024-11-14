@@ -424,6 +424,65 @@ public class CarListingEntity {
         return listings;
     }
 
+    public List<CarListingEntity> searchListingForBuyer(String criteria, String value) {
+        List<CarListingEntity> listings = new ArrayList<>();
+
+        // Define allowed columns to prevent SQL injection
+        List<String> allowedCriteria = Arrays.asList(
+                "carBrand",
+                "carModel",
+                "carPlateNumber",
+                "listingStatus",
+                "manufacturedYear",
+                "sellerUsername"
+        );
+
+        if (!allowedCriteria.contains(criteria)) {
+            System.out.println("Invalid search criteria: " + criteria);
+            return listings; // Returns an empty list if criteria is invalid
+        }
+
+        // SQL query using the validated criteria and filtering by listedBy
+        String sql = "SELECT carBrand, carModel, carPlateNumber, created_At, listingStatus, " +
+                "manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername, viewCount " +
+                "FROM carListings WHERE " + criteria + " LIKE ? ";
+
+        String likeValue = "%" + value + "%";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            // Wildcards search for partial matching
+            statement.setString(1, likeValue);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                CarListingEntity listing = new CarListingEntity();
+                listing.setCarBrand(rs.getString("carBrand"));
+                listing.setCarModel(rs.getString("carModel"));
+                listing.setCarPlateNumber(rs.getString("carPlateNumber"));
+                listing.setCreated_at(rs.getTimestamp("created_At").toLocalDateTime());
+                listing.setListingStatus(rs.getString("listingStatus"));
+                listing.setManufacturedYear(rs.getInt("manufacturedYear"));
+                listing.setMillage(rs.getDouble("millage"));
+                listing.setPhoto(rs.getString("photo"));
+                listing.setPrice(rs.getDouble("price"));
+                listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+                listing.setListedBy(rs.getString("listedBy"));
+                listing.setSellerUsername(rs.getString("sellerUsername"));
+                listing.setViewCount(rs.getInt("viewCount"));
+                listings.add(listing);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listings;
+    }
+
+
     public List<CarListingEntity> fetchAllListingForBuyer() {
         List<CarListingEntity> listings = new ArrayList<>();
         String sql = "SELECT * FROM carlistings";
@@ -481,10 +540,10 @@ public class CarListingEntity {
     }
 
 
-    // Seller getting the number of viewers of his listings
-    public Map<String, Integer> fetchViewCountForSellerListings(String sellerUsername) {
-        String sql = "SELECT carPlateNumber, viewCount FROM carlistings WHERE sellerUsername = ?";
-        Map<String, Integer> viewCounts = new HashMap<>();
+    // Fetch all listings for a seller with view counts
+    public List<CarListingEntity> fetchViewCountForSellerListings(String sellerUsername) {
+        List<CarListingEntity> sellerListings = new ArrayList<>();
+        String sql = "SELECT * FROM carlistings WHERE sellerUsername = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -495,16 +554,30 @@ public class CarListingEntity {
             // Execute the query and process the result set
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    String carPlateNumber = rs.getString("carPlateNumber");
-                    int viewCount = rs.getInt("viewCount");
-                    viewCounts.put(carPlateNumber, viewCount);
+                    CarListingEntity listing = new CarListingEntity();
+                    listing.setCarBrand(rs.getString("carBrand"));
+                    listing.setCarModel(rs.getString("carModel"));
+                    listing.setCarPlateNumber(rs.getString("carPlateNumber"));
+                    listing.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+                    listing.setListingStatus(rs.getString("listingStatus"));
+                    listing.setManufacturedYear(rs.getInt("manufacturedYear"));
+                    listing.setMillage(rs.getDouble("millage"));
+                    listing.setPhoto(rs.getString("photo"));
+                    listing.setPrice(rs.getDouble("price"));
+                    listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+                    listing.setListedBy(rs.getString("listedBy"));
+                    listing.setSellerUsername(rs.getString("sellerUsername"));
+                    listing.setViewCount(rs.getInt("viewCount"));
+
+                    // Add each listing with its view count to the list
+                    sellerListings.add(listing);
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return viewCounts;
+
+        return sellerListings;
     }
 
 

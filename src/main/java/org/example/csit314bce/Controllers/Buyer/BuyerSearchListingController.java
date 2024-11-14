@@ -18,12 +18,11 @@ public class BuyerSearchListingController {
 
     @GetMapping(value = "/InfinityNetwork/buyer/searchListing")
     public List<CarListingEntity> buyerSearchListing(@RequestParam String criteria,
-                                                  @RequestParam String value,
-                                                  @RequestParam String username) {
+                                                  @RequestParam String value) {
         //Biz logic, if any
 
         //Pass info to Entity
-        List<CarListingEntity> result = this.carListingEntity.searchListing(criteria, value, username);
+        List<CarListingEntity> result = this.carListingEntity.searchListingForBuyer(criteria, value);
 
         //Get back from Entity class
         return result;
