@@ -154,7 +154,7 @@
         }
     }
 
-    async function showList(criteria) {
+    async function searchProfilesData(criteria) {
         try {
             const url = `/InfinityNetwork/admin/searchProfile?profileName=${criteria}`;
             const response = await fetch(url);
@@ -182,7 +182,7 @@
         const form = document.getElementById("search-button");
         form.addEventListener("click", () => {
             const criteria = document.getElementById("search-value").value;
-            showList(criteria);
+            searchProfilesData(criteria);
         })
     });
 </script>

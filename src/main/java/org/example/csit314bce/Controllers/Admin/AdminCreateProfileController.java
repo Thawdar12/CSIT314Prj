@@ -16,7 +16,7 @@ public class AdminCreateProfileController {
     }
 
     @PostMapping(value = "/InfinityNetwork/admin/createProfile", consumes = "application/json")
-    public String createProfile(@RequestBody ProfileEntity profile) {
+    public String adminCreateProfile(@RequestBody ProfileEntity profile) {
         //Biz logic, if any
 
         //Pass info to Entity

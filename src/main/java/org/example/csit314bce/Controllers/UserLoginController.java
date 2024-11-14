@@ -15,7 +15,7 @@ public class UserLoginController {
     }
 
     @PostMapping(value = "/login", consumes = "application/json")
-    public boolean userLogin(@RequestBody UserEntity userEntity) {
+    public boolean userLoginC(@RequestBody UserEntity userEntity) {
         // Biz logic, if any
 
         // Pass info to Entity

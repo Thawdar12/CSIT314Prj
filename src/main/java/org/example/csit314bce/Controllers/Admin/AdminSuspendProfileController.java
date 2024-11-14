@@ -15,7 +15,7 @@ public class AdminSuspendProfileController {
     }
 
     @PostMapping("/InfinityNetwork/admin/suspendUserProfile")
-    public String adminDeleteProfile(@RequestParam String profileName,
+    public String adminSuspendProfile(@RequestParam String profileName,
                                      @RequestParam int value) {
         //Biz logic, if any
 
