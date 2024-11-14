@@ -109,4 +109,31 @@ public class URLResolver {
     public String sellerRateAgent() {
         return "InfinityNetwork/seller/rate";
     }
+
+    //Buyer
+    @GetMapping("InfinityNetwork/buyer/dashboard")
+    public String buyerDashboard() {
+        return "InfinityNetwork/buyer/dashboard";
+    }
+
+    @GetMapping("InfinityNetwork/buyer/listings")
+    public String buyerListings() {
+        return "InfinityNetwork/buyer/listings";
+    }
+
+
+    @GetMapping("InfinityNetwork/buyer/rate")
+    public String buyerRateAgent() {
+        return "InfinityNetwork/buyer/rate";
+    }
+
+    @GetMapping("InfinityNetwork/buyer/edit")
+    public String buyerEditAccountInfo() {
+        return "InfinityNetwork/buyer/edit";
+    }
+
+    @GetMapping("InfinityNetwork/buyer/account")
+    public String buyerAccount() {
+        return "InfinityNetwork/buyer/account";
+    }
 }

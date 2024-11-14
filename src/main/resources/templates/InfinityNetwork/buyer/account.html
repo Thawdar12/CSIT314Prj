@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:insert="~{header :: header}"></div>
+<title>Dashboard</title>
+<link rel="stylesheet" href="/css/buyerDashboard.css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    async function displayPage(name) {
+         // Search user data
+        try {
+
+            const url = `/InfinityNetwork/admin/searchUser?criteria=username&value=${name}`;
+            console.log(url);
+            const response = await fetch(url);
+            if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const users = await response.json();
+             // Return the matching user
+            return users.find(user => user.username === name);
+        } catch(error) {
+            console.log("error getting data");
+        }
+    }
+
+    function redirectToAccountInfo() {
+        window.location.href = "/InfinityNetwork/buyer/account";
+    }
+
+    function redirectToUpdateInfo() {
+        window.location.href = "/InfinityNetwork/buyer/edit";
+    }
+
+    document.addEventListener("DOMContentLoaded", async function() {
+
+        const original = sessionStorage.getItem("username");
+        console.log(original);
+        const user = await displayPage(original);
+
+        console.log(user);
+
+        document.getElementById("username").innerHTML = `Username: ${user.username}`;
+        document.getElementById("userType").innerHTML = `Profile: ${user.userType}`;
+        document.getElementById("email").innerHTML = `Email: ${user.email}`;
+        document.getElementById("phone").innerHTML = `Phone Number: ${user.phoneNumber}`;
+        document.getElementById("rating").innerHTML = `Average Rating: ${user.averageRating}`;
+    });
+</script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:insert="~{buyerNavbar :: buyer-navbar}"></div>
+
+<div class="px-4 pt-2 mt-2 text-center">
+    <h1 class="display-5">Account Information</h1>
+</div>
+
+<!-- Display form -->
+<div class="container-fluid mb-5 my-5">
+    <div class="row justify-content-md-center">
+        <div class="mb-3 col-md-6">
+            <h3 id="username"></h3>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="mb-3 col-md-6">
+            <h3 id="userType"></h3>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="mb-3 col-md-6">
+            <h3 id="email"></h3>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="mb-3 col-md-6">
+            <h3 id="phone"></h3>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="mb-3 col-md-6">
+            <h3 id="rating"></h3>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 text-center">
+            <button class="btn btn-outline-secondary" type="button" onclick="redirectToUpdateInfo()">Update Information</button>
+        </div>
+    </div>
+</div>
+
+<div class="mt-auto footer-color container-fluid" th:insert="~{footer :: footer}"></div>
+</body>
+</html>

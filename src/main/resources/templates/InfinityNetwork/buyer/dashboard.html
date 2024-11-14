@@ -2,12 +2,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/xhtml">
 <div th:insert="~{header :: header}"></div>
 <title>Dashboard</title>
-<link rel="stylesheet" href="/css/sellerDashboard.css" />
+<link rel="stylesheet" href="/css/buyerDashboard.css" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <script>
-    function redirectToCreate() {
-        window.location.href = "/InfinityNetwork/seller/rate";
+
+    function redirectToView() {
+        window.location.href = "/InfinityNetwork/buyer/listings";
     }
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -22,7 +23,7 @@
     });
 </script>
 <body class="d-flex flex-column min-vh-100">
-<div th:insert="~{sellerNavbar :: seller-navbar}"></div>
+<div th:insert="~{buyerNavbar :: buyer-navbar}"></div>
 
 <div class="px-4 py-5 my-5 text-center">
     <svg xmlns="http://www.w3.org/2000/svg" width="72" height="57" fill="currentColor" class="d-block mx-auto mb-4 bi menu-app" viewBox="0 0 16 16">
@@ -31,11 +32,12 @@
     <h1 class="display-5 fw-bold">Dashboard</h1>
     <div class="col-lg-6 mx-auto my-5">
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-between">
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4 gap-3 col-5" id="create-button" onclick="redirectToCreate()">Rate Agent</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4 col-5" id="view-button" onclick="redirectToView()">View Car Listings</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4 gap-3 col-5" id="create-button">Favorite</button>
+        </div>
     </div>
 </div>
 
 <div class="mt-auto footer-color container-fluid" th:insert="~{footer :: footer}"></div>
-</div>
 </body>
 </html>
