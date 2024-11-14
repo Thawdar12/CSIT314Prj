@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class URLResolver {
     @GetMapping({"/", "/InfinityNetwork/login"})
     public String home() {
-        return "/InfinityNetwork/Login"; // Resolve to src/main/resources/templates/InfinityNetwork/Login.html
+        return "/InfinityNetwork/SignInAccountUI"; // Resolve to src/main/resources/templates/InfinityNetwork/Login.html
     }
 
     @GetMapping("/InfinityNetwork/admin/dashboard")
     public String dashboard() {
-        return "InfinityNetwork/admin/dashboard"; // Resolve to src/main/resources/templates/InfinityNetwork/admin/dashboard.html
+        return "InfinityNetwork/admin/AdminAccountsUI"; // Resolve to src/main/resources/templates/InfinityNetwork/admin/dashboard.html
     }
 
     @GetMapping("/InfinityNetwork/admin/profiles")
     public String viewProfiles() {
-        return "InfinityNetwork/admin/profiles";
+        return "InfinityNetwork/admin/AdminProfilesUI";
     }
 
     @GetMapping("InfinityNetwork/admin/create")
     public String createUser() {
-        return "InfinityNetwork/admin/create";
+        return "InfinityNetwork/admin/CreateUserAccountUI";
     }
 
     @GetMapping("InfinityNetwork/admin/update")
@@ -33,12 +33,12 @@ public class URLResolver {
         System.out.println(username);
         // Pass data to the page
         model.addAttribute("username", username);
-        return "InfinityNetwork/admin/update";
+        return "InfinityNetwork/admin/AdminUpdateUserUI";
     }
 
     @GetMapping("InfinityNetwork/admin/createProfile")
     public String createProfile() {
-        return "InfinityNetwork/admin/createProfile";
+        return "InfinityNetwork/admin/CreateUserProfileUI";
     }
 
     @GetMapping("InfinityNetwork/admin/updateProfile")
@@ -58,22 +58,22 @@ public class URLResolver {
 
     @GetMapping("InfinityNetwork/agent/listings")
     public String agentListings() {
-        return "InfinityNetwork/agent/listings";
+        return "InfinityNetwork/agent/UsedCarAgentListingsUI";
     }
 
     @GetMapping("InfinityNetwork/agent/create")
     public String agentCreateListing() {
-        return "InfinityNetwork/agent/create";
+        return "InfinityNetwork/agent/AgentCreateListingUI";
     }
 
     @GetMapping("InfinityNetwork/agent/reviews")
     public String agentReviews() {
-        return "InfinityNetwork/agent/reviews";
+        return "InfinityNetwork/agent/AgentRatingUI";
     }
 
     @GetMapping("InfinityNetwork/agent/edit")
     public String editAccountInfo() {
-        return "InfinityNetwork/agent/edit";
+        return "InfinityNetwork/agent/AgentChangeDetailsUI";
     }
 
     @GetMapping("InfinityNetwork/agent/update")
@@ -81,7 +81,7 @@ public class URLResolver {
         System.out.println(carPlateNumber);
         // Pass data to the page
         model.addAttribute("carPlateNumber", carPlateNumber);
-        return "InfinityNetwork/agent/update";
+        return "InfinityNetwork/agent/AgentUpdateListingUI";
     }
 
     @GetMapping("InfinityNetwork/agent/account")
@@ -102,12 +102,17 @@ public class URLResolver {
 
     @GetMapping("InfinityNetwork/seller/edit")
     public String sellerEditAccountInfo() {
-        return "InfinityNetwork/seller/edit";
+        return "InfinityNetwork/seller/SellerChangeDetailsUI";
     }
 
     @GetMapping("InfinityNetwork/seller/rate")
     public String sellerRateAgent() {
-        return "InfinityNetwork/seller/rate";
+        return "InfinityNetwork/seller/SellerRateAndReviewUI";
+    }
+
+    @GetMapping("InfinityNetwork/seller/interests")
+    public String sellerInterests() {
+        return "InfinityNetwork/seller/SellerTrackInterestsUI";
     }
 
     //Buyer
