@@ -30,6 +30,7 @@ public class CarListingEntity {
     private String listedBy;
     private String sellerUsername;
     private int viewCount;
+    private int favoriteCount;
     private DataSource dataSource;
 
     public CarListingEntity() {
@@ -144,6 +145,14 @@ public class CarListingEntity {
         this.viewCount = viewCount;
     }
 
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
 
     //Functions
     public List<CarListingEntity> fetchAllListing(String username) {
@@ -172,6 +181,7 @@ public class CarListingEntity {
                     listing.setListedBy(rs.getString("listedBy"));
                     listing.setSellerUsername(rs.getString("sellerUsername"));
                     listing.setViewCount(rs.getInt("viewCount"));
+                    listing.setFavoriteCount(rs.getInt("favoriteCount"));
                     listings.add(listing);
                 }
             }
@@ -212,7 +222,7 @@ public class CarListingEntity {
             }
         }
 
-        String sql = "INSERT INTO carListings (carBrand, carModel, carPlateNumber, created_At, listingStatus, manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,viewCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carListings (carBrand, carModel, carPlateNumber, created_At, listingStatus, manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,viewCount, favoriteCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -230,6 +240,7 @@ public class CarListingEntity {
             statement.setString(11, listing.getListedBy());
             statement.setString(12, listing.getSellerUsername());
             statement.setString(13, "0");
+            statement.setString(14, "0");
 
             int rowsInserted = statement.executeUpdate();
 
@@ -384,7 +395,7 @@ public class CarListingEntity {
 
         // SQL query using the validated criteria and filtering by listedBy
         String sql = "SELECT carBrand, carModel, carPlateNumber, created_At, listingStatus, " +
-                "manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername, viewCount " +
+                "manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername, viewCount, favoriteCount " +
                 "FROM carListings WHERE " + criteria + " LIKE ? AND listedBy = ?";
 
         String likeValue = "%" + value + "%";
@@ -414,6 +425,7 @@ public class CarListingEntity {
                 listing.setListedBy(rs.getString("listedBy"));
                 listing.setSellerUsername(rs.getString("sellerUsername"));
                 listing.setViewCount(rs.getInt("viewCount"));
+                listing.setFavoriteCount(rs.getInt("favoriteCount"));
                 listings.add(listing);
             }
 
@@ -444,7 +456,7 @@ public class CarListingEntity {
 
         // SQL query using the validated criteria and filtering by listedBy
         String sql = "SELECT carBrand, carModel, carPlateNumber, created_At, listingStatus, " +
-                "manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername, viewCount " +
+                "manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername, viewCount, favoriteCount" +
                 "FROM carListings WHERE " + criteria + " LIKE ? ";
 
         String likeValue = "%" + value + "%";
@@ -472,6 +484,7 @@ public class CarListingEntity {
                 listing.setListedBy(rs.getString("listedBy"));
                 listing.setSellerUsername(rs.getString("sellerUsername"));
                 listing.setViewCount(rs.getInt("viewCount"));
+                listing.setFavoriteCount(rs.getInt("favoriteCount"));
                 listings.add(listing);
             }
 
@@ -506,6 +519,7 @@ public class CarListingEntity {
                     listing.setListedBy(rs.getString("listedBy"));
                     listing.setSellerUsername(rs.getString("sellerUsername"));
                     listing.setViewCount(rs.getInt("viewCount"));
+                    listing.setFavoriteCount(rs.getInt("favoriteCount"));
                     listings.add(listing);
                 }
             }
@@ -568,6 +582,7 @@ public class CarListingEntity {
                     listing.setListedBy(rs.getString("listedBy"));
                     listing.setSellerUsername(rs.getString("sellerUsername"));
                     listing.setViewCount(rs.getInt("viewCount"));
+                    listing.setFavoriteCount(rs.getInt("favoriteCount"));
 
                     // Add each listing with its view count to the list
                     sellerListings.add(listing);

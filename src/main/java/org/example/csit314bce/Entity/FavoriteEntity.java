@@ -70,26 +70,39 @@ public class FavoriteEntity {
         this.created_at = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
         String insertSql = "INSERT INTO favorite (favoriteFor, favoriteBy, sellerUsername, created_at) VALUES (?, ?, ?, ?)";
+        String updateSql = "UPDATE carlistings SET favoriteCount = favoriteCount + 1 WHERE carPlateNumber = ?";
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement insertStmt = connection.prepareStatement(insertSql)) {
+             PreparedStatement insertStmt = connection.prepareStatement(insertSql);
+             PreparedStatement updateStmt = connection.prepareStatement(updateSql)) {
 
+            // Set parameters for the INSERT statement
             insertStmt.setString(1, favoriteEntity.getFavoriteFor());
             insertStmt.setString(2, favoriteEntity.getFavoriteBy());
             insertStmt.setString(3, favoriteEntity.getSellerUsername());
             insertStmt.setTimestamp(4, Timestamp.valueOf(this.created_at));
 
+            // Execute the INSERT statement
             int rowsInserted = insertStmt.executeUpdate();
 
             if (rowsInserted == 1) {
-                System.out.println("Favorite added successfully!");
+                // Set parameter for the UPDATE statement
+                updateStmt.setString(1, favoriteEntity.getFavoriteFor());
 
-                return "success";
+                // Execute the UPDATE statement
+                int rowsUpdated = updateStmt.executeUpdate();
+
+                if (rowsUpdated == 1) {
+                    System.out.println("Favorite added and favorite count updated successfully!");
+                    return "success";
+                } else {
+                    System.out.println("Favorite added, but failed to update favorite count.");
+                    return "partial_success";
+                }
             } else {
                 System.out.println("Failed to add favorite.");
                 return "failure";
             }
-
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,23 +111,38 @@ public class FavoriteEntity {
     }
 
 
+
     // Method to remove a favorite entry
     // favoriteFor = carPlateNumber, favoriteBy = username
     public String removeFavorite(String favoriteBy, String favoriteFor) {
         String deleteSql = "DELETE FROM favorite WHERE favoriteFor = ? AND favoriteBy = ?";
+        String updateSql = "UPDATE carlistings SET favoriteCount = favoriteCount - 1 WHERE carPlateNumber = ?";
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement deleteStmt = connection.prepareStatement(deleteSql)) {
+             PreparedStatement deleteStmt = connection.prepareStatement(deleteSql);
+             PreparedStatement updateStmt = connection.prepareStatement(updateSql)) {
 
+            // Set parameters for the DELETE statement
             deleteStmt.setString(1, favoriteFor);
             deleteStmt.setString(2, favoriteBy);
 
+            // Execute the DELETE statement
             int rowsDeleted = deleteStmt.executeUpdate();
 
             if (rowsDeleted == 1) {
-                System.out.println("Favorite removed successfully!");
+                // Set parameter for the UPDATE statement
+                updateStmt.setString(1, favoriteFor);
 
-                return "success";
+                // Execute the UPDATE statement
+                int rowsUpdated = updateStmt.executeUpdate();
+
+                if (rowsUpdated == 1) {
+                    System.out.println("Favorite removed and favorite count updated successfully!");
+                    return "success";
+                } else {
+                    System.out.println("Favorite removed, but failed to update favorite count.");
+                    return "partial_success";
+                }
             } else {
                 System.out.println("No favorite found to remove.");
                 return "not found";
@@ -126,7 +154,8 @@ public class FavoriteEntity {
         }
     }
 
-    // Fetch Favorite List by a user
+
+    // Fetch Favorite List of a user
     public List<CarListingEntity> fetchAllFavoriteListings(String favoriteBy) {
         List<CarListingEntity> favoriteListings = new ArrayList<>();
 
@@ -156,6 +185,7 @@ public class FavoriteEntity {
                     listing.setListedBy(rs.getString("listedBy"));
                     listing.setSellerUsername(rs.getString("sellerUsername"));
                     listing.setViewCount(rs.getInt("viewCount"));
+                    listing.setFavoriteCount(rs.getInt("favoriteCount"));
                     favoriteListings.add(listing);
                 }
             }
@@ -166,37 +196,13 @@ public class FavoriteEntity {
         return favoriteListings;
     }
 
-    //retrieve number
-    // get fav count for all listings
-    public Map<String, Integer> getFavoriteCountForAllListings() {
-        String sql = "SELECT favoriteFor AS carPlateNumber, COUNT(*) AS favoriteCount " +
-                "FROM favorite GROUP BY favoriteFor";
-        Map<String, Integer> favoriteCounts = new HashMap<>();
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
-
-            while (rs.next()) {
-                String carPlateNumber = rs.getString("carPlateNumber");
-                int favoriteCount = rs.getInt("favoriteCount");
-                favoriteCounts.put(carPlateNumber, favoriteCount);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return favoriteCounts;
-    }
 
     // get fav count for seller's listing
-    public Map<String, Integer> fetchFavoriteCountForSellerListings(String sellerUsername) {
-        String sql = "SELECT f.favoriteFor AS carPlateNumber, COUNT(*) AS favoriteCount " +
-                "FROM favorite f " +
-                "JOIN carlistings l ON f.favoriteFor = l.carPlateNumber " +
-                "WHERE l.sellerUsername = ? " +
-                "GROUP BY f.favoriteFor;";
-        Map<String, Integer> favoriteCounts = new HashMap<>();
+    public List<CarListingEntity> fetchFavoriteCountForSellerListings(String sellerUsername) {
+        List<CarListingEntity> sellerFavoriteListings = new ArrayList<>();
+
+        String sql = "SELECT * FROM carlistings WHERE sellerUsername = ? ";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -205,16 +211,29 @@ public class FavoriteEntity {
 
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    String carPlateNumber = rs.getString("carPlateNumber");
-                    int favoriteCount = rs.getInt("favoriteCount");
-                    favoriteCounts.put(carPlateNumber, favoriteCount);
+                    CarListingEntity listing = new CarListingEntity();
+                    listing.setCarBrand(rs.getString("carBrand"));
+                    listing.setCarModel(rs.getString("carModel"));
+                    listing.setCarPlateNumber(rs.getString("carPlateNumber"));
+                    listing.setCreated_at(rs.getTimestamp("created_at").toLocalDateTime());
+                    listing.setListingStatus(rs.getString("listingStatus"));
+                    listing.setManufacturedYear(rs.getInt("manufacturedYear"));
+                    listing.setMillage(rs.getDouble("millage"));
+                    listing.setPhoto(rs.getString("photo"));
+                    listing.setPrice(rs.getDouble("price"));
+                    listing.setUpdated_at(rs.getTimestamp("updated_at").toLocalDateTime());
+                    listing.setListedBy(rs.getString("listedBy"));
+                    listing.setSellerUsername(rs.getString("sellerUsername"));
+                    listing.setViewCount(rs.getInt("viewCount"));
+                    listing.setFavoriteCount(rs.getInt("favoriteCount"));
+                    sellerFavoriteListings.add(listing);
                 }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return favoriteCounts;
+        return sellerFavoriteListings;
     }
 
 

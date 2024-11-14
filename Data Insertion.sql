@@ -432,801 +432,801 @@ VALUES ('0', '2024-11-09T13:49:47.203', 'Norbert.Wintheiser17@example.org', fals
 -- 1
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Polestar', 'PT Cruiser', 'RM12MVX', '2024-11-08T01:49:09.550', 'OPEN', '2006', '2356.11', '/img/car(6).jpg',
-        '700012.00', '2024-11-10T20:54:06.671', 'Roy.Kerluke', 'Ari_Mraz', '3348');
+        '700012.00', '2024-11-10T20:54:06.671', 'Roy.Kerluke', 'Ari_Mraz', '3348', '3');
 
 -- 2
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Lamborghini', 'Altima', 'FY13WSK', '2024-11-04T02:23:27.459',
         'CLOSED', '1990', '9130.55', '/img/car(5).jpg', '572416.00', '2024-11-10T07:30:13.381', 'Candelario_Larkin',
-        'Carter24', '6378');
+        'Carter24', '6378', '0');
 
 -- 3
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Dodge', 'CTS', 'QQ30CYY', '2024-11-05T09:52:16.553', 'OPEN',
         '1990', '1964.91', '/img/car(19).jpg', '418181.00', '2024-11-10T21:06:33.651', 'Elsie_Willms', 'Issac88',
-        '6186');
+        '6186', '0');
 
 -- 4
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Tesla', 'Alpine', 'OK20VUP', '2024-10-30T18:47:07.095',
         'CLOSED', '2004', '13618.41', '/img/car(9).jpg', '153451.00', '2024-11-10T11:55:13.936', 'Toy25',
-        'Americo.Collier', '6780');
+        'Americo.Collier', '6780', '1');
 
 -- 5
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mercedes Benz', 'Wrangler', 'RQ62GCD', '2024-11-03T01:35:23.516',
         'CLOSED', '2010', '14700.44', '/img/car(8).jpg', '22364.00', '2024-11-10T08:42:23.574', 'Gideon.Collins',
-        'Addie5', '3143');
+        'Addie5', '3143', '0');
 
 -- 6
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Cadillac', 'LeBaron', 'FJ57XOW', '2024-11-02T15:42:48.118',
         'OPEN', '1999', '14345.66', '/img/car(12).jpg', '616737.00', '2024-11-12T09:01:58.314', 'Colten4',
-        'Christ_Reinger25', '2251');
+        'Christ_Reinger25', '2251', '2');
 
 -- 7
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Chrysler', 'Camaro', 'CS75GUA', '2024-10-29T10:36:39.600',
         'OPEN', '2016', '20920.54', '/img/car(11).jpg', '772832.00', '2024-11-11T20:42:25.870', 'Sarai_Dicki',
-        'Clare_Davis34', '3669');
+        'Clare_Davis34', '3669', '0');
 
 -- 8
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Ford', 'Jetta', 'JJ87MQV', '2024-10-28T21:17:56.753',
         'OPEN', '2016', '12427.85', '/img/car(4).jpg', '646085.00', '2024-11-11T19:24:34.723', 'Dale_Graham',
-        'Percy_Effertz67', '7507');
+        'Percy_Effertz67', '7507', '1');
 
 -- 9
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Fiat', 'V90', 'YL84DGD', '2024-11-01T21:39:45.487',
         'CLOSED', '2011', '19262.33', '/img/car(13).jpg', '383548.00', '2024-11-12T03:18:29.413', 'Oceane18',
-        'Travon_Mayert96', '6283');
+        'Travon_Mayert96', '6283', '0');
 
 -- 10
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Fiat', 'Aventador', 'GO41OHE', '2024-11-07T21:09:57.413',
         'CLOSED', '1997', '11472.24', '/img/car(10).jpg', '391679.00', '2024-11-11T11:58:09.303', 'Annamae_DAmore95',
-        'Sofia72', '464');
+        'Sofia72', '464', '4');
 
 -- 11
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Bugatti', 'Model Y', 'IL22DGG', '2024-10-30T07:47:16.505',
         'OPEN', '2013', '20480.17', '/img/car(5).jpg', '763655.00', '2024-11-11T14:46:12.785', 'Petra_Schinner',
-        'Chaz.Schuster', '458');
+        'Chaz.Schuster', '458', '0');
 
 -- 12
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Nissan', 'Accord', 'RG47UAL', '2024-11-06T00:34:59.334',
         'CLOSED', '1999', '11894.93', '/img/car(9).jpg', '785169.00', '2024-11-11T16:40:18.915', 'Lenora15',
-        'Olen_Turcotte', '7344');
+        'Olen_Turcotte', '7344', '0');
 
 -- 13
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Aston Martin', 'CX-9', 'LR05ZYZ', '2024-11-04T05:13:36.319',
         'CLOSED', '2016', '5810.22', '/img/car(15).jpg', '731415.00', '2024-11-11T14:01:05.868', 'Skylar_Mayert71',
-        'Rowland.Harris23', '4828');
+        'Rowland.Harris23', '4828', '0');
 
 -- 14
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Polestar', 'Model 3', 'UY30SPG', '2024-11-04T10:38:29.918',
         'OPEN', '1992', '26657.16', '/img/car(13).jpg', '674180.00', '2024-11-10T19:46:24.938', 'Alysa_Breitenberg',
-        'Winnifred.Murray', '6986');
+        'Winnifred.Murray', '6986', '1');
 
 -- 15
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Jeep', 'Civic', 'IY70WHR', '2024-10-30T01:00:29.380',
         'OPEN', '2014', '115', '/img/car(15).jpg', '618692.00', '2024-11-10T07:26:49.525', 'Justice.Mills',
-        'Ole.Rolfson', '9968');
+        'Ole.Rolfson', '9968', '1');
 
 -- 16
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('BMW', 'Ranchero', 'QQ62JWA', '2024-11-03T14:33:29.304',
         'CLOSED', '2020', '27126.68', '/img/car(2).jpg', '700763.00', '2024-11-10T17:03:01.418', 'Roy.Kerluke',
-        'Roscoe70', '8276');
+        'Roscoe70', '8276', '0');
 
 -- 17
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Bugatti', 'Aventador', 'BH34PEG', '2024-11-08T01:55:16.717',
         'CLOSED', '2002', '22159.01', '/img/car(6).jpg', '435568.00', '2024-11-12T03:23:41.454', 'Candelario_Larkin',
-        'Grace_VonRueden', '6256');
+        'Grace_VonRueden', '6256', '0');
 
 -- 18
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mazda', 'Aventador', 'HZ90AMY', '2024-11-07T07:26:09.949',
         'OPEN', '2011', '21461.84', '/img/car(8).jpg', '377565.00', '2024-11-11T22:28:13.867', 'Elsie_Willms',
-        'Keyshawn_Prosacco95', '3007');
+        'Keyshawn_Prosacco95', '3007', '0');
 
 -- 19
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Land Rover', '1', 'UC45RPT', '2024-11-05T04:42:19.155',
         'OPEN', '2015', '23296.48', '/img/car(4).jpg', '658794.00', '2024-11-10T10:45:58.790', 'Toy25',
-        'Mayra.Sanford', '4131');
+        'Mayra.Sanford', '4131', '0');
 
 -- 20
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Lamborghini', 'Wrangler', 'VB57PEA', '2024-11-06T05:39:11.008',
         'CLOSED', '1990', '719.42', '/img/car(19).jpg', '245275.00', '2024-11-10T07:19:43.484', 'Gideon.Collins',
-        'Coty42', '2935');
+        'Coty42', '2935', '4');
 
 -- 21
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Bentley', 'Impala', 'PE80ONT', '2024-10-28T09:01:04.358',
         'OPEN', '2020', '11123.54', '/img/car(17).jpg', '151459.00', '2024-11-10T05:18:11.565', 'Colten4',
-        'Emery.Hane22', '1859');
+        'Emery.Hane22', '1859', '0');
 
 -- 22
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Nissan', 'A4', 'IG13OTH', '2024-11-09T01:45:26.560',
         'CLOSED', '2002', '5098.44', '/img/car(14).jpg', '196487.00', '2024-11-11T22:17:52.956', 'Sarai_Dicki',
-        'Maude.Boyer', '2233');
+        'Maude.Boyer', '2233', '0');
 
 -- 23
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Bentley', '2', 'IX94VLJ', '2024-11-07T14:46:17.860',
         'OPEN', '1995', '23685.28', '/img/car(15).jpg', '113404.00', '2024-11-12T05:48:11.036', 'Dale_Graham',
-        'Meagan_Hudson', '762');
+        'Meagan_Hudson', '762', '2');
 
 -- 24
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('BMW', 'Focus', 'WR96SFV', '2024-10-28T02:56:03.247',
         'CLOSED', '2017', '29473.18', '/img/car(2).jpg', '460490.00', '2024-11-10T18:49:37.638', 'Oceane18',
-        'Shannon94', '866');
+        'Shannon94', '866', '0');
 
 -- 25
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Toyota', 'Altima', 'TM86GIR', '2024-11-09T07:43:15.337',
         'OPEN', '2009', '14137.28', '/img/car(2).jpg', '941157.00', '2024-11-11T17:06:57.296', 'Annamae_DAmore95',
-        'Bradford30', '8775');
+        'Bradford30', '8775', '0');
 
 -- 26
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Cadillac', 'LeBaron', 'MZ86FTM', '2024-11-08T23:09:05.521',
         'OPEN', '1994', '14032.09', '/img/car(18).jpg', '647606.00', '2024-11-11T17:44:14.516', 'Petra_Schinner',
-        'Keyshawn_Goldner16', '1046');
+        'Keyshawn_Goldner16', '1046', '0');
 
 -- 27
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Tesla', 'XTS', 'AZ75SCO', '2024-11-08T00:39:34.535',
         'CLOSED', '1994', '11322.03', '/img/car(9).jpg', '892627.00', '2024-11-12T02:43:38.595', 'Lenora15',
-        'Ari_Mraz', '7784');
+        'Ari_Mraz', '7784', '0');
 
 -- 28
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Hyundai', 'Ranchero', 'LR04HSH', '2024-11-05T12:25:14.424',
         'OPEN', '2007', '7140.92', '/img/car(6).jpg', '505909.00', '2024-11-10T22:07:11.785', 'Skylar_Mayert71',
-        'Carter24', '8959');
+        'Carter24', '8959', '4');
 
 -- 29
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Hyundai', 'Explorer', 'VJ25UUT', '2024-11-09T21:54:04.135',
         'OPEN', '1998', '12424.38', '/img/car(15).jpg', '600563.00', '2024-11-11T12:28:24.622', 'Alysa_Breitenberg',
-        'Issac88', '4926');
+        'Issac88', '4926', '0');
 
 -- 30
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Chevrolet', 'Accord', 'HI60CNG', '2024-10-31T08:49:19.104',
         'CLOSED', '1993', '4932.34', '/img/car(10).jpg', '379112.00', '2024-11-11T11:12:51.383', 'Justice.Mills',
-        'Americo.Collier', '9899');
+        'Americo.Collier', '9899', '1');
 
 -- 31
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Jeep', 'Beetle', 'KH53VRX', '2024-11-03T16:03:36.164',
         'CLOSED', '2000', '15693.87', '/img/car(20).jpg', '471674.00', '2024-11-10T09:31:48.167', 'Roy.Kerluke',
-        'Addie5', '7835');
+        'Addie5', '7835', '0');
 
 -- 32
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mercedes Benz', 'El Camino', 'OL10VYH', '2024-10-27T18:52:27.885',
         'OPEN', '2010', '7661.01', '/img/car(8).jpg', '624026.00', '2024-11-10T10:57:01.161', 'Candelario_Larkin',
-        'Christ_Reinger25', '168');
+        'Christ_Reinger25', '168', '2');
 
 -- 33
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Kia', 'XC90', 'JA75GMC', '2024-11-04T17:54:54.454',
         'OPEN', '2000', '8867.29', '/img/car(2).jpg', '86123.00', '2024-11-12T07:56:04.898', 'Elsie_Willms',
-        'Clare_Davis34', '9155');
+        'Clare_Davis34', '9155', '2');
 
 -- 34
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Porsche', 'Fortwo', 'DB66WIX', '2024-11-04T13:49:46.004',
         'CLOSED', '1997', '29532.32', '/img/car(19).jpg', '163640.00', '2024-11-10T17:13:12.617', 'Toy25',
-        'Percy_Effertz67', '4899');
+        'Percy_Effertz67', '4899', '2');
 
 -- 35
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Toyota', 'Jetta', 'CG67RKM', '2024-11-03T15:45:27.947',
         'OPEN', '2009', '556.72', '/img/car(3).jpg', '916841.00', '2024-11-11T07:24:19.172', 'Gideon.Collins',
-        'Travon_Mayert96', '2063');
+        'Travon_Mayert96', '2063', '0');
 
 -- 36
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Jeep', 'Fortwo', 'UQ24DSQ', '2024-11-03T10:47:16.873',
         'CLOSED', '1992', '26369.7', '/img/car(4).jpg', '465976.00', '2024-11-10T19:57:29.330', 'Colten4',
-        'Sofia72', '5626');
+        'Sofia72', '5626', '0');
 
 -- 37
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Bentley', 'LeBaron', 'GJ72ZAK', '2024-11-07T01:58:39.597',
         'CLOSED', '2014', '12444.47', '/img/car(15).jpg', '46646.00', '2024-11-11T19:24:55.222', 'Sarai_Dicki',
-        'Chaz.Schuster', '7667');
+        'Chaz.Schuster', '7667', '0');
 
 -- 38
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Polestar', 'Corvette', 'YN14MGQ', '2024-11-04T10:02:44.071',
         'CLOSED', '2020', '2194.59', '/img/car(20).jpg', '869622.00', '2024-11-12T00:05:07.678', 'Dale_Graham',
-        'Olen_Turcotte', '8028');
+        'Olen_Turcotte', '8028', '0');
 
 -- 39
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Lamborghini', '1', 'HT92PIN', '2024-11-01T18:57:03.054',
         'CLOSED', '2015', '1341.7', '/img/car(14).jpg', '162446.00', '2024-11-11T22:11:07.010', 'Oceane18',
-        'Rowland.Harris23', '6294');
+        'Rowland.Harris23', '6294', '0');
 
 -- 40
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mazda', 'Taurus', 'OF54EED', '2024-11-09T18:24:34.478',
         'OPEN', '2019', '6236.99', '/img/car(9).jpg', '202703.00', '2024-11-11T22:17:05.012', 'Annamae_DAmore95',
-        'Winnifred.Murray', '6480');
+        'Winnifred.Murray', '6480', '0');
 
 -- 41
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Ford', 'Fortwo', 'CQ55ISO', '2024-11-05T00:03:13.390',
         'CLOSED', '2013', '29672.38', '/img/car(2).jpg', '207674.00', '2024-11-10T05:42:43.551', 'Petra_Schinner',
-        'Ole.Rolfson', '5056');
+        'Ole.Rolfson', '5056', '0');
 
 -- 42
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Audi', 'Accord', 'LW27QZJ', '2024-10-29T02:37:24.575',
         'OPEN', '2013', '541.97', '/img/car(15).jpg', '650330.00', '2024-11-10T20:59:03.939', 'Lenora15',
-        'Roscoe70', '2212');
+        'Roscoe70', '2212', '0');
 
 -- 43
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Lamborghini', 'Mercielago', 'XH47PCO', '2024-11-06T05:15:37.391',
         'CLOSED', '2019', '24081.47', '/img/car(4).jpg', '709949.00', '2024-11-11T05:46:16.871', 'Skylar_Mayert71',
-        'Grace_VonRueden', '4393');
+        'Grace_VonRueden', '4393', '0');
 
 -- 44
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Ferrari', 'Countach', 'FD25WME', '2024-11-02T08:26:16.196',
         'OPEN', '2013', '17310.86', '/img/car(2).jpg', '618644.00', '2024-11-11T03:12:29.966', 'Alysa_Breitenberg',
-        'Keyshawn_Prosacco95', '7101');
+        'Keyshawn_Prosacco95', '7101', '0');
 
 -- 45
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('BMW', 'Challenger', 'ZM90EWF', '2024-11-05T02:06:17.143',
         'CLOSED', '2013', '29792.71', '/img/car(18).jpg', '931936.00', '2024-11-10T11:36:51.929', 'Justice.Mills',
-        'Mayra.Sanford', '1708');
+        'Mayra.Sanford', '1708', '0');
 
 -- 46
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Nissan', 'A8', 'DI27VVV', '2024-11-06T09:17:08.504',
         'CLOSED', '2011', '15116.71', '/img/car(7).jpg', '992603.00', '2024-11-10T02:44:30.301', 'Roy.Kerluke',
-        'Coty42', '3000');
+        'Coty42', '3000', '0');
 
 -- 47
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Porsche', '911', 'SU91KDN', '2024-11-01T02:48:37.364',
         'OPEN', '2015', '25803.64', '/img/car(11).jpg', '465634.00', '2024-11-12T09:31:31.651', 'Candelario_Larkin',
-        'Emery.Hane22', '2447');
+        'Emery.Hane22', '2447', '2');
 
 -- 48
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Toyota', 'V90', 'GW28YAP', '2024-11-07T21:02:29.361',
         'OPEN', '1993', '2619.99', '/img/car(4).jpg', '926483.00', '2024-11-10T10:34:36.644', 'Elsie_Willms',
-        'Maude.Boyer', '9344');
+        'Maude.Boyer', '9344', '0');
 
 -- 49
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Land Rover', 'Fiesta', 'CY10SWL', '2024-10-30T22:52:26.989',
         'OPEN', '2003', '21587.13', '/img/car(11).jpg', '471899.00', '2024-11-11T03:41:40.901', 'Toy25',
-        'Meagan_Hudson', '3586');
+        'Meagan_Hudson', '3586', '0');
 
 -- 50
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Bugatti', 'Accord', 'CI29FDX', '2024-10-30T11:00:00.491',
         'CLOSED', '2006', '18147.88', '/img/car(10).jpg', '709413.00', '2024-11-12T08:59:41.318', 'Gideon.Collins',
-        'Shannon94', '5767');
+        'Shannon94', '5767', '0');
 
 -- 51
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Aston Martin', 'Sentra', 'WB92EVS', '2024-11-09T03:57:14.285',
         'CLOSED', '2008', '26678.44', '/img/car(12).jpg', '688096.00', '2024-11-10T18:22:06.591', 'Colten4',
-        'Bradford30', '1812');
+        'Bradford30', '1812', '0');
 
 -- 52
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Chevrolet', 'Model S', 'LM21HVV', '2024-10-30T13:50:09.837',
         'OPEN', '2002', '16730.19', '/img/car(15).jpg', '973394.00', '2024-11-11T15:31:09.715', 'Sarai_Dicki',
-        'Keyshawn_Goldner16', '1316');
+        'Keyshawn_Goldner16', '1316', '0');
 
 -- 53
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Cadillac', 'Alpine', 'KD59SLE', '2024-10-29T08:42:21.180',
         'CLOSED', '2015', '14805.52', '/img/car(6).jpg', '651966.00', '2024-11-10T21:53:04.099', 'Dale_Graham',
-        'Ari_Mraz', '2272');
+        'Ari_Mraz', '2272', '0');
 
 -- 54
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('BMW', 'Golf', 'SX92WWX', '2024-10-28T01:07:49.949',
         'OPEN', '2018', '17178.58', '/img/car(17).jpg', '807126.00', '2024-11-10T21:58:16.135', 'Oceane18',
-        'Carter24', '754');
+        'Carter24', '754', '0');
 
 -- 55
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Lamborghini', 'Element', 'SL50YPF', '2024-10-29T10:46:26.995',
         'OPEN', '2000', '24472.19', '/img/car(15).jpg', '127093.00', '2024-11-12T03:58:04.391', 'Annamae_DAmore95',
-        'Issac88', '2908');
+        'Issac88', '2908', '0');
 
 -- 56
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Aston Martin', 'Grand Caravan', 'NH59PQO', '2024-10-30T17:53:32.980',
         'CLOSED', '2001', '1260.55', '/img/car(9).jpg', '517649.00', '2024-11-10T12:14:10.468', 'Petra_Schinner',
-        'Americo.Collier', '9156');
+        'Americo.Collier', '9156', '0');
 
 -- 57
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Polestar', 'Accord', 'TA58ZXE', '2024-11-03T23:52:28.323',
         'OPEN', '2017', '12890.33', '/img/car(17).jpg', '879910.00', '2024-11-10T06:10:30.356', 'Lenora15',
-        'Addie5', '6948');
+        'Addie5', '6948', '0');
 
 -- 58
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Ford', 'ATS', 'HR75DXX', '2024-11-09T18:27:41.668',
         'CLOSED', '2002', '14159.08', '/img/car(15).jpg', '446855.00', '2024-11-12T03:46:57.051', 'Skylar_Mayert71',
-        'Christ_Reinger25', '8461');
+        'Christ_Reinger25', '8461', '0');
 
 -- 59
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mazda', 'Focus', 'DU87ROR', '2024-11-02T22:21:44.118',
         'OPEN', '2016', '5900.2', '/img/car(19).jpg', '994820.00', '2024-11-10T07:36:18.572', 'Alysa_Breitenberg',
-        'Clare_Davis34', '5577');
+        'Clare_Davis34', '5577', '0');
 
 -- 60
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Polestar', 'Grand Cherokee', 'RI95MMT', '2024-11-08T07:12:19.159',
         'CLOSED', '2002', '3718.79', '/img/car(10).jpg', '434213.00', '2024-11-12T01:08:50.369', 'Justice.Mills',
-        'Percy_Effertz67', '9756');
+        'Percy_Effertz67', '9756', '0');
 
 -- 61
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Hyundai', 'XTS', 'II33XTO', '2024-10-29T14:53:57.701',
         'OPEN', '2001', '21465.5', '/img/car(15).jpg', '990282.00', '2024-11-10T05:39:35.032', 'Roy.Kerluke',
-        'Travon_Mayert96', '5874');
+        'Travon_Mayert96', '5874', '0');
 
 -- 62
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Jaguar', 'Mercielago', 'OW26XIL', '2024-11-06T18:31:22.088',
         'CLOSED', '2001', '552.38', '/img/car(4).jpg', '318516.00', '2024-11-10T21:25:55.501', 'Candelario_Larkin',
-        'Sofia72', '8410');
+        'Sofia72', '8410', '0');
 
 -- 63
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Nissan', 'Golf', 'SU32IYK', '2024-10-31T16:41:40.222',
         'OPEN', '1993', '25986.18', '/img/car(2).jpg', '928185.00', '2024-11-10T20:41:56.334', 'Elsie_Willms',
-        'Chaz.Schuster', '5907');
+        'Chaz.Schuster', '5907', '0');
 
 -- 64
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('BMW', 'ATS', 'DG59WUJ', '2024-11-07T16:09:01.296',
         'CLOSED', '2012', '13264.53', '/img/car(6).jpg', '139302.00', '2024-11-11T05:59:42.973', 'Toy25',
-        'Olen_Turcotte', '5646');
+        'Olen_Turcotte', '5646', '0');
 
 -- 65
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Bentley', 'Focus', 'VG89DCE', '2024-11-09T17:40:06.238',
         'CLOSED', '1996', '9356.33', '/img/car(9).jpg', '533238.00', '2024-11-11T09:20:06.580', 'Gideon.Collins',
-        'Rowland.Harris23', '658');
+        'Rowland.Harris23', '658', '0');
 
 -- 66
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Ferrari', 'Model Y', 'BU21UFE', '2024-10-28T12:53:25.221',
         'OPEN', '2019', '2684.53', '/img/car(4).jpg', '513416.00', '2024-11-12T09:03:38.516', 'Colten4',
-        'Winnifred.Murray', '5296');
+        'Winnifred.Murray', '5296', '0');
 
 -- 67
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Toyota', 'Explorer', 'IZ39VAQ', '2024-11-05T15:55:44.432',
         'CLOSED', '2013', '6556.48', '/img/car(3).jpg', '419871.00', '2024-11-10T06:36:21.607', 'Sarai_Dicki',
-        'Ole.Rolfson', '4253');
+        'Ole.Rolfson', '4253', '0');
 
 -- 68
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Nissan', 'Grand Cherokee', 'BH95DUO', '2024-10-28T07:53:15.812',
         'OPEN', '2004', '26777.84', '/img/car(11).jpg', '193919.00', '2024-11-10T07:31:48.970', 'Dale_Graham',
-        'Roscoe70', '2374');
+        'Roscoe70', '2374', '1');
 
 -- 69
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Toyota', 'Model S', 'NV33TMQ', '2024-10-29T09:43:25.193',
         'OPEN', '2000', '28852.15', '/img/car(7).jpg', '974042.00', '2024-11-10T19:17:31.552', 'Oceane18',
-        'Grace_VonRueden', '6928');
+        'Grace_VonRueden', '6928', '1');
 
 -- 70
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Cadillac', 'ATS', 'QM06VUR', '2024-11-07T16:34:51.734',
         'CLOSED', '2007', '23354.78', '/img/car(5).jpg', '99256.00', '2024-11-12T05:48:11.808', 'Annamae_DAmore95',
-        'Keyshawn_Prosacco95', '7227');
+        'Keyshawn_Prosacco95', '7227', '0');
 
 -- 71
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Volvo', 'Grand Cherokee', 'CL02JUG', '2024-11-05T22:03:48.486',
         'CLOSED', '1990', '14873.39', '/img/car(18).jpg', '495250.00', '2024-11-10T04:08:39.627', 'Petra_Schinner',
-        'Mayra.Sanford', '1619');
+        'Mayra.Sanford', '1619', '0');
 
 -- 72
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mercedes Benz', 'Volt', 'TM18WNL', '2024-10-29T03:03:17.766',
         'CLOSED', '2020', '25958.3', '/img/car(1).jpg', '309239.00', '2024-11-10T22:34:57.098', 'Lenora15',
-        'Coty42', '8585');
+        'Coty42', '8585', '0');
 
 -- 73
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Cadillac', '2', 'QR56TIP', '2024-11-09T23:11:30.512',
         'OPEN', '2002', '212.88', '/img/car(8).jpg', '343891.00', '2024-11-10T12:57:54.120', 'Skylar_Mayert71',
-        'Emery.Hane22', '1275');
+        'Emery.Hane22', '1275', '0');
 
 -- 74
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Volkswagen', 'Wrangler', 'MK06YJT', '2024-11-02T00:20:41.994',
         'CLOSED', '2004', '278.72', '/img/car(4).jpg', '652077.00', '2024-11-11T05:52:46.713', 'Alysa_Breitenberg',
-        'Maude.Boyer', '5786');
+        'Maude.Boyer', '5786', '0');
 
 -- 75
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Toyota', '2', 'UW93UOV', '2024-11-05T18:38:35.283',
         'OPEN', '2007', '20196.32', '/img/car(13).jpg', '270143.00', '2024-11-11T22:46:00.975', 'Justice.Mills',
-        'Meagan_Hudson', '8311');
+        'Meagan_Hudson', '8311', '0');
 
 -- 76
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Fiat', 'Altima', 'SF50PVX', '2024-11-10T00:39:54.845',
         'OPEN', '2007', '21649.72', '/img/car(3).jpg', '685766.00', '2024-11-12T02:57:14.171', 'Roy.Kerluke',
-        'Shannon94', '8961');
+        'Shannon94', '8961', '0');
 
 -- 77
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Kia', 'Model 3', 'IB10XQB', '2024-11-04T18:02:07.520',
         'CLOSED', '1992', '7998.25', '/img/car(1).jpg', '997073.00', '2024-11-11T23:17:41.633', 'Candelario_Larkin',
-        'Bradford30', '7147');
+        'Bradford30', '7147', '2');
 
 -- 78
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Tesla', 'Camaro', 'ER51UQM', '2024-11-04T04:36:31.730',
         'OPEN', '1992', '20896.79', '/img/car(14).jpg', '75901.00', '2024-11-12T01:39:44.092', 'Elsie_Willms',
-        'Keyshawn_Goldner16', '5116');
+        'Keyshawn_Goldner16', '5116', '1');
 
 -- 79
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Honda', 'Grand Caravan', 'HA43BRU', '2024-11-07T00:36:48.533',
         'CLOSED', '2014', '15985.41', '/img/car(12).jpg', '119917.00', '2024-11-11T20:00:12.099', 'Toy25',
-        'Ari_Mraz', '193');
+        'Ari_Mraz', '193', '1');
 
 -- 80
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Chrysler', 'ATS', 'UU87AYU', '2024-11-03T20:14:18.636',
         'OPEN', '1993', '2300.32', '/img/car(14).jpg', '221316.00', '2024-11-11T19:17:06.511', 'Gideon.Collins',
-        'Carter24', '1807');
+        'Carter24', '1807', '0');
 
 -- 81
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Aston Martin', 'Grand Cherokee', 'TH88LSG', '2024-11-08T02:13:10.872',
         'OPEN', '2016', '1310.48', '/img/car(6).jpg', '297852.00', '2024-11-11T18:43:29.553', 'Colten4',
-        'Issac88', '2930');
+        'Issac88', '2930', '2');
 
 -- 82
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mini', 'F-150', 'LM51HQP', '2024-11-08T04:04:27.712',
         'CLOSED', '2006', '26612.75', '/img/car(18).jpg', '443429.00', '2024-11-11T23:17:02.562', 'Sarai_Dicki',
-        'Americo.Collier', '5786');
+        'Americo.Collier', '5786', '1');
 
 -- 83
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Rolls Royce', 'Model S', 'IW82FTZ', '2024-11-05T15:09:47.759',
         'OPEN', '1994', '10323.21', '/img/car(5).jpg', '447650.00', '2024-11-10T13:16:55.212', 'Dale_Graham',
-        'Addie5', '6541');
+        'Addie5', '6541', '2');
 
 -- 84
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Bugatti', 'Countach', 'EL01TJQ', '2024-11-05T14:57:38.297',
         'CLOSED', '2017', '26306.53', '/img/car(13).jpg', '357887.00', '2024-11-12T08:58:16.287', 'Oceane18',
-        'Christ_Reinger25', '5107');
+        'Christ_Reinger25', '5107', '0');
 
 -- 85
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mini', 'A4', 'UI71HVY', '2024-10-29T04:05:05.635',
         'CLOSED', '2010', '8371.62', '/img/car(7).jpg', '963457.00', '2024-11-11T20:33:49.687', 'Annamae_DAmore95',
-        'Clare_Davis34', '554');
+        'Clare_Davis34', '554', '2');
 
 -- 86
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('BMW', 'Volt', 'IX56GYS', '2024-11-05T08:30:48.748',
         'CLOSED', '1997', '25323.04', '/img/car(2).jpg', '326496.00', '2024-11-10T05:27:29.726', 'Petra_Schinner',
-        'Percy_Effertz67', '2922');
+        'Percy_Effertz67', '2922', '0');
 
 -- 87
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mazda', 'LeBaron', 'EW25FGL', '2024-11-08T09:49:04.139',
         'CLOSED', '2000', '22522.05', '/img/car(9).jpg', '738969.00', '2024-11-10T17:12:58.255', 'Lenora15',
-        'Travon_Mayert96', '2225');
+        'Travon_Mayert96', '2225', '0');
 
 -- 88
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Rolls Royce', 'Sentra', 'XN69AJY', '2024-10-29T04:21:03.382',
         'CLOSED', '1994', '924.13', '/img/car(11).jpg', '274649.00', '2024-11-11T11:38:49.486', 'Skylar_Mayert71',
-        'Sofia72', '213');
+        'Sofia72', '213', '0');
 
 -- 89
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Jaguar', 'Malibu', 'DH76GBB', '2024-10-29T18:17:48.192',
         'CLOSED', '2011', '6132.62', '/img/car(9).jpg', '170546.00', '2024-11-12T08:34:42.955', 'Alysa_Breitenberg',
-        'Chaz.Schuster', '4094');
+        'Chaz.Schuster', '4094', '0');
 
 -- 90
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Dodge', 'F-150', 'MG35IXH', '2024-11-04T03:26:49.362',
         'OPEN', '1997', '28148.09', '/img/car(3).jpg', '87326.00', '2024-11-11T12:44:33.602', 'Justice.Mills',
-        'Olen_Turcotte', '3596');
+        'Olen_Turcotte', '3596', '0');
 
 -- 91
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Tesla', 'Grand Caravan', 'NO63SIZ', '2024-11-05T16:28:57.644',
         'OPEN', '2007', '28576.47', '/img/car(15).jpg', '151339.00', '2024-11-11T16:58:57.573', 'Roy.Kerluke',
-        'Rowland.Harris23', '9031');
+        'Rowland.Harris23', '9031', '1');
 
 -- 92
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Audi', 'Element', 'FJ52PPT', '2024-11-08T07:10:43.610',
         'OPEN', '2012', '17232.65', '/img/car(9).jpg', '728003.00', '2024-11-11T20:51:40.367', 'Candelario_Larkin',
-        'Winnifred.Murray', '5900');
+        'Winnifred.Murray', '5900', '0');
 
 -- 93
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mazda', 'Alpine', 'BZ99SVE', '2024-10-28T13:51:48.002',
         'OPEN', '2003', '20068.51', '/img/car(20).jpg', '294620.00', '2024-11-11T01:06:36.274', 'Elsie_Willms',
-        'Ole.Rolfson', '2196');
+        'Ole.Rolfson', '2196', '1');
 
 -- 94
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Jeep', 'Grand Caravan', 'PU11YOY', '2024-10-31T23:23:20.569',
         'CLOSED', '1996', '26507.48', '/img/car(5).jpg', '59860.00', '2024-11-10T10:42:02.713', 'Toy25',
-        'Roscoe70', '9776');
+        'Roscoe70', '9776', '1');
 
 -- 95
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mini', 'XTS', 'MK47IRJ', '2024-11-03T08:34:20.947',
         'OPEN', '2013', '15224.47', '/img/car(7).jpg', '153384.00', '2024-11-10T17:05:39.544', 'Gideon.Collins',
-        'Grace_VonRueden', '3351');
+        'Grace_VonRueden', '3351', '0');
 
 -- 96
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Smart', 'Beetle', 'IF71SNJ', '2024-11-08T16:06:18.825',
         'OPEN', '2002', '26462.64', '/img/car(5).jpg', '333104.00', '2024-11-10T18:26:09.385', 'Colten4',
-        'Keyshawn_Prosacco95', '5754');
+        'Keyshawn_Prosacco95', '5754', '1');
 
 -- 97
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Bugatti', 'Camaro', 'SI60XXA', '2024-10-30T14:13:41.414',
         'OPEN', '2014', '1867.86', '/img/car(11).jpg', '301445.00', '2024-11-11T22:48:30.278', 'Sarai_Dicki',
-        'Mayra.Sanford', '106');
+        'Mayra.Sanford', '106', '0');
 
 -- 98
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Rolls Royce', 'A8', 'DP83NBO', '2024-10-30T01:21:23.910',
         'CLOSED', '1991', '3335.36', '/img/car(2).jpg', '639854.00', '2024-11-11T00:56:01.189', 'Dale_Graham',
-        'Coty42', '6067');
+        'Coty42', '6067', '1');
 
 -- 99
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Kia', 'Mustang', 'YR27YYQ', '2024-11-05T15:35:52.827',
         'CLOSED', '2005', '19691.83', '/img/car(15).jpg', '441601.00', '2024-11-11T13:53:36.976', 'Oceane18',
-        'Emery.Hane22', '6355');
+        'Emery.Hane22', '6355', '1');
 
 -- 100
 INSERT INTO csit314database.carlistings (carBrand, carModel, carPlateNumber, created_at, listingStatus,
                                          manufacturedYear, millage, photo, price, updated_at, listedBy, sellerUsername,
-                                         viewCount)
+                                         viewCount, favoriteCount)
 VALUES ('Mazda', 'Golf', 'BQ23SZN', '2024-10-27T17:34:00.176',
         'OPEN', '2004', '10444.09', '/img/car(19).jpg', '34408.00', '2024-11-10T02:58:50.874', 'Annamae_DAmore95',
-        'Maude.Boyer', '5156');
+        'Maude.Boyer', '5156', '2');
 
 INSERT INTO csit314database.favorite (favoriteFor, favoriteBy, sellerUsername, created_at)
 VALUES
@@ -1269,4 +1269,17 @@ VALUES
     ('LR04HSH', 'Aurelie_OConner', 'Carter24', '2024-11-10 15:56:36.741'),
     ('LR04HSH', 'Roel_White9', 'Carter24', '2024-11-10 15:56:36.743'),
     ('OL10VYH', 'Bettie15', 'Christ_Reinger25', '2024-11-10 15:56:36.745'),
-    ('VB57PEA', 'Bettie15', 'Coty42', '2024-11-10 15:56:36.747');
+    ('VB57PEA', 'Bettie15', 'Coty42', '2024-11-10 15:56:36.747'),
+    ('GO41OHE', 'Bettie15', 'Sofia72', '2024-11-10 15:56:36.888'),
+    ('GO41OHE', 'Bartholome.Stroman', 'Sofia72', '2024-11-10 15:56:36.888'),
+    ('SU91KDN', 'Demetris85', 'Emery.Hane22', '2024-11-10 15:56:36.857'),
+    ('FJ57XOW', 'Mandy.Baumbach25', 'Christ_Reinger25', '2024-11-10 15:56:36.645'),
+    ('RM12MVX', 'Shirley.Muller', 'Ari_Mraz', '2024-11-10 15:56:36.731'),
+    ('DB66WIX', 'Demetris85', 'Percy_Effertz67', '2024-11-10 15:56:36.345'),
+    ('JA75GMC', 'Roel_White9', 'Clare_Davis34', '2024-11-10 15:56:36.784'),
+    ('VB57PEA', 'Raoul54', 'Coty42', '2024-11-10 15:56:36.245'),
+    ('IX94VLJ', 'Jakob_Heller75', 'Meagan_Hudson', '2024-11-10 15:56:36.764'),
+    ('LR04HSH', 'Leopold.Lockman', 'Carter24', '2024-11-10 15:56:36.232'),
+    ('LR04HSH', 'Jakob_Heller75', 'Carter24', '2024-11-10 15:56:36.125'),
+    ('OL10VYH', 'Violet34', 'Christ_Reinger25', '2024-11-10 15:56:36.465'),
+    ('VB57PEA', 'Mandy.Baumbach25', 'Coty42', '2024-11-10 15:56:36.233');

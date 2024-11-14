@@ -49,6 +49,7 @@ create table carlistings
     listedBy         varchar(50)             not null,
     sellerUsername   varchar(50)             not null,
     viewCount        int                     not null,
+    favoriteCount    int                     not null DEFAULT 0,
     constraint carlistings_pk
         unique (carPlateNumber),
     constraint carlistings_user_username_fk
