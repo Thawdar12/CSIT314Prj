@@ -27,4 +27,7 @@ public class AgentSearchListingController {
         //Get back from Entity class
         return result;
     }
+
 }
+
+

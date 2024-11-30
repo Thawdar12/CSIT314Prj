@@ -16,7 +16,7 @@ public class BuyerSearchListingController {
         this.carListingEntity = carListingEntity;
     }
 
-    @GetMapping(value = "/InfinityNetwork/buyer/searchListing")
+    @GetMapping(value = "/InfinityNetwork/buyer/searchListingForBuyer")
     public List<CarListingEntity> buyerSearchListing(@RequestParam String criteria,
                                                   @RequestParam String value) {
         //Biz logic, if any
